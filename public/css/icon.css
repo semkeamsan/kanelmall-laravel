@@ -1,0 +1,324 @@
+ .aui-icon {
+     width: 20px;
+     height: 20px;
+     display: inline-block;
+     background-position: center;
+     background-repeat: no-repeat;
+     background-size: 20px;
+ }
+
+ .aui-icon-large {
+     width: 32px;
+     height: 32px;
+     display: inline-block;
+     background-position: center;
+     background-repeat: no-repeat;
+     background-size: 32px;
+ }
+
+ .aui-icon-back {
+     background-image: url(../images/icon/back.png);
+ }
+
+ .aui-icon-currency {
+     background-image: url(../images/icon/currency.png);
+ }
+
+ .aui-icon-location {
+     background-image: url(../images/icon/location.png);
+ }
+
+ .aui-footer-icon-home {
+     background-image: url(../images/icon/home.png);
+ }
+
+ .aui-footer-icon-class {
+     background-image: url(../images/icon/class.png);
+ }
+
+ .aui-footer-icon-chat {
+     background-image: url(../images/icon/chat.png);
+ }
+
+
+ .aui-footer-icon-find {
+     background-image: url(../images/icon/find.png);
+ }
+
+ .aui-footer-icon-cart {
+     background-image: url(../images/icon/cart.png);
+ }
+
+ .aui-footer-icon-me {
+     background-image: url(../images/icon/me.png);
+ }
+
+ .aui-footer-active .aui-footer-item-text,
+ .aui-grid-active .aui-grid-row-label {
+     color: var(--color-primary);
+ }
+
+ .aui-footer-active .aui-footer-icon-home {
+     background-image: url(../images/icon/home-active.png);
+ }
+
+ .aui-footer-active .aui-footer-icon-class {
+     background-image: url(../images/icon/class-active.png);
+ }
+
+ .aui-footer-active .aui-footer-icon-chat {
+     background-image: url(../images/icon/chat-active.png);
+ }
+
+ .aui-footer-active .aui-footer-icon-cart {
+     background-image: url(../images/icon/cart-active.png);
+ }
+
+ .aui-footer-active .aui-footer-icon-me {
+     background-image: url(../images/icon/me-active.png);
+ }
+
+ .aui-header-bg {
+     background-image: url(../images/bg/bg.png);
+     background-position: center;
+     background-repeat: no-repeat;
+     background-size: cover;
+ }
+
+ .aui-header-bg {
+     background-image: url(../images/bg/bg2.jpg);
+     background-position: center;
+     background-repeat: no-repeat;
+     background-size: cover;
+ }
+
+ .aui-header-bg:after {
+     border-bottom: none;
+ }
+
+ .aui-header-bg .aui-header-title {
+     color: #fff;
+ }
+
+ /* color:#707070 */
+ .skin-box-bd .menu-list {
+     background: none repeat scroll 0 0 #30b3c7;
+ }
+
+ .skin-box-bd .menu-list .link {
+     background: none repeat scroll 0 0 #30b3c7;
+ }
+
+ .all-cats .link {
+     background: none repeat scroll 0 0 #30b3c7;
+ }
+
+ .aui-icon-code {
+     background-image: url('../images/icon/code.png');
+ }
+
+ .aui-icon-member {
+     background-image: url(../images/icon/chat-white.png);
+ }
+
+ /* 头部 红包图标 */
+ .aui-icon-packet {
+     background-image: url(../images/icon/packet.png);
+     background-size: 22px;
+     margin-right: 8px;
+ }
+
+ /* 九宫格*/
+ .aui-icon-sign {
+     background-image: url(../images/icon/sign.png);
+ }
+
+ .aui-icon-time {
+     background-image: url(../images/icon/time.png);
+ }
+
+ .aui-icon-vip {
+     background-image: url(../images/icon/vip.png);
+ }
+
+ .aui-icon-group {
+     background-image: url(../images/icon/group.png);
+ }
+
+ .aui-icon-share {
+     background-image: url(../images/icon/icon-share.png);
+ }
+
+ .aui-icon-recharges {
+     background-image: url(../images/icon/recharges.png);
+ }
+
+ .aui-icon-finance {
+     background-image: url(../images/icon/finance.png);
+ }
+
+ .aui-icon-appliance {
+     background-image: url(../images/icon/appliance.png);
+ }
+
+ .aui-icon-supermarket {
+     background-image: url(../images/icon/supermarket.png);
+ }
+
+ .aui-icon-personal {
+     background-image: url(../images/icon/personal.png);
+ }
+
+ .aui-icon-sets {
+     background-image: url(../images/icon/settings.png);
+ }
+
+ .aui-icon-large-sm {
+     width: 32px;
+     height: 32px;
+     background-size: 32px;
+ }
+
+ /* 个人中心 我的订单 图标 5个 */
+ .aui-icon-wallet {
+     background-image: url(../images/icon/wallet.png);
+     background-size: 28px;
+ }
+ .aui-grid-row-item.aui-grid-active .aui-icon-wallet {
+    background-image: url(../images/icon/wallet-active.png);
+}
+
+ .aui-icon-goods {
+     background-image: url(../images/icon/goods.png);
+     background-size: 27px;
+ }
+
+ .aui-grid-row-item.aui-grid-active .aui-icon-goods {
+     background-image: url(../images/icon/goods-active.png);
+ }
+
+ .aui-icon-receipt {
+     background-image: url(../images/icon/receipt.png);
+     background-size: 27px;
+ }
+ .aui-grid-row-item.aui-grid-active .aui-icon-receipt {
+    background-image: url(../images/icon/receipt-active.png);
+}
+ .aui-icon-evaluate {
+     background-image: url(../images/icon/evaluate.png);
+     background-size: 29px;
+ }
+
+ .aui-grid-row-item.aui-grid-active .aui-icon-pending {
+    background-image: url(../images/icon/pending-active.png);
+}
+ .aui-icon-pending {
+     background-image: url(../images/icon/pending.png);
+     background-size: 29px;
+ }
+
+ .aui-grid-row-item.aui-grid-active .aui-icon-evaluate {
+    background-image: url(../images/icon/evaluate-active.png);
+}
+
+
+ .aui-icon-refund {
+     background-image: url(../images/icon/refund.png);
+     background-size: 26px;
+ }
+ .aui-grid-row-item.aui-grid-active .aui-icon-refund {
+    background-image: url(../images/icon/refund-active.png);
+}
+
+
+ /* 我的服务 图标 10个 */
+ .aui-icon-invitation {
+     background-image: url(../images/icon/invitation.png);
+ }
+
+ .aui-icon-signs {
+     background-image: url(../images/icon/signs.png);
+ }
+
+ .aui-icon-coupon {
+     background-image: url(../images/icon/coupon.png);
+ }
+
+ .aui-icon-fight {
+     background-image: url(../images/icon/fight.png);
+ }
+
+ .aui-icon-recommend {
+     background-image: url(../images/icon/recommend.png);
+ }
+
+ .aui-icon-recharge {
+     background-image: url(../images/icon/recharge.png);
+ }
+
+ .aui-icon-help {
+     background-image: url(../images/icon/help.png);
+ }
+
+ .aui-icon-problem {
+     background-image: url(../images/icon/problem.png);
+ }
+
+ .aui-icon-evaluates {
+     background-image: url(../images/icon/like.png);
+ }
+
+ .aui-icon-shares {
+     background-image: url(../images/icon/shares.png);
+ }
+
+ /* 头部 首页 搜索框里面的 小搜索图标 */
+ .aui-icon-small-search {
+     background-image: url(../images/icon/search.png);
+     background-size: 15px;
+     height: 28px;
+     float: left;
+ }
+
+ .aui-cartd-me {
+     background-image: url(../images/icon/v.png);
+     float: left;
+ }
+
+ .aui-icon-share-pd {
+     background-image: url(../images/icon/icon-share.png);
+     background-size: 22px;
+     width: 22px;
+     height: 22px;
+ }
+
+ .aui-f-p-icon {
+     width: 20px;
+     height: 20px;
+     line-height: 20px;
+     display: block;
+     margin: 0 auto;
+     background-color: #fff;
+     margin-top: 10px;
+     margin-bottom: 4px;
+     position: relative;
+ }
+
+ .aui-f-p-icon img {
+     width: 100%;
+     height: 100%;
+     display: block;
+     border: none;
+ }
+
+ .aui-icon-search {
+     background-image: url(../images/icon/search.png);
+ }
+
+ .aui-icon-set {
+     background-image: url(../images/icon/setting.png);
+ }
+
+ .aui-icon-member-1 {
+     background-image: url(../images/icon/chat-white.png);
+ }

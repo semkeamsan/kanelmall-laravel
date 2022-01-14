@@ -1,0 +1,57 @@
+fieldset.collapsible {
+    border: 1px solid #D5D8D8;
+}
+
+fieldset.collapsible>legend i {
+    font-size: initial;
+}
+
+fieldset.collapsible>div {
+    display: none;
+}
+
+.tooltip-inner {
+    white-space: pre-wrap;
+}
+
+.modal-open .select2-container--open {
+    z-index: 9999;
+}
+
+textarea {
+    min-height: 10rem !important;
+}
+
+.otp .form-control {
+    -webkit-transition: none;
+    transition: none;
+    width: 150px;
+    height: 60px;
+    font-size: 25px;
+    padding: 0px;
+    text-align: center
+}
+
+.otp .form-control:focus {
+    color: #3F4254;
+    background-color: #ffffff;
+    border-color: #884377;
+    outline: 0;
+}
+
+.otp .form-control.form-control-solid {
+    background-color: #F3F6F9;
+    border-color: #F3F6F9;
+    color: #3F4254;
+    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.otp .form-control.form-control-solid:active,
+.otp .form-control.form-control-solid.active,
+.otp .form-control.form-control-solid:focus,
+.otp .form-control.form-control-solid.focus {
+    background-color: #EBEDF3;
+    border-color: #EBEDF3;
+    color: #3F4254;
+    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}

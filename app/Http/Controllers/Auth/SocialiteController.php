@@ -17,9 +17,10 @@ class SocialiteController extends Controller
     public function callback($provider)
     {
         try {
-            $user =  Socialite::driver($provider)
-                ->setHttpClient(new \GuzzleHttp\Client(['verify' => false]))
-                ->user();
+            // $user =  Socialite::driver($provider)
+            //     ->setHttpClient(new \GuzzleHttp\Client(['verify' => false]))
+            //     ->user();
+                $user =  Socialite::driver($provider)->user();
             $auth = SocialAuth::firstOrCreate(['_id' => $user->getId()], [
                 'provider'   => $provider,
                 '_id'   => $user->getId(),

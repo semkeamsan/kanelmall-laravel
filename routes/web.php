@@ -131,4 +131,55 @@ Route::prefix('currency')->as('currency.')->group(function () {
         }
     })->name('set');
 });
-Route::get('order/{id}','Front\\ApiController@checkout');
+Route::group(['prefix' => 'command', 'command.'], function () {
+    Route::group(['prefix' => 'storage', 'storage.'], function () {
+        Route::get('/link', function () {
+            return Artisan::call('storage:link');
+        })->name('link');
+    });
+    Route::group(['prefix' => 'list', 'list.'], function () {
+        Route::get('/route', function () {
+            Artisan::call('route:list');
+           return '<pre>'.Artisan::output().'</pre>';
+       })->name('route');
+    });
+    Route::group(['prefix' => 'clear', 'clear.'], function () {
+        Route::get('/cache', function () {
+             Artisan::call('cache:clear');
+            return '<pre>'.Artisan::output().'</pre>';
+        })->name('cache');
+        Route::get('/config', function () {
+             Artisan::call('config:clear');
+            return '<pre>'.Artisan::output().'</pre>';
+        })->name('config');
+        Route::get('/route', function () {
+             Artisan::call('route:clear');
+            return '<pre>'.Artisan::output().'</pre>';
+        })->name('route');
+        Route::get('/view', function () {
+             Artisan::call('view:clear');
+            return '<pre>'.Artisan::output().'</pre>';
+        })->name('view');
+        Route::get('/compiled', function () {
+             Artisan::call('clear-compiled');
+            return '<pre>'.Artisan::output().'</pre>';
+        })->name('compiled');
+
+        Route::get('/all', function () {
+            $output = '';
+            Artisan::call('cache:clear');
+            $output.= Artisan::output();
+            Artisan::call('config:clear');
+            $output.= Artisan::output();
+            Artisan::call('route:clear');
+            $output.= Artisan::output();
+            Artisan::call('view:clear');
+            $output.= Artisan::output();
+            Artisan::call('clear-compiled');
+            $output.= Artisan::output();
+
+            return '<pre>'.$output.'</pre>';
+
+        })->name('all');
+    });
+});

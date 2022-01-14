@@ -4,6 +4,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 use Semkeamsan\LaravelFilemanager\Filemanager;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -18,7 +19,9 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('storagelink',function(){
+    echo Artisan::call('storage:link');
+});
 //SocialAuth
 Route::group(['prefix' => 'auth'], function () {
     Route::get('/{provider}', 'Auth\\SocialiteController@login')->name('auth.with');

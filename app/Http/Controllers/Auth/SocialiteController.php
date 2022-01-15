@@ -12,6 +12,9 @@ class SocialiteController extends Controller
 {
     public function login($provider)
     {
+        $user =  Socialite::driver($provider)->stateless()->user();
+        dd($user);
+
         return Socialite::driver($provider)
         ->redirectUrl(config('services.'.$provider.'.redirect'))
         ->redirect();

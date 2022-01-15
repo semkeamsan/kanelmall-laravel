@@ -32,7 +32,6 @@
         .video {
             height: 100%;
         }
-
         .swal2-popup.swal2-toast {
             width: 260px;
         }

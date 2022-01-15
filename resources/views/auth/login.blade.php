@@ -132,12 +132,6 @@
                                                         src="{{ asset('images/google.svg') }}"></span>
                                                 <span class="btn-inner--text">{{ __('Google') }}</span>
                                             </a>
-                                            <a href="{{ route('auth.with','github') }}" class="btn btn-neutral btn-icon mb-2">
-                                                <span class="btn-inner--icon"><img
-                                                        src="{{ asset('images/github.svg') }}"></span>
-                                                <span class="btn-inner--text">{{ __('Github') }}</span>
-                                            </a>
-
                                         </div>
                                     </div>
                                 </div>

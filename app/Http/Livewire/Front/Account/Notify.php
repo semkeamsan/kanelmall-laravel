@@ -13,6 +13,7 @@ class Notify extends Component
         return view('livewire.front.account.notify');
     }
     public function todo(){
+        return;
          $transactions = (new ApiController)->transactions();
          if($transactions){
             $ids =  array_column($transactions,'id');

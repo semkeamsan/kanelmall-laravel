@@ -152,105 +152,116 @@ class ApiController
 
         if ($contact) {
             $discount_amount = 0;
-            //$final_total =  $order->total_price -  ($order->total_price * $discount_amount) / 100;
-            $final_total =  $order->total_price;
-            $data =
-                [
-                    'business_id' => $this->API_BUSID,
-                    'location_id' => $this->API_BUSLOCATION,
-                    'contact_id' => $contact['id'],
-                    'payment_image_url' => $order->payment_image,
-                    'status' => 'draft',
-                    'payment_status' => 'paid',
-                    'is_quotation' => '0',
-                    'transaction_date' => '2021-12-29 10:58:02',
-                    'total_before_tax' => $order->total_price,
-                    'tax_amount' => '0',
-                    'rp_redeemed' => '0',
-                    'rp_redeemed_amount' => '0',
-                    'shipping_charges' => '0',
-                    'round_off_amount' => $order->total_price,
-                    'final_total' => $final_total,
-                    'is_direct_sale' => '0',
-                    'is_suspend' => '0',
-                    'exchange_rate' => '1',
-                    'created_by' =>  $this->API_USER,
-                    'is_created_from_api' => '0',
-                    'essentials_duration' => '0',
-                    'essentials_amount_per_unit_duration' => '0',
-                    'rp_earned' => '0',
-                    'is_recurring' => '0',
-                    'created_at' => '2021-12-29 10:58:02',
-                    'updated_at' => '2021-12-29 10:58:02',
-                    'type' => 'sell',
-                    'customer_group_id' => '',
-                    'invoice_no' => slug(env('APP_NAME')) . '-' . $order->id,
-                    'ref_no' => '',
-                    'tax_id' => '',
-                    'discount_type' => 'percentage',
-                    'discount_amount' => $discount_amount,
-                    'additional_notes' => '',
-                    'staff_note' => '',
-                    'commission_agent'  => '',
-                    'shipping_details' => '',
-                    'shipping_address'  => '',
-                    'shipping_status'  => '',
-                    'delivered_to'  => '',
-                    'selling_price_group_id' => '0',
-                    'pay_term_number' => '',
-                    'pay_term_type' => '',
-                    'recur_interval'  => '',
-                    'recur_interval_type'  => 'days',
-                    'subscription_repeat_on'  => '',
-                    'subscription_no' => '',
-                    'recur_repetitions'  => '0',
-                    'order_addresses' => $order->address,
-                    'sub_type'  => '',
-                    'types_of_service_id'  => '',
-                    'packing_charge'  => '0',
-                    'packing_charge_type'  => '',
-                    'service_custom_field_1'  => '',
-                    'service_custom_field_2'  => '',
-                    'service_custom_field_3'  => '',
-                    'service_custom_field_4' => '',
-                    'import_batch' => '',
-                    'import_time' => '',
-                    'transaction_type' => 'sell',
-                    'pay_method' => $order->payment_via,
-                    'cash_register_id' => '1',
-                    'latitude' => $order->latitude,
-                    'longitude' => $order->longitude,
-                    'products'   => $order->products->map(function ($o) {
-                        return [
-                            'product_id' => $o->product_id,
-                            'variation_id' => $o->product->variations ? collect($o->product->variations)->first()->id : null,
-                            'quantity' => $o->qty,
-                            'quantity_returned' => '0',
-                            'unit_price_before_discount' => $o->price,
-                            'unit_price' => $o->price,
-                            'line_discount_type' => 'fixed',
-                            'line_discount_amount' => $o->product->promotion ? $o->product->promotion->discount_amount : 0,
-                            'unit_price_inc_tax' => $o->price,
-                            'item_tax' => '0',
-                            'tax_id' => '',
-                            'discount_id' => $o->product->promotion ? $o->product->promotion->id : null,
-                            'lot_no_line_id' => '',
-                            'sell_line_note' => '',
-                            'res_service_staff_id' => '',
-                            'res_line_order_status' => '',
-                            'woocommerce_line_items_id' => '',
-                            'parent_sell_line_id' => '',
-                            'children_type' => 'combo',
-                            'sub_unit_id' => '',
-                            'created_at' => $o->created_at,
-                            'updated_at' => $o->updated_at,
+            $final_total = $order->products->sum('total_price');
+            $coupon = $this->coupon($order->coupon);
+            if ($coupon) {
+                if (now()->diff($coupon['end_at'])->invert === 0) {
+                    if ($coupon['discount_type'] == 'percentage') {
+                        $final_total =  $final_total -  ($final_total * $coupon['discount_amount']) / 100;
+                    } elseif ($coupon['discount_type'] == 'fixed') {
+                        $final_total =    $final_total -  $coupon['discount_amount'];
+                    }
+                }
+            }
+           $data = [
+                'coupon_id'  => $coupon?$coupon['id']:null,
+                'transaction_id'  =>  $order->transaction_id,
+                'business_id' => $this->API_BUSID,
+                'location_id' => $this->API_BUSLOCATION,
+                'contact_id' => $contact['id'],
+                'payment_image_url' => $order->payment_image,
+                'status' => 'draft',
+                'order_status' => 'paid',
+                'payment_status' => 'paid',
+                'is_quotation' => '0',
+                'transaction_date' => $order->created_at->timestamp,
+                'total_before_tax' => $order->total_price,
+                'tax_amount' => '0',
+                'rp_redeemed' => '0',
+                'rp_redeemed_amount' => '0',
+                'shipping_charges' => '0',
+                'round_off_amount' => $order->total_price,
+                'final_total' => $final_total,
+                'is_direct_sale' => '0',
+                'is_suspend' => '0',
+                'exchange_rate' => '1',
+                'created_by' =>  $this->API_USER,
+                'is_created_from_api' => '0',
+                'essentials_duration' => '0',
+                'essentials_amount_per_unit_duration' => '0',
+                'rp_earned' => '0',
+                'is_recurring' => '0',
+                'created_at' => $order->created_at->timestamp,
+                'updated_at' => $order->updated_at->timestamp,
+                'type' => 'sell',
+                'customer_group_id' => '',
+                'invoice_no' => slug(env('APP_NAME')) . '-' . $order->id,
+                'ref_no' => '',
+                'tax_id' => '',
+                'discount_type' => 'percentage',
+                'discount_amount' => $discount_amount,
+                'additional_notes' => '',
+                'staff_note' => '',
+                'commission_agent'  => '',
+                'shipping_details' => '',
+                'shipping_address'  => $order->address,
+                'shipping_status'  => '',
+                'delivered_to'  => '',
+                'selling_price_group_id' => '0',
+                'pay_term_number' => '',
+                'pay_term_type' => '',
+                'recur_interval'  => '',
+                'recur_interval_type'  => 'days',
+                'subscription_repeat_on'  => '',
+                'subscription_no' => '',
+                'recur_repetitions'  => '0',
+                'order_addresses' => $order->address,
+                'sub_type'  => '',
+                'types_of_service_id'  => '48',
+                'packing_charge'  => '0',
+                'packing_charge_type'  => '',
+                'service_custom_field_1'  => '',
+                'service_custom_field_2'  => '',
+                'service_custom_field_3'  => '',
+                'service_custom_field_4' => '',
+                'import_batch' => '',
+                'import_time' => '',
+                'transaction_type' => 'sell',
+                'pay_method' => $order->payment_via,
+                'cash_register_id' => '1',
+                'latitude' => $order->latitude,
+                'longitude' => $order->longitude,
+                'products'   => $order->products->map(function ($o) {
+                    return [
+                        'product_id' => $o->product_id,
+                        'variation_id' => $o->product->variations ? collect($o->product->variations)->first()->id : null,
+                        'quantity' => $o->qty,
+                        'quantity_returned' => '0',
+                        'unit_price_before_discount' => $o->price,
+                        'unit_price' => $o->price,
+                        'line_discount_type' => 'fixed',
+                        'line_discount_amount' => $o->product->promotion ? $o->product->promotion->discount_amount : 0,
+                        'unit_price_inc_tax' => $o->price,
+                        'item_tax' => '0',
+                        'tax_id' => '',
+                        'discount_id' => $o->product->promotion ? $o->product->promotion->id : null,
+                        'lot_no_line_id' => '',
+                        'sell_line_note' => '',
+                        'res_service_staff_id' => '',
+                        'res_line_order_status' => '',
+                        'woocommerce_line_items_id' => '',
+                        'parent_sell_line_id' => '',
+                        'children_type' => 'combo',
+                        'sub_unit_id' => '',
+                        'created_at' => $o->created_at->timestamp,
+                        'updated_at' => $o->updated_at->timestamp,
 
-                        ];
-                    }),
-                ];
+                    ];
+                })->toArray(),
+            ];
 
+          return  $response =  Http::withoutVerifying()->post($this->API_DOMAIN . '/api/checkout/web', $data)->json();
 
-            return $response =  Http::withoutVerifying()->post($this->API_DOMAIN . '/api/checkout', $data)->json();
         }
     }
     public function transactions()
@@ -262,16 +273,23 @@ class ApiController
             if ($transactions) {
                 foreach ($transactions as $t) {
                     $order = $orders->where('transaction_id', $t['id'])->first();
-                    if ($t['status'] == 'final') {
+                    if ($t['order_status'] == 'delivered') {
                         if ($order) {
                             $order->update([
                                 'status' => 'delivered'
                             ]);
                         }
-                    } elseif ($t['status'] == 'cancel') {
+                    } elseif ($t['order_status'] == 'cancel') {
                         if ($order) {
                             $order->update([
                                 'status' => 'cancel'
+                            ]);
+                        }
+
+                    } elseif ($t['order_status'] == 'received') {
+                        if ($order) {
+                            $order->update([
+                                'status' => 'received'
                             ]);
                         }
                     }
@@ -284,6 +302,11 @@ class ApiController
 
     public function received($transactionIds)
     {
-        return $transactions = Http::withoutVerifying()->get($this->API_DOMAIN . '/api/business/' . $this->API_BUSID . '/transactions/received/' . $transactionIds)->json();
+        return Http::withoutVerifying()->get($this->API_DOMAIN . '/api/business/' . $this->API_BUSID . '/transactions/received/' . $transactionIds)->json();
+    }
+
+    public function coupon($code)
+    {
+       return $coupon = Http::withoutVerifying()->get($this->API_DOMAIN . '/api/business/' . $this->API_BUSID . '/coupon/' . $code)->json();
     }
 }

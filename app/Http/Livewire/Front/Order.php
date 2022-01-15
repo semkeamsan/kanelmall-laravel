@@ -19,12 +19,10 @@ class Order extends Component
         'address' => 'required',
         'latitude' => 'required',
         'longitude' => 'required',
-        'orders.*' => null,
         'phone' => 'required',
         'address' => 'required',
         'payment_via' => 'required',
-        //'payment_image' => 'required|image|max:2048',
-        'payment_image' => 'required|image',
+        'payment_image' => 'required',
     ];
     public $attributes;
     public $checkout = false;
@@ -33,6 +31,8 @@ class Order extends Component
     public $orders;
     public $phone;
     public $qty = [];
+    public $coupon = [];
+    public $coupon_message = [];
     public $comments = [];
     public $provinces;
     public $province;
@@ -42,7 +42,6 @@ class Order extends Component
     public $commune;
     public $villages;
     public $village;
-    public $coupon = null;
     public $address;
     public $latitude;
     public $longitude;
@@ -61,41 +60,7 @@ class Order extends Component
         $this->longitude = auth()->user()->longitude;
         $this->provinces = Province::get();
         $this->payment_via = 'aba';
-    }
 
-    public function render()
-    {
-        if (request('status')) {
-            $this->status = request('status');
-        }
-        if ($this->status == 'all') {
-            $this->orders = request()->user()->orders;
-        } elseif ($this->status == 'paid') {
-            $this->orders = request()->user()->orders->whereIn('status', ['paid','delivered']);
-        } else {
-            $this->orders = request()->user()->orders->where('status', $this->status);
-        }
-        $this->orders = $this->orders->filter(function ($order) {
-
-            if ($order->status == 'pending' && now()->diff($order->created_at->addDays(2))->invert) {
-                $order->delete();
-            } else {
-                if ($order->products->count()) {
-                    $order->products = $order->products->map(function ($row) {
-                        if (!@$this->qty[$row->id]) {
-                            $this->qty[$row->id] = $row->qty;
-                        }
-                        if (!@$this->comments[$row->id]) {
-                            $this->comments[$row->id] = $row->comment;
-                        }
-                        return $row;
-                    });
-                    return $order;
-                } else {
-                    $order->delete();
-                }
-            }
-        });
 
         if ($this->province) {
             $this->districts = Province::find($this->province)->districts;
@@ -117,8 +82,119 @@ class Order extends Component
                 $this->villages = [];
             }
         }
+    }
+
+    public function render()
+    {
+        if (request('status')) {
+            $this->status = request('status');
+        }
+        if ($this->status == 'all') {
+            $this->orders = request()->user()->orders;
+        } elseif ($this->status == 'paid') {
+            $this->orders = request()->user()->orders->whereIn('status', ['paid', 'delivered']);
+        } else {
+            $this->orders = request()->user()->orders->where('status', $this->status);
+        }
+        $this->orders = $this->orders->filter(function ($order) {
+            $order->total_price = $order->products->sum('total_price');
+            $order->total_price_coupon = 0;
+
+            if (!@$this->coupon[$order->id]) {
+                $this->coupon[$order->id] = $order->coupon;
+            }
+            if (!@$this->coupon_message[$order->id]) {
+                $this->coupon_message[$order->id] = null;
+            }
+             $this->coupon_message[$order->id] = null;
+            if ($this->coupon[$order->id]) {
+                $order->coupon = $this->coupon[$order->id];
+                $coupon =  (new ApiController)->coupon($this->coupon[$order->id]);
+                if ($coupon) {
+                    if (now()->diff($coupon['end_at'])->invert === 0) {
+                        $order->couponData = $coupon;
+                    } else {
+                        $this->coupon_message[$order->id] = __('Coupon code expired');
+                    }
+                } else {
+                    $this->coupon_message[$order->id] = __('Coupon code wrong');
+                }
+            }
+
+            if ($order->coupon) {
+                $coupon =  (new ApiController)->coupon($order->coupon);
+                if ($coupon && now()->diff($coupon['end_at'])->invert === 0) {
+                    $order->couponData = $coupon;
+                    if ($order->couponData['discount_type'] == 'percentage') {
+                        $order->total_price_coupon = $order->total_price - ($order->total_price * $order->couponData['discount_amount']) / 100;
+                    } elseif ($order->couponData['discount_type'] == 'fixed') {
+                        $order->total_price_coupon = $order->total_price - $order->couponData['discount_amount'];
+                    }
+                }
+            }
+
+
+            if ($order->status == 'pending' && now()->diff($order->created_at->addDays(2))->invert) {
+                $order->delete();
+            } else {
+                if ($order->products->count()) {
+                    $order->products = $order->products->map(function ($row) {
+                        if (!@$this->qty[$row->id]) {
+                            $this->qty[$row->id] = $row->qty;
+                        }
+
+                        if (!@$this->comments[$row->id]) {
+                            $this->comments[$row->id] = $row->comment;
+                        }
+                        return $row;
+                    });
+                    return $order;
+                } else {
+                    $order->delete();
+                }
+            }
+        });
         return view('livewire.front.order');
     }
+
+    public function updatedProvince()
+    {
+        $this->districts = Province::find($this->province)->districts;
+        $this->communes = [];
+        $this->villages = [];
+
+        $this->district = null;
+        $this->commune = null;
+        $this->village = null;
+    }
+    public function updatedDistrict()
+    {
+        if ($this->districts) {
+            $a = Province::find($this->province)->districts->find($this->district);
+            if ($a) {
+                $this->communes = $a->communes;
+            } else {
+                $this->communes = [];
+                $this->villages = [];
+
+                $this->commune = null;
+                $this->village = null;
+            }
+        }
+    }
+    public function updatedCommune()
+    {
+        if ($this->communes) {
+            $a = Province::find($this->province)->districts->find($this->district)->communes->find($this->commune);
+            if ($a) {
+                $this->villages = $a->villages;
+            } else {
+                $this->villages = [];
+                $this->village = null;
+            }
+        }
+    }
+
     public function samelocation()
     {
         $this->address = $this->provinces->find($this->province)->translation->name;
@@ -171,7 +247,7 @@ class Order extends Component
     {
         $this->orders->find($orderid)->products->find($id)->delete();
         $this->response = [
-            'status' => $this->orders->find($orderid)->count() == 0? 'cancel' : null,
+            'status' => $this->orders->find($orderid)->count() == 0 ? 'cancel' : null,
             'type' => 'success',
             'message' => __('Successfully'),
         ];
@@ -182,15 +258,20 @@ class Order extends Component
 
         $name = auth()->id() . '-' . slug(auth()->user()->name) . '-order' . $orderid . '.png';
         $rules =  $this->rules;
+        if (gettype($this->payment_image) == 'object') {
+            $rules['payment_image'] = 'required|image|max:2048';
+        }
         foreach ($this->rules as $key => $value) {
             $this->attributes[$key] = __(str_replace('_', ' ', Str::title($key)));
         }
         $this->attributes['payment_image'] = __('Upload Payment');
-        unset($rules['orders.*']);
         $this->validate($rules, [], $this->attributes);
-        $this->payment_image->storeAs('/public/payments', $name);
+
+        if (gettype($this->payment_image) == 'object') {
+            $this->payment_image->storeAs('/public/payments', $name);
+            $this->payment_image =  asset('storage/payments/' . $name);
+        }
         $this->orders->find($orderid)->update([
-            'coupon' => $this->coupon,
             'total_price' => $this->orders->find($orderid)->products->sum('total_price'),
             'province_id' => $this->province,
             'district_id' => $this->district,
@@ -200,19 +281,18 @@ class Order extends Component
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
             'payment_via' => $this->payment_via,
-            'payment_image' => asset('storage/payments/' . $name),
+            'payment_image' => $this->payment_image,
             //'status' => 'paid',
         ]);
-       $checkout =  (new ApiController)->checkout($this->orders->find($orderid));
-
-       if($checkout && @$checkout['success']){
-
+        $checkout =  (new ApiController)->checkout($this->orders->find($orderid));
+        if ($checkout && @$checkout['success']) {
             $this->orders->find($orderid)->update([
                 'transaction_id' => $checkout['transactionID'],
                 'status' => 'paid',
             ]);
-       }
-        return redirect()->route('front.account.myorder', 'status=paid');
+            return redirect()->route('front.account.myorder', 'status=paid');
+        }
+        return redirect()->route('front.account.myorder', 'status=pending');
     }
     public function receive($orderid)
     {

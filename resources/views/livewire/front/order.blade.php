@@ -42,8 +42,8 @@
                         <div class="aui-product-text-content-list-ft">
                             <a class="border-0 d-flex {{ $currency->code == session('currency') ? 'active' : null }}"
                                 href="{{ route('currency.set', $currency->code) }}">
-                                <span class="px-2">{{ $currency->code }} - (
-                                    {{ $currency->symbol }})</span>
+                                <span class="px-2">
+                                    {{ $currency->code }} - ({{ $currency->symbol }})</span>
                             </a>
                         </div>
                     </div>
@@ -53,11 +53,13 @@
         </div>
     </div>
     <section class="aui-myOrder-content">
-
         <div class="aui-header-fixed bg-white border-bottom" style="top:auto">
             @include('front.account.action')
         </div>
         <div class="pt-6 pb-5">
+            <div wire:loading wire:target="status" class="p-2 position-relative text-primary text-center" style="z-index: 1;left: 0;right: 0;width: 100%;">
+                {{ __('Processing') }}...
+            </div>
             @if ($orders->count())
                 @foreach ($orders as $k => $order)
                     <form class="needs-validation px-1 pb-2" wire:submit.prevent="payment" novalidate>
@@ -171,11 +173,25 @@
                                 @endforeach
                             </ul>
                             @if ($order->status == 'pending' || $order->status == 'cancel')
+                                <div>
+                                    <input wire:model="coupon.{{ $order->id }}" type="text" class="form-control rounded-0"
+                                        placeholder="{{ __('Coupon code') }}">
+                                    @if ($coupon_message[$order->id])
+                                        <div class="error-feedback d-block px-2">
+                                            {{ $coupon_message[$order->id] }}
+                                        </div>
+                                    @endif
+                                </div>
                                 <div class="aui-payment-bar border-bottom">
                                     <div class="shop-total">
                                         <strong>
                                             {{ __('Total') }} :
-                                            {{ currency($order->products->sum('total_price'), 'USD', session('currency')) }}
+                                            {{ currency($order->total_price, 'USD', session('currency')) }}
+                                            @if ($order->total_price_coupon)
+                                            <strong>
+                                                => {{ currency($order->total_price_coupon, 'USD', session('currency')) }}
+                                            </strong>
+                                        @endif
                                         </strong>
                                     </div>
                                     <button type="submit" class="settlement"
@@ -183,8 +199,8 @@
                                 </div>
 
                             @endif
-                            @if ($order->status != 'pending')
-                                <div class="aui-list-title-btn" wire:ignore>
+                            @if ($order->status !== 'pending')
+                                <div class="aui-list-title-btn">
                                     <div class="p-1">
                                         <div>
                                             {{ __('Address') }} : <span>{{ $order->address }}</span>
@@ -202,7 +218,12 @@
                                         <div class="pb-1">
                                             {{ __('Total') }} :
                                             <span>
-                                                {{ currency($order->total_price ?? $order->products->sum('total_price'), 'USD', session('currency')) }}</span>
+                                                {{ currency( $order->total_price, 'USD', session('currency')) }}
+                                                @if ($order->total_price_coupon)
+                                                =>  {{ currency( $order->total_price_coupon, 'USD', session('currency')) }}
+                                                @endif
+
+                                            </span>
                                         </div>
                                         @if ($order->payment_image)
                                             <div>
@@ -246,6 +267,12 @@
             @endif
         </div>
     </section>
+
+    <div class="text-center p-2">
+        <div wire:loading wire:target="togglecheckout">
+            {{ __('Processing') }}...
+        </div>
+    </div>
     <div class="m-actionsheet {{ $checkout ? 'actionsheet-toggle' : null }}" id="action-checkout">
         <div style="position:relative">
             <div class="p-3 border-bottom text-left">
@@ -496,22 +523,53 @@
                 timer: 3000,
             });
         </script>
-        {{-- @if (@$response['status'] == 'received' || @$response['status'] == 'cancel')
-            <script>
-                location.reload();
-            </script>
-         @endif --}}
     @endif
+    <div wire:loading wire:target="payment">
+        <div class="swal2-container swal2-center swal2-fade swal2-shown" style="overflow-y: auto;">
+            <div aria-labelledby="swal2-title" aria-describedby="swal2-content"
+                class="swal2-popup swal2-modal swal2-show swal2-loading" tabindex="-1" role="dialog"
+                aria-live="assertive" aria-modal="true" data-loading="true" aria-busy="true" style="display: flex;">
+                <div class="swal2-actions swal2-loading" style="display: flex;">
+                    <button type="button" class="swal2-confirm swal2-styled" aria-label="" disabled=""
+                        style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div wire:loading wire:target="receive">
+        <div class="swal2-container swal2-center swal2-fade swal2-shown" style="overflow-y: auto;">
+            <div aria-labelledby="swal2-title" aria-describedby="swal2-content"
+                class="swal2-popup swal2-modal swal2-show swal2-loading" tabindex="-1" role="dialog"
+                aria-live="assertive" aria-modal="true" data-loading="true" aria-busy="true" style="display: flex;">
+                <div class="swal2-actions swal2-loading" style="display: flex;">
+                    <button type="button" class="swal2-confirm swal2-styled" aria-label="" disabled=""
+                        style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div wire:loading wire:target="orderdelete">
+        <div class="swal2-container swal2-center swal2-fade swal2-shown" style="overflow-y: auto;">
+            <div aria-labelledby="swal2-title" aria-describedby="swal2-content"
+                class="swal2-popup swal2-modal swal2-show swal2-loading" tabindex="-1" role="dialog"
+                aria-live="assertive" aria-modal="true" data-loading="true" aria-busy="true" style="display: flex;">
+                <div class="swal2-actions swal2-loading" style="display: flex;">
+                    <button type="button" class="swal2-confirm swal2-styled" aria-label="" disabled=""
+                        style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @push('scripts')
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            Livewire.hook('element.updated', (el, component) => {
-
-            });
-        });
-
         $(document).on('click', `[data-toggle="map"]`, function(e) {
             e.preventDefault();
 

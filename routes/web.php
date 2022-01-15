@@ -1,8 +1,4 @@
 <?php
-
-use App\Models\Commune;
-use App\Models\District;
-use App\Models\Province;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,48 +18,6 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('provinces',function()
-{
-    return Province::get()->map(function($row){
-         $data = [
-            'id' => $row->id,
-            'image' => $row->image,
-        ];
-        foreach ($row->translations as $key => $value) {
-            $data['name_'.$value->locale] =  $value->name;
-        }
-        return $data;
-    });
-});
-Route::get('districts',function()
-{
-    return District::with('translations')->get()->map(function($row){
-        $data = [
-            'id' => $row->id,
-            'province_id' => $row->province_id,
-            'image' => $row->image,
-        ];
-        foreach ($row->translations as $key => $value) {
-            $data['name_'.$value->locale] =  $value->name;
-        }
-        return $data;
-    });
-});
-Route::get('communes',function()
-{
-    return Commune::with('translations')->get()->map(function($row){
-        $data = [
-            'id' => $row->id,
-            'district_id' => $row->district_id,
-            'image' => $row->image,
-        ];
-        foreach ($row->translations as $key => $value) {
-            $data['name_'.$value->locale] =  $value->name;
-        }
-        return $data;
-
-    });
-});
 Route::get('storagelink',function(){
     echo Artisan::call('storage:link');
 });

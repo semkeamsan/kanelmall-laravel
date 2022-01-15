@@ -32,6 +32,7 @@
         .video {
             height: 100%;
         }
+
         .swal2-popup.swal2-toast {
             width: 260px;
         }
@@ -69,10 +70,19 @@
         const ajaxroutes = {
             home: `{{ route('ajax.front.home') }}`,
         };
-        $.get(`{{ route('init') }}`).done(() => {
-            window.init = true;
-        });
-
+        $i = 0;
+        var ajax = () => {
+            $.get(`{{ route('init') }}`).done(() => {
+                window.init = true;
+            }).fail((error) => {
+                console.error(error.statusText);
+                if ($i < 10) {
+                    ajax();
+                }
+                $i++;
+            });
+        }
+        ajax();
         Livewire.hook('message.processed', (message, component) => {
             Kanel.select2(false);
             Kanel.select2Image(false);

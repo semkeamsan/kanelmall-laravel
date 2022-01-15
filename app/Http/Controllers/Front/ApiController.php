@@ -23,7 +23,7 @@ class ApiController
         if (!request()->ajax()) {
             return redirect()->route('front.home');
         } else {
-            // return $response;
+             return true;
         }
     }
     public function sliders(array $data)

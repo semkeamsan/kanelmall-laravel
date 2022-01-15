@@ -76,7 +76,7 @@ Route::get('init', 'Front\\ApiController@init')->name('init');
 
 Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
-    Route::get('/', 'Front\\FrontController@index')->name('front.index');
+    Route::get('/', 'Front\\FrontController@home')->name('front.index');
     Route::get('/home', 'Front\\FrontController@home')->name('front.home');
     Route::get('/search', 'Front\\FrontController@search')->name('front.search');
     Route::get('/category', 'Front\\FrontController@category')->name('front.category');

@@ -3,7 +3,9 @@
     <style>
         .svg-loader {
             display: flex;
-            position: relative;
+            width: 100%;
+            position: absolute;
+            bottom: 50px;
             align-content: space-around;
             justify-content: center;
         }
@@ -17,12 +19,12 @@
             fill: none;
             stroke-width: 5px;
             stroke-linecap: round;
-            stroke: var(--primary);
+            stroke: white;
         }
 
         .loader-svg.bg {
             stroke-width: 8px;
-            stroke: rgb(207, 205, 245);
+            stroke: var(--primary);
         }
 
         .animate {
@@ -50,14 +52,20 @@
 
     </style>
     <div class="h-100 bg">
-        <img src="{{ asset('images/bg/log.png') }}" class="w-100">
-        <h2 class="text-center text-white mb-3">{{ __('Welcome to') }} {{ env('APP_NAME') }}</h2>
+        <img src="{{ asset('images/bg/log.png') }}" class="w-100 h-100" style="object-fit: contain">
+        <div class="position-absolute w-100 bottom-9 text-center ">
+            <h2 class="text-white mb-3">{{ __('Welcome to') }} {{ env('APP_NAME') }}</h2>
+            @if (session('products'))
+                <a href="{{ route('front.home') }}" class="btn btn-primary">{{ __('Home') }}</a>
+            @endif
+        </div>
         <div class="svg-loader">
-            <svg class="svg-container" height="100" width="100" viewBox="0 0 100 100">
+            <svg class="svg-container" height="50" width="50" viewBox="0 0 100 100">
                 <circle class="loader-svg bg" cx="50" cy="50" r="45"></circle>
                 <circle class="loader-svg animate" cx="50" cy="50" r="45"></circle>
             </svg>
         </div>
+
     </div>
 @endsection
 @push('scripts')

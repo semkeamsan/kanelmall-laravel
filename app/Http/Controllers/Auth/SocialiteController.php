@@ -20,7 +20,7 @@ class SocialiteController extends Controller
             // $user =  Socialite::driver($provider)
             //     ->setHttpClient(new \GuzzleHttp\Client(['verify' => false]))
             //     ->user();
-                $user =  Socialite::driver($provider)->user();
+                $user =  Socialite::driver($provider)->stateless()->user();
             $auth = SocialAuth::firstOrCreate(['_id' => $user->getId()], [
                 'provider'   => $provider,
                 '_id'   => $user->getId(),

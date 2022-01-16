@@ -173,8 +173,8 @@
             });
 
             FB.getLoginStatus(function(response) { // Called after the JS SDK has been initialized.
-                FB.api(`me`,(response)=>{
-                    $(`#loginfb`).find(`.btn-inner--text`).(`{{ __('Continue as') }} ${response.first_name}`);
+                FB.api(`me`,function(response){
+                    $(`#loginfb`).find(`.btn-inner--text`).text(`{{ __('Continue as') }} ${response.first_name}`);
                 });
                 //statusChangeCallback(response); // Returns the login status.
             });

@@ -42,24 +42,24 @@ const Kanel = {
                             <circle class="loader-svg animate" cx="50" cy="50" r="45"></circle>
                         </svg>
                     </div>`);
-        $(window).on('scroll', function () {        
+        $(window).on('scroll', function () {
             if ($(window).scrollTop() >= $('.aui-content-box').offset().top + $('.aui-content-box').outerHeight() - window.innerHeight) {
-               
-                
+
+
 
                 var page = $(`.aui-list-product:last`).data('page');
-                if (page) {
+            if (page) {
                     $(`.aui-list-product:last`).after($loading);
                     $.get(`${ajaxroutes.home}/?page=${page+1}`).done(res => {
                         $(`.aui-list-product:last`).append($(res).html());
                             Kanel.grid();
-                          setTimeout(() => {                              
+                          setTimeout(() => {
                                 Kanel.grid();
                                 Kanel.image();
                             }, 2000);
                         }).fail(()=>{
                         $loading.remove();
-                    
+
                     });
                 }
             }
@@ -69,7 +69,7 @@ const Kanel = {
 
             if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
 
-               
+
                 var page = $(`.aui-list-product:last`).data('page');
                 if (page) {
                     const urlSearchParams = new URLSearchParams(window.location.search);

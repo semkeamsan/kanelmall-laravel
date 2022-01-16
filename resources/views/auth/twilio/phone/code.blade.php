@@ -10,7 +10,7 @@
                             <div class="card-header">
                                 <h3>{{ __('Enter the 6 digit code we sent you via phone number to continue') }}</h3>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body p-0 p-xl-3">
                                 <input type="hidden" id="code" name="code">
                                 <div class="input-group otp">
                                     <input

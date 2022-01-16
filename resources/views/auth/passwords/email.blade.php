@@ -206,7 +206,7 @@
                                             <div class="modal-header pb-0 border-bottom">
                                                 <h4>{{ __('Enter the 6 digit code we sent you via phone number to continue') }}</h4>
                                             </div>
-                                            <div class="modal-body">
+                                            <div class="modal-body p-0 p-xl-3">
                                                 <div class="input-group otp">
                                                     <input class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline" type="text" id="first" maxlength="1" />
                                                     <input class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline" type="text" id="second" maxlength="1" />
@@ -251,7 +251,7 @@
 
                         });
                 });
-                OTPInput($modal.find('.otp > *[id]'));
+                Kanel.otp($modal.find('.otp > *[id]'));
                 $modal.modal('show');
             }
             $(`form.needs-validation`).submit(function(ev) {

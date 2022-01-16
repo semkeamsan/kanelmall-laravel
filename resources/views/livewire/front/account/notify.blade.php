@@ -58,13 +58,13 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="modal-footer">
+                        <div class="modal-footer pt-0">
                             <button class="btn btn-secondary" wire:click="close">{{ __('Close') }}</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-backdrop fade show"></div>
+            <div class="modal-backdrop fade show"  wire:click="close"></div>
         @else
             <div wire:poll.keep-alive="todo"></div>
         @endif

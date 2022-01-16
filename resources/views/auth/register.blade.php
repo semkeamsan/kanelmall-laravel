@@ -217,7 +217,7 @@
 
                     });
             });
-            OTPInput($modal.find('.otp > *[id]'));
+            Kanel.otp($modal.find('.otp > *[id]'));
             $modal.modal('show');
         }
         $(`form.needs-validation`).submit(function(ev) {

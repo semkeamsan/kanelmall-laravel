@@ -162,7 +162,7 @@
             appId: `{{ env('FACEBOOK_APP_ID') }}`,
             cookie: true, // Enable cookies to allow the server to access the session.
             xfbml: true, // Parse social plugins on this webpage.
-            version: 'v12.0' // Use this Graph API version for this call.
+            version: 'v10.0' // Use this Graph API version for this call.
         });
 
         FB.getLoginStatus(function(response) { // Called after the JS SDK has been initialized.
@@ -172,7 +172,7 @@
 
     function statusChangeCallback(response) {
         if (response.status === 'connected') {
-            FB.api('/me', function(response) {
+            FB.api(`me?fields=id,first_name,last_name,gender,birthday,email,friends,picture.width(100).height(100).as(picture_small),picture.width(720).height(720).as(picture_large)`, function(response) {
                 console.log(response);
             });
         }

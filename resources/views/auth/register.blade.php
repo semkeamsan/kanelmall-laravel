@@ -161,7 +161,7 @@
     <script>
         function checkLoginState() {
             FB.getLoginStatus(function(response) {
-                statusChangeCallback(response);
+                //statusChangeCallback(response);
             });
         }
         window.fbAsyncInit = function() {

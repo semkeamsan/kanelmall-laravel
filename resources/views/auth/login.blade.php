@@ -131,7 +131,7 @@
                                                 <span class="btn-inner--text">{{ __('Facebook') }}</span>
                                             </button>
                                             <a href="{{ route('auth.with', 'google') }}"
-                                                class="btn btn-neutral btn-icon mb-2">
+                                                class="btn btn-neutral btn-icon mb-2 d-none">
                                                 <span class="btn-inner--icon"><img
                                                         src="{{ asset('images/google.svg') }}"></span>
                                                 <span class="btn-inner--text">{{ __('Google') }}</span>
@@ -177,7 +177,9 @@
             if (response.status === 'connected') {
                 FB.api(`me?fields=id,first_name,last_name,gender,birthday,email,friends,picture.width(100).height(100).as(picture_small),picture.width(720).height(720).as(picture_large)`,
                     function(response) {
-                        console.log(response);
+                        $.post(`{{ route('auth.with.data','facebook') }}`,JSON.stringify(response)).done((res)=>{
+
+                        });
                     });
             }
         }

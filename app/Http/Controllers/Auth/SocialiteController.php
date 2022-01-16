@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Models\User;
 use App\Models\SocialAuth;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use PhpParser\ErrorHandler\Throwing;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -47,4 +48,9 @@ class SocialiteController extends Controller
             throw $th;
         }
     }
+    public function loginData(Request $request, $provider)
+    {
+        dd($request->all(),$provider);
+    }
+
 }

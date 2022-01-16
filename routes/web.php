@@ -22,11 +22,11 @@ Route::get('storagelink',function(){
     echo Artisan::call('storage:link');
 });
 //SocialAuth
-Route::get('login/facebook',function(){
-    return view('auth.facebook');
-});
+
 Route::group(['prefix' => 'auth'], function () {
     Route::get('/{provider}', 'Auth\\SocialiteController@login')->name('auth.with');
+    Route::post('/{provider}', 'Auth\\SocialiteController@loginData')->name('auth.with.data');
+
     Route::get('/{provider}/callback', 'Auth\\SocialiteController@callback')->name('auth.callback');
 });
 Route::get('init', 'Front\\ApiController@init')->name('init');

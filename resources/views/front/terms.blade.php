@@ -43,5 +43,9 @@
     <meta name="twitter:image" content="{{ asset('images/logo.jpg') }}" />
 @endsection
 @section('content')
-    <livewire:front.cart />
+    <div class="container">
+        <div class="tab-content translations-content-item en visible">
+            <h1>Privacy Policy</h1>
+        </div>
+    </div>
 @endsection

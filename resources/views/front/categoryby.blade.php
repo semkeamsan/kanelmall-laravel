@@ -7,7 +7,7 @@
 
         .aui-list-product-item-img {
             /* min-width: 120px;
-                min-height: 120px; */
+                    min-height: 120px; */
         }
 
         .aui-list-product-item-img img,
@@ -19,27 +19,51 @@
     </style>
 @endpush
 @section('meta')
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="{{ env('APP_NAME') }} — {{ $category->name }}">
-    <meta name="description" content="{{ env('APP_NAME') }} — {{ $category->name }}">
+    <meta name="author" content="Sem keamsan">
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{ env('APP_NAME') }} — {{ $category->name }}" />
+    <meta property="og:description" content="{{ env('APP_NAME') }} — {{ $category->name }}" />
+    <meta property="og:image" content="{{ $category->image_url }}" />
+    <meta property="og:url" content="{{ url()->full() }}" />
+    <meta property="og:site_name" content="{{ env('APP_NAME') }} — {{ $category->name }}" />
+    <meta property="article:publisher" content="https://www.facebook.com/semkeamsan" />
+    <meta property="article:published_time" content="" />
+    <meta property="article:modified_time" content="" />
+    <meta property="og:updated_time" content="" />
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url()->full() }}">
-    <meta property="og:title" content="{{ env('APP_NAME') }} — {{ $category->name }}">
-    <meta property="og:description" content="{{ env('APP_NAME') }} — {{ $category->name }}">
-    <meta property="og:image" content="{{ $category->image_url }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ env('APP_NAME') }} — {{ $category->name }}">
+    <meta name="twitter:description" content="{{ env('APP_NAME') }} — {{ $category->name }}">
+    <meta name="twitter:image" content="{{ $category->image_url }}">
+    <meta name="twitter:site" content="@semkeamsan">
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="{{ url()->full() }}">
-    <meta property="twitter:title" content="{{ env('APP_NAME') }} — {{ $category->name }}">
-    <meta property="twitter:description" content="{{ env('APP_NAME') }} — {{ $category->name }}">
-    <meta property="twitter:image" content="{{ $category->image_url }}">
+    <meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large" />
+    <link rel="canonical" href="{{ url()->full() }}" />
+    <meta property="og:locale" content="{{ app()->getLocale() }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{ env('APP_NAME') }} — {{ $category->name }}" />
+    <meta property="og:description" content="{{ env('APP_NAME') }} — {{ $category->name }}" />
+    <meta property="og:url" content="{{ url()->full() }}" />
+    <meta property="og:site_name" content="{{ env('APP_NAME') }} — {{ $category->name }}" />
+    <meta property="article:publisher" content="https://www.facebook.com/semkeamsan" />
+    <meta property="article:section" content="Blog" />
+    <meta property="og:updated_time" content="" />
+    <meta property="og:image" content="{{ $category->image_url }}" />
+    <meta property="og:image:secure_url" content="{{ $category->image_url }}" />
+    <meta property="og:image:width" content="1920" />
+    <meta property="og:image:height" content="1280" />
+    <meta property="og:image:alt" content="{{ env('APP_NAME') }} — {{ $category->name }}" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ env('APP_NAME') }} — {{ $category->name }}" />
+    <meta name="twitter:description" content="{{ env('APP_NAME') }} — {{ $category->name }}" />
+    <meta name="twitter:site" content="@semkeamsan" />
+    <meta name="twitter:creator" content="@semkeamsan" />
+    <meta name="twitter:image" content="{{ $category->image_url }}" />
 @endsection
 @section('content')
     <header class="aui-header-default aui-header-fixed ">
-        <a href="#back"  onclick="history.back()" class="aui-header-item">
+        <a href="#back" onclick="history.back()" class="aui-header-item">
             <i class="aui-icon aui-icon-back"></i>
         </a>
         <div class="aui-header-center aui-header-center-clear">
@@ -126,6 +150,6 @@
     </div>
     @include('front.navbar.footer')
     @auth
-        <livewire:front.account.notify/>
+        <livewire:front.account.notify />
     @endauth
 @endsection

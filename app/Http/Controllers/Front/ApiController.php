@@ -266,7 +266,7 @@ class ApiController
     }
     public function transactions()
     {
-        $orders = Order::where('status', 'paid')->get();
+        $orders = Order::whereIn('status', ['paid','delivered'])->get();
         if ($orders->count()) {
             $ids = $orders->pluck('transaction_id');
             $transactions = Http::withoutVerifying()->get($this->API_DOMAIN . '/api/business/' . $this->API_BUSID . '/transactions/' . $ids->implode(','))->json();

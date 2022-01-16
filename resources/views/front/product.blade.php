@@ -19,19 +19,22 @@
 @section('meta')
     <meta name="author" content="Sem keamsan">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}" />
-    <meta property="og:description" content="{{strip_tags($product->description) }}" />
+    <meta property="og:title"
+        content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}" />
+    <meta property="og:description" content="{{ strip_tags($product->description) }}" />
     <meta property="og:image" content="{{ $product->image_url }}" />
     <meta property="og:url" content="{{ url()->full() }}" />
-    <meta property="og:site_name" content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}" />
+    <meta property="og:site_name"
+        content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}" />
     <meta property="article:publisher" content="https://www.facebook.com/semkeamsan" />
     <meta property="article:published_time" content="" />
     <meta property="article:modified_time" content="" />
     <meta property="og:updated_time" content="" />
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}">
-    <meta name="twitter:description" content="{{strip_tags($product->description) }}">
+    <meta name="twitter:title"
+        content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}">
+    <meta name="twitter:description" content="{{ strip_tags($product->description) }}">
     <meta name="twitter:image" content="{{ $product->image_url }}">
     <meta name="twitter:site" content="@semkeamsan">
 
@@ -39,10 +42,12 @@
     <link rel="canonical" href="{{ url()->full() }}" />
     <meta property="og:locale" content="{{ app()->getLocale() }}" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}" />
-    <meta property="og:description" content="{{strip_tags($product->description) }}" />
+    <meta property="og:title"
+        content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}" />
+    <meta property="og:description" content="{{ strip_tags($product->description) }}" />
     <meta property="og:url" content="{{ url()->full() }}" />
-    <meta property="og:site_name" content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}" />
+    <meta property="og:site_name"
+        content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}" />
     <meta property="article:publisher" content="https://www.facebook.com/semkeamsan" />
     <meta property="article:section" content="Blog" />
     <meta property="og:updated_time" content="" />
@@ -50,11 +55,13 @@
     <meta property="og:image:secure_url" content="{{ $product->image_url }}" />
     <meta property="og:image:width" content="1920" />
     <meta property="og:image:height" content="1280" />
-    <meta property="og:image:alt" content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}" />
+    <meta property="og:image:alt"
+        content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}" />
     <meta property="og:image:type" content="image/jpeg" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}" />
-    <meta name="twitter:description" content="{{strip_tags($product->description) }}" />
+    <meta name="twitter:title"
+        content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}" />
+    <meta name="twitter:description" content="{{ strip_tags($product->description) }}" />
     <meta name="twitter:site" content="@semkeamsan" />
     <meta name="twitter:creator" content="@semkeamsan" />
     <meta name="twitter:image" content="{{ $product->image_url }}" />
@@ -185,9 +192,12 @@
             <h2>
                 {{ $product->name }}
             </h2>
-            <p>
-                {!! $product->description !!}
-            </p>
+            @if ($product->description)
+                <p style="height: 40px;overflow:hidden" id="text-limit">
+                    {!! $product->description !!}
+                </p>
+                <button class="btn btn-sm" id="read-more">{{ __('Read more') }}</button>
+            @endif
         </div>
 
 
@@ -311,6 +321,20 @@
             var video = $(this).parents('.video').find('video').get(0);
             video.play();
             $(this).addClass('d-none');
+        });
+        $(`#read-more`).click(function(){
+
+            if($(`#text-limit`).hasClass('read')){
+                $(this).text(`{{ __('Read more') }}`);
+                $(`#text-limit`).removeClass('read').css({
+                    height: 40,
+                });
+            }else{
+                $(this).text(`{{ __('Hide description') }}`);
+                $(`#text-limit`).addClass('read').css({
+                    height: 'auto',
+                });
+            }
         });
     </script>
 @endpush

@@ -36,33 +36,33 @@ const Kanel = {
             $(`head`).append(`<style>.aui-product-text-content{height:${$(window).height() - 150}px}</style>`)
 
         });
-      var $loading = $(`<div class="svg-loader">
+        var $loading = $(`<div class="svg-loader">
                         <svg class="svg-container" height="50" width="50" viewBox="0 0 100 100">
                             <circle class="loader-svg bg" cx="50" cy="50" r="45"></circle>
                             <circle class="loader-svg animate" cx="50" cy="50" r="45"></circle>
                         </svg>
                     </div>`);
         $(window).on('scroll', function () {
-            if ($(window).scrollTop() >= $('.aui-content-box').offset().top + $('.aui-content-box').outerHeight() - window.innerHeight) {
-
-
-
-                var page = $(`.aui-list-product:last`).data('page');
-            if (page) {
-                    $(`.aui-list-product:last`).after($loading);
-                    $.get(`${ajaxroutes.home}/?page=${page+1}`).done(res => {
-                        $(`.aui-list-product:last`).append($(res).html());
+            if ($('.aui-content-box').length) {
+                if ($(window).scrollTop() >= $('.aui-content-box').offset().top + $('.aui-content-box').outerHeight() - window.innerHeight) {
+                    var page = $(`.aui-list-product:last`).data('page');
+                    if (page) {
+                        $(`.aui-list-product:last`).after($loading);
+                        $.get(`${ajaxroutes.home}/?page=${page+1}`).done(res => {
+                            $(`.aui-list-product:last`).append($(res).html());
                             Kanel.grid();
-                          setTimeout(() => {
+                            setTimeout(() => {
                                 Kanel.grid();
                                 Kanel.image();
                             }, 2000);
-                        }).fail(()=>{
-                        $loading.remove();
+                        }).fail(() => {
+                            $loading.remove();
 
-                    });
+                        });
+                    }
                 }
             }
+
         });
 
         $(document).on('scroll', '.aui-scroll-content', function () {
@@ -389,7 +389,7 @@ Kanel.init();
 const datetime = () => {
     return (new Date()).getTime();
 }
-if($(`.datepicker`).length){
+if ($(`.datepicker`).length) {
     $(`.datepicker`).datepicker({
         todayHighlight: true,
         format: `${$(this).attr(`data-format`) ?? `yyyy-mm-dd`}`,
@@ -404,4 +404,3 @@ if($(`.datepicker`).length){
         window.livewire.find(id).set(model, val);
     });
 }
-

@@ -124,7 +124,7 @@
                                         </div>
                                         <div class="btn-wrapper text-center">
                                             {{-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button> --}}
-                                            <button onclick="checkLoginState();"
+                                            <button onclick="checkLoginState();" id="loginfb"
                                                 href="{{ route('auth.with', 'facebook') }}"
                                                 class="btn btn-neutral btn-icon mb-2">
                                                 <span class="btn-inner--icon"><img
@@ -161,7 +161,7 @@
     <script>
         function checkLoginState() {
             FB.getLoginStatus(function(response) {
-                //statusChangeCallback(response);
+                statusChangeCallback(response);
             });
         }
         window.fbAsyncInit = function() {
@@ -173,7 +173,9 @@
             });
 
             FB.getLoginStatus(function(response) { // Called after the JS SDK has been initialized.
-                console.log(response)
+                FB.api(`me`,(response)=>{
+                    $(`#loginfb`).find(`.btn-inner--text`).(`{{ __('Continue as') }} ${response.first_name}`);
+                });
                 //statusChangeCallback(response); // Returns the login status.
             });
         };

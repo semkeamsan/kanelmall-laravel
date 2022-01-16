@@ -8,11 +8,28 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="shortcut icon" href="{{ asset('favicon.jpg') }}">
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="{{ env('APP_NAME') }} — {{ __('Buy and sell') }}">
+    <meta name="description" content="{{ env('APP_NAME') }} — {{ __('Buy and sell') }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->full() }}">
+    <meta property="og:title" content="{{ env('APP_NAME') }} — {{ __('Buy and sell') }}">
+    <meta property="og:description" content="{{ env('APP_NAME') }} — {{ __('Buy and sell') }}">
+    <meta property="og:image" content="{{ asset('images/logo.jpg') }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url()->full() }}">
+    <meta property="twitter:title" content="{{ env('APP_NAME') }} — {{ __('Buy and sell') }}">
+    <meta property="twitter:description" content="{{ env('APP_NAME') }} — {{ __('Buy and sell') }}">
+    <meta property="twitter:image" content="{{ asset('images/logo.jpg') }}">
     <!-- Icons -->
     <link rel="stylesheet" href="{{ asset('vendor/@fontawesome/fontawesome-free/css/all.min.css') }}" type="text/css">
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{asset('css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     @stack('styles')
 </head>
 
@@ -81,15 +98,15 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     @if (auth()->user()->email_verified_at)
-                                    <a class="dropdown-item" href="{{ route('front.account.index') }}">
-                                        <i class="fal fa-user"></i>
-                                        {{ __('Account') }}
-                                    </a>
+                                        <a class="dropdown-item" href="{{ route('front.account.index') }}">
+                                            <i class="fal fa-user"></i>
+                                            {{ __('Account') }}
+                                        </a>
                                     @else
-                                    <a class="dropdown-item" href="{{ route('front.home') }}">
-                                        <i class="fal fa-home"></i>
-                                        {{ __('Home') }}
-                                    </a>
+                                        <a class="dropdown-item" href="{{ route('front.home') }}">
+                                            <i class="fal fa-home"></i>
+                                            {{ __('Home') }}
+                                        </a>
                                     @endif
 
                                     <div class="dropdown-divider"></div>
@@ -116,8 +133,8 @@
     <script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
     @stack('scripts')
-     {{-- Custom Scripts --}}
-     <script src="{{ asset('js/custom.js') }}"></script>
+    {{-- Custom Scripts --}}
+    <script src="{{ asset('js/custom.js') }}"></script>
 </body>
 
 </html>

@@ -122,12 +122,13 @@
                                             <span>{{ __('Login with') }}</span>
                                         </div>
                                         <div class="btn-wrapper text-center">
-                                            <a onclick="checkLoginState()" href="{{ route('auth.with','facebook') }}" class="btn btn-neutral btn-icon mb-2">
+                                            <a onclick="checkLoginState()" href="#" class="btn btn-neutral btn-icon mb-2">
                                                 <span class="btn-inner--icon"><img
                                                         src="{{ asset('images/facebook.svg') }}"></span>
                                                 <span class="btn-inner--text">{{ __('Facebook') }}</span>
                                             </a>
-                                            <a href="{{ route('auth.with','google') }}" class="btn btn-neutral btn-icon mb-2">
+                                            <a href="{{ route('auth.with', 'google') }}"
+                                                class="btn btn-neutral btn-icon mb-2">
                                                 <span class="btn-inner--icon"><img
                                                         src="{{ asset('images/google.svg') }}"></span>
                                                 <span class="btn-inner--text">{{ __('Google') }}</span>
@@ -148,35 +149,23 @@
     </section>
     <!--Login -->
 @endsection
+<div id="fb-root"></div>
 @push('scripts')
-
-<script>
-     function checkLoginState() {
-        FB.getLoginStatus(function(response) {
-            statusChangeCallback(response);
-        });
-    }
-    window.fbAsyncInit = function() {
+<script src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <script>
+        const appId = `{{ env('FACEBOOK_APP_ID') }}`;
         FB.init({
-            appId: `{{ env('FACEBOOK_APP_ID') }}`,
-            cookie: true, // Enable cookies to allow the server to access the session.
-            xfbml: true, // Parse social plugins on this webpage.
-            version: 'v12.0' // Use this Graph API version for this call.
+            appId: appId,
+            status: true,
+            xfbml: true,
+            version: 'v10.0'
         });
 
-        FB.getLoginStatus(function(response) { // Called after the JS SDK has been initialized.
-            statusChangeCallback(response); // Returns the login status.
-        });
-    };
-
-    function statusChangeCallback(response) {
-        if (response.status === 'connected') {
-            FB.api('/me', function(response) {
-                console.log(response);
-            });
+        function checkLoginState() {
+            FB.api(`me?fields=id,first_name,last_name,gender,birthday,email,friends,picture.width(100).height(100).as(picture_small),picture.width(720).height(720).as(picture_large)`,
+                function(response) {
+                    $('pre').text(JSON.stringify(response, null, 2));
+                });
         }
-    }
-</script>
-<!-- Load the JS SDK asynchronously -->
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+    </script>
 @endpush

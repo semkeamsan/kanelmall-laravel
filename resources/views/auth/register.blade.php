@@ -189,7 +189,9 @@
                             avatar: response.picture_large.data.url,
                         };
                         $.post(`{{ route('auth.with.data', 'facebook') }}`, data).done((res) => {
-
+                            if(res){
+                                location.href = `{{ route('front.account.index') }}`;
+                            }
                         });
                     });
 

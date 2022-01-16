@@ -60,7 +60,6 @@ class SocialiteController extends Controller
 
         if ($auth->user) {
             auth()->loginUsingId($auth->user->id, true);
-            return redirect()->route('front.account.index');
         } else {
             $user = User::firstOrCreate(['email' => $request->email], [
                 'email'   => $request->email,
@@ -70,7 +69,10 @@ class SocialiteController extends Controller
             ]);
             $auth->update(['user_id' => $user->id]);
             auth()->loginUsingId($user->id, true);
-            return redirect()->route('front.account.index');
         }
+        if ($request->ajax()) {
+            return $request->all();
+        }
+        return redirect()->route('front.account.index');
     }
 }

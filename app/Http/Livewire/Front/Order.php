@@ -99,8 +99,9 @@ class Order extends Component
         $this->orders = $this->orders->filter(function ($order) {
             $order->total_price = $order->products->sum('total_price');
             $order->total_price_coupon = 0;
-            if (!$this->payment_image) {
+            if ($this->payment_image == null) {
                 $this->payment_image  = $order->payment_image;
+                dd($this->payment_image);
             }
             if (!@$this->coupon[$order->id]) {
                 $this->coupon[$order->id] = $order->coupon;

@@ -1,17 +1,5 @@
 <?php
 
-
-function toCollect(array $array)
-{
-    foreach ($array as $key => $value) {
-        if (is_array($value)) {
-            $value = toCollect($value);
-            $array[$key] = $value;
-        }
-    }
-
-    return collect($array);
-}
 function array_to_jsdecode(array $array)
 {
     return json_decode(json_encode($array));

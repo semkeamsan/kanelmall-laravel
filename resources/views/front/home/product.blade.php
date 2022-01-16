@@ -1,5 +1,5 @@
 @if ($products->count())
-    <section class="aui-list-product" data-page="">
+    <section class="aui-list-product" data-page="1">
         @foreach ($products as $product)
             <div class="aui-list-product-item col-6">
                 <div class="aui-top-action">
@@ -54,7 +54,6 @@
 
         @endforeach
     </section>
-
 @else
     @if (request()->ajax())
         <section class="aui-list-product container-fluid" data-page="">

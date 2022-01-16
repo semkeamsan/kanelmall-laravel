@@ -36,14 +36,30 @@ const Kanel = {
             $(`head`).append(`<style>.aui-product-text-content{height:${$(window).height() - 150}px}</style>`)
 
         });
+      var $loading = $(`<div class="svg-loader">
+                        <svg class="svg-container" height="50" width="50" viewBox="0 0 100 100">
+                            <circle class="loader-svg bg" cx="50" cy="50" r="45"></circle>
+                            <circle class="loader-svg animate" cx="50" cy="50" r="45"></circle>
+                        </svg>
+                    </div>`);
+        $(window).on('scroll', function () {        
+            if ($(window).scrollTop() >= $('.aui-content-box').offset().top + $('.aui-content-box').outerHeight() - window.innerHeight) {
+               
+                
 
-        $(window).on('scroll', function () {
-
-            if ($(window).scrollTop() >= $('#app').offset().top + $('#app').outerHeight() - window.innerHeight) {
                 var page = $(`.aui-list-product:last`).data('page');
                 if (page) {
+                    $(`.aui-list-product:last`).after($loading);
                     $.get(`${ajaxroutes.home}/?page=${page+1}`).done(res => {
-                        $(`.aui-list-product:last`).after(res);
+                        $(`.aui-list-product:last`).append($(res).html());
+                            Kanel.grid();
+                          setTimeout(() => {                              
+                                Kanel.grid();
+                                Kanel.image();
+                            }, 2000);
+                        }).fail(()=>{
+                        $loading.remove();
+                    
                     });
                 }
             }
@@ -52,6 +68,8 @@ const Kanel = {
         $(document).on('scroll', '.aui-scroll-content', function () {
 
             if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+
+               
                 var page = $(`.aui-list-product:last`).data('page');
                 if (page) {
                     const urlSearchParams = new URLSearchParams(window.location.search);

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\UserOrder;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -18,7 +18,7 @@ class OrderController extends Controller
     public function index()
     {
 
-        $collection = UserOrder::latest('id')->get();
+        $collection = Order::latest('id')->get();
         return view('admin.order.index', compact('collection'));
     }
 
@@ -38,7 +38,7 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, UserOrder $order)
+    public function store(Request $request, Order $order)
     {
         $validate = $request->validate($order->validation->rules(), $order->validation->messages(), $order->validation->attributes());
         $order = $order->create($request->all());
@@ -48,7 +48,7 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\UserOrder $order
+     * @param  \App\Models\Order $order
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -59,12 +59,12 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\UserOrder $order
+     * @param  \App\Models\Order $order
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $order = UserOrder::find($id);
+        $order = Order::find($id);
         return view('admin.order.form', compact('order'));
     }
 
@@ -72,12 +72,12 @@ class OrderController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\UserOrder $order
+     * @param  \App\Models\Order $order
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request,  $id)
     {
-        $order = UserOrder::find($id);
+        $order = Order::find($id);
         // $validate = $request->validate($order->validation->rules($order->id), $order->validation->messages(), $order->validation->attributes());
         $order->update($request->all());
         if ($request->ajax()) {
@@ -93,12 +93,12 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\UserOrder $order
+     * @param  \App\Models\Order $order
      * @return \Illuminate\Http\Response
      */
     public function destroy($ids)
     {
-        UserOrder::whereIn('id', explode(',', $ids))->delete();
+        Order::whereIn('id', explode(',', $ids))->delete();
         return  redirect()->back()->with('message', __('Delete successfully'));
     }
 }

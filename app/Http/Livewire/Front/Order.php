@@ -60,7 +60,7 @@ class Order extends Component
         $this->longitude = auth()->user()->longitude;
         $this->provinces = Province::get();
         $this->payment_via = 'aba';
-
+        
 
         if ($this->province) {
             $this->districts = Province::find($this->province)->districts;

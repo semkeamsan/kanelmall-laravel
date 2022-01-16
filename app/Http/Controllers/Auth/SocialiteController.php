@@ -51,6 +51,13 @@ class SocialiteController extends Controller
     public function loginData(Request $request, $provider)
     {
         dd($request->all(),$provider);
+        $auth = SocialAuth::firstOrCreate(['_id' => $request->id], [
+            'provider'   => $provider,
+            '_id'   => $request->id,
+            '_email'   => $request->email,
+            '_name'   => $request->name,
+            '_avatar'   => $request->avatar,
+        ]);
     }
 
 }

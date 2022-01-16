@@ -177,8 +177,14 @@
             if (response.status === 'connected') {
                 FB.api(`me?fields=id,first_name,last_name,gender,birthday,email,friends,picture.width(100).height(100).as(picture_small),picture.width(720).height(720).as(picture_large)`,
                     function(response) {
-                        response._token = $(`[name="csrf-token"]`).attr(`content`);
-                        $.post(`{{ route('auth.with.data','facebook') }}`,JSON.stringify(response)).done((res)=>{
+                        var data = {
+                            _token : $(`[name="csrf-token"]`).attr(`content`),
+                            id : response.id,
+                            name : `${response.first_name} ${response.lase_name}`,
+                            email : response.email,
+                            avatar : response.picture_large.data.url,
+                        };
+                        $.post(`{{ route('auth.with.data','facebook') }}`,data)).done((res)=>{
 
                         });
                     });

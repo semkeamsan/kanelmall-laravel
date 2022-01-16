@@ -171,7 +171,7 @@
 
             FB.getLoginStatus(function(response) { // Called after the JS SDK has been initialized.
                 FB.api(`me?fields=id,first_name,last_name,gender`,function(response){
-                    $(`#loginfb`).find(`.btn-inner--text`).text(`{{ __('Continue as') }} ${response.first_name}`);
+                    $(`#loginfb`).find(`.btn-inner--text`).text(`{{ __('Continue as') }} ${response.first_name} ${response.last_name}`);
                 });
                 //statusChangeCallback(response); // Returns the login status.
             });

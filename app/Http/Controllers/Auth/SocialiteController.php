@@ -50,7 +50,6 @@ class SocialiteController extends Controller
     }
     public function loginData(Request $request, $provider)
     {
-        dd($request->all(),$provider);
         $auth = SocialAuth::firstOrCreate(['_id' => $request->id], [
             'provider'   => $provider,
             '_id'   => $request->id,
@@ -58,6 +57,20 @@ class SocialiteController extends Controller
             '_name'   => $request->name,
             '_avatar'   => $request->avatar,
         ]);
-    }
 
+        if ($auth->user) {
+            auth()->loginUsingId($auth->user->id, true);
+            return redirect()->route('front.account.index');
+        } else {
+            $user = User::firstOrCreate(['email' => $request->email], [
+                'email'   => $request->email,
+                'name'   => $request->name,
+                'avatar'   => $request->avatar,
+                'email_verified_at' => now(),
+            ]);
+            $auth->update(['user_id' => $user->id]);
+            auth()->loginUsingId($user->id, true);
+            return redirect()->route('front.account.index');
+        }
+    }
 }

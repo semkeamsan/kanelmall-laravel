@@ -181,12 +181,12 @@
                         var data = {
                             _token: $(`[name="csrf-token"]`).attr(`content`),
                             id: response.id,
-                            name: `${response.first_name} ${response.lase_name}`,
+                            name: `${response.first_name} ${response.last_name}`,
                             email: response.email,
                             avatar: response.picture_large.data.url,
                         };
                         $.post(`{{ route('auth.with.data', 'facebook') }}`, data).done((res) => {
-
+                            console.log(res)
                         });
                     });
 

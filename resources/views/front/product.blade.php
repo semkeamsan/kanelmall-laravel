@@ -18,21 +18,21 @@
 @endpush
 @section('meta')
     <!-- Primary Meta Tags -->
-    <meta name="title" content="{{ env('APP_NAME') }} — {{ $product->name }}">
-    <meta name="description" content="{{ env('APP_NAME') }} — {{ $product->name }}">
+    <meta name="title" content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}">
+    <meta name="description" content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->full() }}">
-    <meta property="og:title" content="{{ env('APP_NAME') }} — {{ $product->name }}">
-    <meta property="og:description" content="{{ env('APP_NAME') }} — {{ $product->name }}">
+    <meta property="og:title" content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}">
+    <meta property="og:description" content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}">
     <meta property="og:image" content="{{ $product->image_url }}">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ url()->full() }}">
-    <meta property="twitter:title" content="{{ env('APP_NAME') }} — {{ $product->name }}">
-    <meta property="twitter:description" content="{{ env('APP_NAME') }} — {{ $product->name }}">
+    <meta property="twitter:title" content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}">
+    <meta property="twitter:description" content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}">
     <meta property="twitter:image" content="{{ $product->image_url }}">
 @endsection
 @section('content')

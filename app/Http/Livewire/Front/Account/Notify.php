@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Front\Account;
 
 use App\Http\Controllers\Front\ApiController;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
 class Notify extends Component
@@ -13,7 +14,6 @@ class Notify extends Component
         return view('livewire.front.account.notify');
     }
     public function todo(){
-        return;
          $transactions = (new ApiController)->transactions();
          if($transactions){
             $ids =  array_column($transactions,'id');
@@ -21,6 +21,7 @@ class Notify extends Component
          }
     }
     public function close(){
+        session('hide_notify',true);
         $this->orders = [];
     }
 }

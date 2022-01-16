@@ -45,7 +45,7 @@
 @section('content')
     <div class="container">
         <div class="tab-content translations-content-item en visible">
-            <h1>Privacy Policy</h1>
+            <h1>Terms</h1>
         </div>
     </div>
 @endsection

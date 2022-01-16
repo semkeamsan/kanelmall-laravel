@@ -49,4 +49,9 @@ return [
         'client_secret' => env('TELEGRAM_SECRET'),
         'redirect' => env('TELEGRAM_REDIRECT_URI'),
     ],
+    'linkedin' => [
+        'client_id' => env('LINKEDIN_CLIENT_ID'),
+        'client_secret' => env('LINKEDIN_CLIENT_SECRET'),
+        'redirect' => env('LINKEDIN_REDIRECT_URI'),
+    ],
 ];

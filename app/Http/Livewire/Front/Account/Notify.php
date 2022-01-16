@@ -21,7 +21,7 @@ class Notify extends Component
          }
     }
     public function close(){
-        session('hide_notify',true);
+        Session::put('hide_notify',now());
         $this->orders = [];
     }
 }

@@ -187,12 +187,13 @@
                             => {{ currency($total_coupon, 'USD', session('currency')) }}
                         </strong>
                     @endif
-
                 </div>
+            </div>
+            <div class="aui-payment-bar border-top">
                 @auth
-                    <button wire:click.prevent="togglecheckout" class="settlement">{{ __('Order') }}</button>
+                    <button wire:click.prevent="togglecheckout" class="settlement w-100">{{ __('Order') }}</button>
                 @else
-                    <button class="settlement"
+                    <button class="settlement w-100"
                         onclick="location.href=`{{ route('login') }}`">{{ __('Login') }}</button>
                 @endauth
             </div>

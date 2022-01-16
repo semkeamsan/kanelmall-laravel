@@ -194,7 +194,9 @@
                                         @endif
                                         </strong>
                                     </div>
-                                    <button type="submit" class="settlement"
+                                </div>
+                                <div class="aui-payment-bar border-bottom">
+                                    <button type="submit" class="settlement w-100"
                                         wire:click.prevent="togglecheckout({{ $order->id }})">{{ __('Make Payment') }}</button>
                                 </div>
 

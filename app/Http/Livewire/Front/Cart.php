@@ -178,7 +178,7 @@ class Cart extends Component
                     $this->coupon_message = __('Coupon code expired');
                 }
             } else {
-                $this->coupon_message = __('Coupon code wrong');
+                $this->coupon_message = __('Coupon code incorrect');
             }
         }
     }

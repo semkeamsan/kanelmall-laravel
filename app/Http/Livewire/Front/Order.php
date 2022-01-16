@@ -119,7 +119,7 @@ class Order extends Component
                         $this->coupon_message[$order->id] = __('Coupon code expired');
                     }
                 } else {
-                    $this->coupon_message[$order->id] = __('Coupon code wrong');
+                    $this->coupon_message[$order->id] = __('Coupon code incorrect');
                 }
             }
 

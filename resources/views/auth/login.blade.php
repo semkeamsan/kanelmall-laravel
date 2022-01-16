@@ -122,7 +122,7 @@
                                             <span>{{ __('Login with') }}</span>
                                         </div>
                                         <div class="btn-wrapper text-center">
-                                            <a href="{{ route('auth.with','facebook') }}" class="btn btn-neutral btn-icon mb-2">
+                                            <a onclick="checkLoginState()" href="{{ route('auth.with','facebook') }}" class="btn btn-neutral btn-icon mb-2">
                                                 <span class="btn-inner--icon"><img
                                                         src="{{ asset('images/facebook.svg') }}"></span>
                                                 <span class="btn-inner--text">{{ __('Facebook') }}</span>
@@ -148,3 +148,35 @@
     </section>
     <!--Login -->
 @endsection
+@push('scripts')
+
+<script>
+     function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+        });
+    }
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId: `{{ env('FACEBOOK_APP_ID') }}`,
+            cookie: true, // Enable cookies to allow the server to access the session.
+            xfbml: true, // Parse social plugins on this webpage.
+            version: 'v12.0' // Use this Graph API version for this call.
+        });
+
+        FB.getLoginStatus(function(response) { // Called after the JS SDK has been initialized.
+            statusChangeCallback(response); // Returns the login status.
+        });
+    };
+
+    function statusChangeCallback(response) {
+        if (response.status === 'connected') {
+            FB.api('/me', function(response) {
+                console.log(response);
+            });
+        }
+    }
+</script>
+<!-- Load the JS SDK asynchronously -->
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+@endpush

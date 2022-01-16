@@ -3,9 +3,6 @@
     <header class="aui-header-default aui-header-fixed aui-header-clear-bg " style="border-bottom:0">
         <a href="#back"  onclick="history.back()" class="aui-header-item d-none">
             <i class="aui-icon aui-icon-back-white" id="scrollSearchI" style="display:block"></i>
-            <div id="scrollSearchDiv">
-                <img src="{{ auth()->user()->avatar }}" alt="">
-            </div>
         </a>
         <div class="aui-header-center aui-header-center-clear">
             <div class="">
@@ -27,12 +24,15 @@
                         </div>
                         <div class="aui-me-content-item-title">
                             {{ auth()->user()->name }}
-                            <br>
-                            <small class="text-sm">{{ auth()->user()->email }}</small>
-                            <br>
-                            <small class="text-sm">{{ auth()->user()->phone }}</small>
+                            @if (auth()->user()->email)
+                                <br>
+                                <small class="text-sm">{{ auth()->user()->email }}</small>
+                            @endif
+                            @if (auth()->user()->email)
+                                <br>
+                                <small class="text-sm">{{ auth()->user()->phone }}</small>
+                            @endif
                         </div>
-
                     </div>
                 </div>
             </div>

@@ -226,31 +226,6 @@ class Cart extends Component
             $order = request()->user()->orders()->where('status', 'pending')->whereDate('created_at', now())->first() ?? request()->user()->orders()->create([]);
             $name = auth()->id() . '-' . slug(auth()->user()->name) . '-order-' . $order->id .'-'. now()->format('d-M-Y').'.png';
             $this->payment_image->storeAs('/public/payments', $name);
-            $order->update([
-                //'coupon' => $this->coupon,
-                'total_price' => $order->products->sum('total_price'),
-                'province_id' => $this->province,
-                'district_id' => $this->district,
-                'commune_id' => $this->commune,
-                'village_id' => $this->village,
-                'address' => $this->address,
-                'latitude' => $this->latitude,
-                'longitude' => $this->longitude,
-                'payment_via' => $this->payment_via,
-                'payment_image' => asset('storage/payments/' . $name),
-                //'status' => 'paid',
-            ]);
-
-            if ($this->coupon) {
-                $coupon =  (new ApiController)->coupon($this->coupon);
-                if ($coupon) {
-                    if (now()->diff($coupon['end_at'])->invert === 0) {
-                        $order->update([
-                            'coupon' => $this->coupon,
-                        ]);
-                    }
-                }
-            }
 
             foreach ($this->products as $product) {
                 if ($product['qty']) {
@@ -271,8 +246,32 @@ class Cart extends Component
                 }
             }
 
-            $checkout = (new ApiController)->checkout($order);
 
+            $order->update([
+                'total_price' => $order->products->sum('total_price'),
+                'province_id' => $this->province,
+                'district_id' => $this->district,
+                'commune_id' => $this->commune,
+                'village_id' => $this->village,
+                'address' => $this->address,
+                'latitude' => $this->latitude,
+                'longitude' => $this->longitude,
+                'payment_via' => $this->payment_via,
+                'payment_image' => asset('storage/payments/' . $name),
+            ]);
+
+            if ($this->coupon) {
+                $coupon =  (new ApiController)->coupon($this->coupon);
+                if ($coupon) {
+                    if (now()->diff($coupon['end_at'])->invert === 0) {
+                        $order->update([
+                            'coupon' => $this->coupon,
+                        ]);
+                    }
+                }
+            }
+
+            $checkout = (new ApiController)->checkout($order);
             if ($checkout && @$checkout['success']) {
                 $order->update([
                     'transaction_id' => $checkout['transactionID'],

@@ -60,7 +60,7 @@ class Order extends Component
         $this->longitude = auth()->user()->longitude;
         $this->provinces = Province::get();
         $this->payment_via = 'aba';
-        
+
 
         if ($this->province) {
             $this->districts = Province::find($this->province)->districts;
@@ -99,7 +99,9 @@ class Order extends Component
         $this->orders = $this->orders->filter(function ($order) {
             $order->total_price = $order->products->sum('total_price');
             $order->total_price_coupon = 0;
-
+            if (!$this->payment_image) {
+                $this->payment_image  = $order->payment_image;
+            }
             if (!@$this->coupon[$order->id]) {
                 $this->coupon[$order->id] = $order->coupon;
             }

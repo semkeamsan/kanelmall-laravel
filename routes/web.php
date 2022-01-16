@@ -22,6 +22,9 @@ Route::get('storagelink',function(){
     echo Artisan::call('storage:link');
 });
 //SocialAuth
+Route::get('login/facebook',function(){
+    return view('auth.facebook');
+});
 Route::group(['prefix' => 'auth'], function () {
     Route::get('/{provider}', 'Auth\\SocialiteController@login')->name('auth.with');
     Route::get('/{provider}/callback', 'Auth\\SocialiteController@callback')->name('auth.callback');

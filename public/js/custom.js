@@ -389,16 +389,19 @@ Kanel.init();
 const datetime = () => {
     return (new Date()).getTime();
 }
-$(`.datepicker`).datepicker({
-    todayHighlight: true,
-    format: `${$(this).attr(`data-format`) ?? `yyyy-mm-dd`}`,
-    disableTouchKeyboard: !0,
-    autoclose: !1,
-    language: `${$('html').attr('lang') ?? 'en'}`,
-});
-$(".datepicker").on('changeDate', function (e) {
-    var id = $(this).parents('#livewire').attr(`wire:id`);
-    var model = $(this).attr(`wire:model`);
-    var val = e.format(0, `${$(this).attr(`data-format`) ?? `yyyy-mm-dd`}`);
-    window.livewire.find(id).set(model, val);
-});
+if($(`.datepicker`).length){
+    $(`.datepicker`).datepicker({
+        todayHighlight: true,
+        format: `${$(this).attr(`data-format`) ?? `yyyy-mm-dd`}`,
+        disableTouchKeyboard: !0,
+        autoclose: !1,
+        language: `${$('html').attr('lang') ?? 'en'}`,
+    });
+    $(".datepicker").on('changeDate', function (e) {
+        var id = $(this).parents('#livewire').attr(`wire:id`);
+        var model = $(this).attr(`wire:model`);
+        var val = e.format(0, `${$(this).attr(`data-format`) ?? `yyyy-mm-dd`}`);
+        window.livewire.find(id).set(model, val);
+    });
+}
+

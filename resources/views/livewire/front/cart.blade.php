@@ -197,11 +197,6 @@
                         onclick="location.href=`{{ route('login') }}`">{{ __('Login') }}</button>
                 @endauth
             </div>
-            <div class="text-center p-2">
-                <div wire:loading wire:target="togglecheckout">
-                    {{ __('Processing') }}...
-                </div>
-            </div>
         @endif
     </section>
     @auth
@@ -371,6 +366,7 @@
                                     <input class="form-control" placeholder="{{ __('Longitude') }}"
                                         wire:model="longitude" type="text">
                                 </div>
+
                                 @if ($latitude && $longitude)
                                     <iframe
                                         src="https://maps.google.com/maps?q={{ $latitude }},{{ $longitude }}&hl={{ app()->getLocale() }}&t=&z=15&ie=UTF8&iwloc=&output=embed"
@@ -420,7 +416,6 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-                                <div wire:loading wire:target="payment_image">{{ __('Uploading') }}...</div>
                                 @if ($payment_image)
                                     <div class="col p-3 border">
                                         <div class="avatar rounded bg-transparent w-100 h-100">
@@ -451,16 +446,47 @@
         @if ($checkout)
             <div class="mask-black" wire:click.prevent="togglecheckout"></div>
         @endif
+        <div wire:loading wire:target="togglecheckout,remove,samelocation">
+            <div class="swal2-container swal2-center swal2-fade swal2-shown"
+                class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
+                <div class="swal2-header">
+                    <h2 class="swal2-title text-primary" id="swal2-title">
+                        {{ __('Processing') }}
+                    </h2>
+                </div>
+                <div class="swal2-actions swal2-loading" style="display: flex;">
+                    <div class="swal2-confirm swal2-styled"
+                        style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div wire:loading wire:target="payment_image">
+            <div class="swal2-container swal2-center swal2-fade swal2-shown"
+                class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
+                <div class="swal2-header">
+                    <h2 class="swal2-title text-primary" id="swal2-title">
+                        {{ __('Uploading') }}...
+                    </h2>
+                </div>
+                <div class="swal2-actions swal2-loading" style="display: flex;">
+                    <div class="swal2-confirm swal2-styled"
+                        style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
+                    </div>
+                </div>
+            </div>
+        </div>
         <div wire:loading wire:target="payment">
-            <div class="swal2-container swal2-center swal2-fade swal2-shown" style="overflow-y: auto;">
-                <div aria-labelledby="swal2-title" aria-describedby="swal2-content"
-                    class="swal2-popup swal2-modal swal2-show swal2-loading" tabindex="-1" role="dialog"
-                    aria-live="assertive" aria-modal="true" data-loading="true" aria-busy="true" style="display: flex;">
-                    <div class="swal2-actions swal2-loading" style="display: flex;">
-                        <button type="button" class="swal2-confirm swal2-styled" aria-label="" disabled=""
-                            style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
-                            OK
-                        </button>
+            <div class="swal2-container swal2-center swal2-fade swal2-shown"
+                class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
+                <div class="swal2-header">
+                    <h2 class="swal2-title text-primary" id="swal2-title">
+                        {{ __('Processing') }} {{ __('Payment') }}
+                    </h2>
+                </div>
+                <div class="swal2-actions swal2-loading" style="display: flex;">
+                    <div class="swal2-confirm swal2-styled"
+                        style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
                     </div>
                 </div>
             </div>
@@ -471,13 +497,31 @@
 </div>
 @push('scripts')
     <script>
+        var $loading = $(
+            `<div class="swal2-container swal2-center swal2-fade swal2-shown"
+                class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
+                <div class="swal2-header">
+                    <h2 class="swal2-title text-primary" id="swal2-title">
+                        ${window.languages.Processing??'Processing'}...
+                    </h2>
+                </div>
+                <div class="swal2-actions swal2-loading" style="display: flex;">
+                    <div class="swal2-confirm swal2-styled"
+                        style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
+                    </div>
+                </div>
+            </div>`
+        );
         $(document).on('click', `[data-toggle="map"]`, function(e) {
             e.preventDefault();
-
+            $loading.appendTo('body');
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
                     @this.set('latitude', position.coords.latitude);
                     @this.set('longitude', position.coords.longitude);
+                    setTimeout(() => {
+                        $loading.remove();
+                    }, 2000);
                 }, function(error) {
                     Swal.fire({
                         toast: true,

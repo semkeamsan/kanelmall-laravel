@@ -240,11 +240,8 @@
                     {{ $product->category->name }}
                 </div>
             </a>
-
         </div>
-
         <div class="aui-dri"></div>
-
     </div>
     @if ($product->enable_stock && $product->instock)
         <footer class="aui-footer-product">

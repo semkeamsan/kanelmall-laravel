@@ -27,11 +27,13 @@
                 <ul class="aui-slide-item-list">
                     @foreach ($promotion->products->take(5) as $product)
                         <li class="aui-slide-item-item">
-                            <div class="aui-top-action">
-                                <a href="{{ route('front.cartadd',$product->id) }}" class="aui-top-action-item aui-add-cart {{ Cart::exists($product->id) ? 'd-none' : null }}" data-toggle="add-cart">
-                                    <i class="fa fa-cart-plus text-white"></i>
-                                </a>
-                            </div>
+                            @if ($product->enable_stock && $product->instock)
+                                <div class="aui-top-action">
+                                    <a href="{{ route('front.cartadd',$product->id) }}" class="aui-top-action-item aui-add-cart {{ Cart::exists($product->id) ? 'd-none' : null }}" data-toggle="add-cart">
+                                        <i class="fa fa-cart-plus text-white"></i>
+                                    </a>
+                                </div>
+                            @endif
                             <a href="{{ route('front.product', $product->id) }}" class="v-link">
                                 <img class="v-img"  data-src={{ $product->image_url }} src="{{ asset('images/bg/log.png') }}">
                                 <p class="aui-slide-item-title aui-slide-item-f-els text-white">{{ $product->name }}

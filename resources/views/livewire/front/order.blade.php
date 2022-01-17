@@ -57,7 +57,8 @@
             @include('front.account.action')
         </div>
         <div class="pt-6 pb-5">
-            <div wire:loading wire:target="status" class="p-2 position-relative text-primary text-center" style="z-index: 1;left: 0;right: 0;width: 100%;">
+            <div wire:loading wire:target="status" class="p-2 position-relative text-primary text-center"
+                style="z-index: 1;left: 0;right: 0;width: 100%;">
                 {{ __('Processing') }}...
             </div>
             @if ($orders->count())
@@ -174,8 +175,8 @@
                             </ul>
                             @if ($order->status == 'pending' || $order->status == 'cancel')
                                 <div>
-                                    <input wire:model="coupon.{{ $order->id }}" type="text" class="form-control rounded-0"
-                                        placeholder="{{ __('Coupon code') }}">
+                                    <input wire:model="coupon.{{ $order->id }}" type="text"
+                                        class="form-control rounded-0" placeholder="{{ __('Coupon code') }}">
                                     @if ($coupon_message[$order->id])
                                         <div class="error-feedback d-block px-2">
                                             {{ $coupon_message[$order->id] }}
@@ -188,10 +189,11 @@
                                             {{ __('Total') }} :
                                             {{ currency($order->total_price, 'USD', session('currency')) }}
                                             @if ($order->total_price_coupon)
-                                            <strong>
-                                                => {{ currency($order->total_price_coupon, 'USD', session('currency')) }}
-                                            </strong>
-                                        @endif
+                                                <strong>
+                                                    =>
+                                                    {{ currency($order->total_price_coupon, 'USD', session('currency')) }}
+                                                </strong>
+                                            @endif
                                         </strong>
                                     </div>
                                 </div>
@@ -220,9 +222,10 @@
                                         <div class="pb-1">
                                             {{ __('Total') }} :
                                             <span>
-                                                {{ currency( $order->total_price, 'USD', session('currency')) }}
+                                                {{ currency($order->total_price, 'USD', session('currency')) }}
                                                 @if ($order->total_price_coupon)
-                                                =>  {{ currency( $order->total_price_coupon, 'USD', session('currency')) }}
+                                                    =>
+                                                    {{ currency($order->total_price_coupon, 'USD', session('currency')) }}
                                                 @endif
 
                                             </span>
@@ -232,7 +235,7 @@
                                                 <a href="{{ $order->payment_image }}" target="_blank"
                                                     class="w-100" style="height: 200px; overflow: hidden">
                                                     <img class="w-100 h-100" src="{{ $order->payment_image }}"
-                                                        style="object-fit: cover">
+                                                        style="object-fit: contain">
                                                 </a>
                                             </div>
                                         @endif
@@ -515,61 +518,52 @@
     @if ($checkout)
         <div class="mask-black" wire:click.prevent="togglecheckout({{ $checkoutid }})"></div>
     @endif
-    @if ($response)
-        <script>
-            Swal.fire({
-                toast: true,
-                type: `{{ $response['type'] }}`,
-                html: `<span>{{ $response['message'] }}</span>`,
-                showConfirmButton: false,
-                timer: 3000,
-            });
-        </script>
-    @endif
+    <div wire:loading wire:target="togglecheckout,remove,receive,orderdelete">
+        <div class="swal2-container swal2-center swal2-fade swal2-shown"
+            class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
+            <div class="swal2-header">
+                <h2 class="swal2-title text-primary" id="swal2-title">
+                    {{ __('Processing') }}
+                </h2>
+            </div>
+            <div class="swal2-actions swal2-loading" style="display: flex;">
+                <div class="swal2-confirm swal2-styled"
+                    style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
+                </div>
+            </div>
+        </div>
+    </div>
     <div wire:loading wire:target="payment">
-        <div class="swal2-container swal2-center swal2-fade swal2-shown" style="overflow-y: auto;">
-            <div aria-labelledby="swal2-title" aria-describedby="swal2-content"
-                class="swal2-popup swal2-modal swal2-show swal2-loading" tabindex="-1" role="dialog"
-                aria-live="assertive" aria-modal="true" data-loading="true" aria-busy="true" style="display: flex;">
-                <div class="swal2-actions swal2-loading" style="display: flex;">
-                    <button type="button" class="swal2-confirm swal2-styled" aria-label="" disabled=""
-                        style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
-                        OK
-                    </button>
+        <div class="swal2-container swal2-center swal2-fade swal2-shown"
+            class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
+            <div class="swal2-header">
+                <h2 class="swal2-title text-primary" id="swal2-title">
+                    {{ __('Processing') }} {{ __('Payment') }}
+                </h2>
+            </div>
+            <div class="swal2-actions swal2-loading" style="display: flex;">
+                <div class="swal2-confirm swal2-styled"
+                    style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
                 </div>
             </div>
         </div>
     </div>
     <div wire:loading wire:target="receive">
-        <div class="swal2-container swal2-center swal2-fade swal2-shown" style="overflow-y: auto;">
-            <div aria-labelledby="swal2-title" aria-describedby="swal2-content"
-                class="swal2-popup swal2-modal swal2-show swal2-loading" tabindex="-1" role="dialog"
-                aria-live="assertive" aria-modal="true" data-loading="true" aria-busy="true" style="display: flex;">
-                <div class="swal2-actions swal2-loading" style="display: flex;">
-                    <button type="button" class="swal2-confirm swal2-styled" aria-label="" disabled=""
-                        style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
-                        OK
-                    </button>
-                </div>
+        <div class="swal2-container swal2-center swal2-fade swal2-shown"
+            class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
+            <div class="swal2-header">
+                <h2 class="swal2-title text-primary" id="swal2-title">
+                    {{ __('Processing') }}
+                </h2>
             </div>
-        </div>
-    </div>
-    <div wire:loading wire:target="orderdelete">
-        <div class="swal2-container swal2-center swal2-fade swal2-shown" style="overflow-y: auto;">
-            <div aria-labelledby="swal2-title" aria-describedby="swal2-content"
-                class="swal2-popup swal2-modal swal2-show swal2-loading" tabindex="-1" role="dialog"
-                aria-live="assertive" aria-modal="true" data-loading="true" aria-busy="true" style="display: flex;">
-                <div class="swal2-actions swal2-loading" style="display: flex;">
-                    <button type="button" class="swal2-confirm swal2-styled" aria-label="" disabled=""
-                        style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
-                        OK
-                    </button>
+            <div class="swal2-actions swal2-loading" style="display: flex;">
+                <div class="swal2-confirm swal2-styled"
+                    style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 @push('scripts')
     <script>
         $(document).on('click', `[data-toggle="map"]`, function(e) {

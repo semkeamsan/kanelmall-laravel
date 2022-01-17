@@ -29,11 +29,13 @@ $categories = $categories->filter(function ($category) {
                                         <span> {{ $product->promotion->name }}</span>
                                     </div>
                                 @endif
-                                <a href="{{ route('front.cartadd', $product->id) }}"
-                                    class="aui-top-action-item aui-add-cart {{ Cart::exists($product->id) ? 'd-none' : null }}"
-                                    data-toggle="add-cart">
-                                    <i class="fa fa-cart-plus text-white"></i>
-                                </a>
+                                @if ($product->enable_stock && $product->instock)
+                                    <a href="{{ route('front.cartadd', $product->id) }}"
+                                        class="aui-top-action-item aui-add-cart {{ Cart::exists($product->id) ? 'd-none' : null }}"
+                                        data-toggle="add-cart">
+                                        <i class="fa fa-cart-plus text-white"></i>
+                                    </a>
+                                @endif
                             </div>
                             <a href="{{ route('front.product', $product->id) }}" class="v-link">
                                 <img class="v-img" data-src={{ $product->image_url }}

@@ -224,12 +224,12 @@
                     {{ $product->sku }}</div>
             </a>
 
-            <a href="#" class="aui-address-cell aui-fl-arrow-clear">
+            <a href="#" class="aui-address-cell aui-fl-arrow-clear d-none">
                 <div class="aui-address-cell-ft">
                     {{ __('Type') }} :
                     {{ $product->type }}</div>
             </a>
-            <a href="#" class="aui-address-cell aui-fl-arrow-clear">
+            <a href="#" class="aui-address-cell aui-fl-arrow-clear d-none">
                 <div class="aui-address-cell-ft">
                     {{ __('Tax Type') }} :
                     {{ $product->tax_type }}
@@ -239,7 +239,7 @@
                 class="aui-address-cell aui-fl-arrow-clear">
                 <div class="aui-address-cell-ft">
                     {{ __('Category') }} :
-                    {{ $product->category->name }}
+                    <span class="text-primary">{{ $product->category->name }}</span>
                 </div>
             </a>
         </div>

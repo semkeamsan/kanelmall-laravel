@@ -54,102 +54,104 @@
             @auth
                 @include('front.account.action')
             @endauth
-            <div class="aui-cart-box-list">
+            <div class="aui-cart-box-list border-top">
                 @if (count($products))
                     <ul>
                         @foreach ($products as $key => $product)
 
                             <li class="shop-info">
-                                <div class="aui-cart-box-list-item">
-                                    <div class="aui-cart-box-list-img" wire:ignore>
-                                        <div class="aui-list-product-fl-img">
-                                            <a href="{{ route('front.product', $product['id']) }}">
-                                                @if ($product['video_url'])
-                                                    <div class="video position-relative">
-                                                        <video autoplay muted
-                                                            src="{{ $product['video_url'] }}"></video>
-                                                        <div class="bottom-2 position-absolute right-2"
-                                                            data-toggle="muted">
-                                                            <i class="fa fa-2x fa-volume-mute text-white"></i>
+                                <div class="aui-list-title-info">
+                                    <div class="aui-list-product-fl-item">
+                                        <div class="aui-cart-box-list-img border-right" wire:ignore>
+                                            <div class="aui-list-product-fl-img">
+                                                <a href="{{ route('front.product', $product['id']) }}">
+                                                    @if ($product['video_url'])
+                                                        <div class="video position-relative">
+                                                            <video autoplay muted
+                                                                src="{{ $product['video_url'] }}"></video>
+                                                            <div class="bottom-2 position-absolute right-2"
+                                                                data-toggle="muted">
+                                                                <i class="fa fa-2x fa-volume-mute text-white"></i>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                @else
-                                                    <img data-src={{ $product['image_url'] }}
-                                                        src="{{ asset('images/bg/log.jpg') }}">
-                                                @endif
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="aui-cart-box-list-text">
-                                        <span>
-                                            {{ $product['name'] }}
-                                        </span>
-                                        @if ($product['description'])
-                                            <div class="aui-cart-box-list-text-brief">
-                                                {!! $product['description'] !!}
-                                            </div>
-                                        @endif
-
-                                        <div class="aui-cart-box-list-text-price">
-                                            <div class="aui-cart-box-list-text-pri">
-
-                                                @if ($product['prices'])
-                                                    <b class="price">
-                                                        {{ currency(min(array_column($product['prices'], 'price')), 'USD', session('currency')) }}
-                                                    </b>
-                                                @else
-                                                    <b class="price">
-                                                        {{ currency($product['selling_price'], 'USD', session('currency')) }}
-                                                    </b>
-                                                @endif
-
-                                                @if ($product['promotion'])
-                                                    <small style="text-decoration: line-through;color:#ddd">
-                                                        {{ currency($product['price'], 'USD', session('currency')) }}
-                                                    </small>
-                                                @endif
-                                            </div>
-                                        </div>
-
-                                        <div class="aui-cart-box-list-text-price">
-                                            <div class="aui-cart-box-list-text-arithmetic">
-                                                <a href="javascript:void(0);" class="minus"
-                                                    wire:click="qtyremove({{ $key }})">-</a>
-                                                <input type="number" class="num"
-                                                    {{ $product['instock'] > 0 ?: 'disabled' }}
-                                                    wire:model="products.{{ $key }}.qty"
-                                                    value="{{ $product['qty'] }}">
-                                                <a href="javascript:void(0);" class="plus"
-                                                    wire:click="qtyadd({{ $key }})">+</a>
-                                            </div>
-                                            {{-- @if ($product['qty'] > $product['instock'])
-                                                    <span id="outstock" class="text-danger">
-                                                        {{ __('In Stock') }}
-                                                        {{ $product['instock'] }}
-                                                    </span>
-                                                @endif --}}
-                                        </div>
-                                        <div class="aui-list-product-fl-mes">
-                                            <span class="aui-list-product-item-total-price">
-                                                {{ __('Total') }} :
-                                                <span class="aui-list-product-item-price" id="total-price">
-                                                    @if ($product['qty'])
-                                                        @if ($product['prices'])
-                                                            {{ currency(max(array_column($product['prices'], 'price')) * $product['qty'], 'USD', session('currency')) }}
-                                                        @else
-                                                            {{ currency($product['selling_price'] * $product['qty'], 'USD', session('currency')) }}
-                                                        @endif
+                                                    @else
+                                                        <img data-src={{ $product['image_url'] }}
+                                                            src="{{ asset('images/bg/log.jpg') }}">
                                                     @endif
-                                                </span>
-                                            </span>
+                                                </a>
+                                            </div>
                                         </div>
+                                        <div class="aui-cart-box-list-text py-2">
+                                            <span>
+                                                {{ $product['name'] }}
+                                            </span>
+                                            @if ($product['description'])
+                                                <div class="aui-cart-box-list-text-brief">
+                                                    {!! $product['description'] !!}
+                                                </div>
+                                            @endif
 
-                                        <div class="aui-cart-box-list-text-price">
-                                            <a href="{{ route('front.cartremove', $product['id']) }}"
-                                                wire:click.prevent="remove({{ $key }})">
-                                                <i class="fal fa-trash"></i>
-                                                {{ __('Remove') }}
-                                            </a>
+                                            <div class="aui-cart-box-list-text-price">
+                                                <div class="aui-cart-box-list-text-pri">
+
+                                                    @if ($product['prices'])
+                                                        <b class="price">
+                                                            {{ currency(min(array_column($product['prices'], 'price')), 'USD', session('currency')) }}
+                                                        </b>
+                                                    @else
+                                                        <b class="price">
+                                                            {{ currency($product['selling_price'], 'USD', session('currency')) }}
+                                                        </b>
+                                                    @endif
+
+                                                    @if ($product['promotion'])
+                                                        <small style="text-decoration: line-through;color:#ddd">
+                                                            {{ currency($product['price'], 'USD', session('currency')) }}
+                                                        </small>
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            <div class="aui-cart-box-list-text-price">
+                                                <div class="aui-cart-box-list-text-arithmetic">
+                                                    <a href="javascript:void(0);" class="minus"
+                                                        wire:click="qtyremove({{ $key }})">-</a>
+                                                    <input type="number" class="num"
+                                                        {{ $product['instock'] > 0 ?: 'disabled' }}
+                                                        wire:model="products.{{ $key }}.qty"
+                                                        value="{{ $product['qty'] }}">
+                                                    <a href="javascript:void(0);" class="plus"
+                                                        wire:click="qtyadd({{ $key }})">+</a>
+                                                </div>
+                                                {{-- @if ($product['qty'] > $product['instock'])
+                                                        <span id="outstock" class="text-danger">
+                                                            {{ __('In Stock') }}
+                                                            {{ $product['instock'] }}
+                                                        </span>
+                                                    @endif --}}
+                                            </div>
+                                            <div class="aui-list-product-fl-mes">
+                                                <span class="aui-list-product-item-total-price">
+                                                    {{ __('Total') }} :
+                                                    <span class="aui-list-product-item-price" id="total-price">
+                                                        @if ($product['qty'])
+                                                            @if ($product['prices'])
+                                                                {{ currency(max(array_column($product['prices'], 'price')) * $product['qty'], 'USD', session('currency')) }}
+                                                            @else
+                                                                {{ currency($product['selling_price'] * $product['qty'], 'USD', session('currency')) }}
+                                                            @endif
+                                                        @endif
+                                                    </span>
+                                                </span>
+                                            </div>
+
+                                            <div class="aui-cart-box-list-text-price">
+                                                <a href="{{ route('front.cartremove', $product['id']) }}"
+                                                    wire:click.prevent="remove({{ $key }})">
+                                                    <i class="fal fa-trash"></i>
+                                                    {{ __('Remove') }}
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -189,6 +191,7 @@
                     @endif
                 </div>
             </div>
+            @if ($total)
             <div class="aui-payment-bar border-top">
                 @auth
                     <button wire:click.prevent="togglecheckout" class="settlement w-100">{{ __('Order') }}</button>
@@ -197,6 +200,8 @@
                         onclick="location.href=`{{ route('login') }}`">{{ __('Login') }}</button>
                 @endauth
             </div>
+            @endif
+
         @endif
     </section>
     @auth

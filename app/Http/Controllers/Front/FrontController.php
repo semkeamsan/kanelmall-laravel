@@ -104,16 +104,9 @@ class FrontController extends Controller
     }
     public function product($slug)
     {
-
-        // $product  = collect(Http::withoutVerifying()->get(env('API_DOMAIN') . '/api/product/' . $slug)->json('product', []))->first();
-
-        foreach (session('products', collect()) as $product) {
-            if ($product->id == $slug) {
-                $product->category = category($product->category_id);
-                return view('front.product', compact('product'));
-            }
-        }
-
+         $product  = product($slug);
+         $product->category = category($product->category_id);
+         return view('front.product', compact('product'));
         abort(404);
     }
 }

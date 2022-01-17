@@ -83,7 +83,7 @@
                                     <li data-orderid="{{ $o->id }}">
                                         <div class="aui-list-title-info">
                                             <div class="aui-list-product-fl-item">
-                                                <div class="aui-list-product-fl-img" wire:ignore>
+                                                <div class="aui-list-product-fl-img border-right" wire:ignore>
                                                     <a href="{{ route('front.product', $o->product->id) }}">
                                                         @if ($o->product->video_url)
                                                             <div class="video position-relative">
@@ -197,10 +197,13 @@
                                         </strong>
                                     </div>
                                 </div>
-                                <div class="aui-payment-bar border-bottom">
-                                    <button type="submit" class="settlement w-100"
-                                        wire:click.prevent="togglecheckout({{ $order->id }})">{{ __('Make Payment') }}</button>
-                                </div>
+                                @if ($order->total_price)
+                                    <div class="aui-payment-bar border-bottom">
+                                        <button type="submit" class="settlement w-100"
+                                            wire:click.prevent="togglecheckout({{ $order->id }})">{{ __('Make Payment') }}</button>
+                                    </div>
+                                @endif
+
 
                             @endif
                             @if ($order->status !== 'pending')

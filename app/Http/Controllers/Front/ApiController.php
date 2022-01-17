@@ -23,7 +23,7 @@ class ApiController
         if (!request()->ajax()) {
             return redirect()->route('front.home');
         } else {
-             return true;
+            return true;
         }
     }
     public function sliders(array $data)
@@ -78,8 +78,7 @@ class ApiController
 
             $value['promotion']     =  false;
 
-            $value = session('promotions')->map(function ($promotion) use ($value) {
-
+            foreach (session('promotions') as $promotion) {
                 if ($promotion->category_id == $value['category_id']) {
                     if (now()->diff($promotion->ends_at)->invert === 0) {
                         $value['promotion'] = $promotion;
@@ -88,7 +87,7 @@ class ApiController
                             foreach ($value['prices'] as  $price) {
                                 $price['price'] =  $price['price'] -  ($price['price'] * $promotion->discount_amount) / 100;
                             }
-                        }elseif($promotion->discount_type == 'fixed'){
+                        } elseif ($promotion->discount_type == 'fixed') {
                             $value['selling_price'] =  $value['selling_price'] - $promotion->discount_amount;
                             foreach ($value['prices'] as  $price) {
                                 $price['price'] =  $price['price'] -  $promotion->discount_amount;
@@ -96,9 +95,7 @@ class ApiController
                         }
                     }
                 }
-                return $value;
-            })->first() ?? $value;
-
+            }
             $products->add(array_to_jsdecode($value));
         }
         session()->put('products', $products);
@@ -111,7 +108,10 @@ class ApiController
             $value['promotion'] = null;
             foreach (session('promotions') as $promotion) {
                 if ($promotion->category_id == $value['id']) {
-                    $value['promotion']  = $promotion;
+                    if (now()->diff($promotion->ends_at)->invert === 0) {
+                        $value['promotion'] = $promotion;
+                    }
+
                     break;
                 }
             }
@@ -126,15 +126,6 @@ class ApiController
             if (!$value['image_url']) {
                 $value['image_url'] = asset('images/bg/log.jpg');
             }
-            // $value['promotion']     =  false;
-            // $value = session('promotions')->map(function ($promotion) use ($value) {
-            //     if ($promotion->category_id == $value['id']) {
-            //         if (now()->diff($promotion->ends_at)->invert === 0) {
-            //             $value['promotion'] = $promotion;
-            //         }
-            //     }
-            //     return $value;
-            // })->first() ?? $value;
             $categories->add(array_to_jsdecode($value));
         }
         session()->put('categories', $categories);
@@ -168,8 +159,8 @@ class ApiController
                     }
                 }
             }
-           $data = [
-                'coupon_id'  => $coupon?$coupon['id']:null,
+            $data = [
+                'coupon_id'  => $coupon ? $coupon['id'] : null,
                 'transaction_id'  =>  $order->transaction_id,
                 'business_id' => $this->API_BUSID,
                 'location_id' => $this->API_BUSLOCATION,
@@ -265,13 +256,12 @@ class ApiController
                 })->toArray(),
             ];
 
-          return  $response =  Http::withoutVerifying()->post($this->API_DOMAIN . '/api/checkout/web', $data)->json();
-
+            return  $response =  Http::withoutVerifying()->post($this->API_DOMAIN . '/api/checkout/web', $data)->json();
         }
     }
     public function transactions()
     {
-        $orders = Order::whereIn('status', ['paid','delivered'])->get();
+        $orders = Order::whereIn('status', ['paid', 'delivered'])->get();
         if ($orders->count()) {
             $ids = $orders->pluck('transaction_id');
             $transactions = Http::withoutVerifying()->get($this->API_DOMAIN . '/api/business/' . $this->API_BUSID . '/transactions/' . $ids->implode(','))->json();
@@ -290,7 +280,6 @@ class ApiController
                                 'status' => 'cancel'
                             ]);
                         }
-
                     } elseif ($t['order_status'] == 'received') {
                         if ($order) {
                             $order->update([
@@ -316,6 +305,6 @@ class ApiController
         if ($coupon && $coupon['is_active']) {
             return $coupon;
         }
-       return null;
+        return null;
     }
 }

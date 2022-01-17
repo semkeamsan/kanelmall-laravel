@@ -1512,7 +1512,6 @@ li {
     height: auto;
     width: 7rem;
     overflow: hidden;
-    border-right: 1px solid #e0e0e0;
 }
 
 .aui-list-product-fl-img img ,.aui-list-product-fl-img video {
@@ -1959,14 +1958,7 @@ li {
 .aui-cart-coupons {
     float: right;
 }
-
-.aui-cart-box-list ul li {
-    margin-bottom: 2px;
-    border-top: 1px solid #e0e0e0;
-}
-
 .aui-cart-box-list-item {
-    padding: 5px;
     position: relative;
     display: inline-flex;
     width: 100%;
@@ -2789,10 +2781,6 @@ input.check:checked {
     font-size: 15px;
     width: 50%;
     border: 0;
-}
-
-.shop-info {
-    background-color: #fff;
 }
 
 /* 底部加入购物车以及立即购买 */

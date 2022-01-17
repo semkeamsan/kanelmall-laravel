@@ -28,7 +28,7 @@
                                 <br>
                                 <small class="text-sm">{{ auth()->user()->email }}</small>
                             @endif
-                            @if (auth()->user()->email)
+                            @if (auth()->user()->phone)
                                 <br>
                                 <small class="text-sm">{{ auth()->user()->phone }}</small>
                             @endif

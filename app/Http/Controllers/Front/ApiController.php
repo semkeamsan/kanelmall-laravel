@@ -312,6 +312,10 @@ class ApiController
 
     public function coupon($code)
     {
-       return $coupon = Http::withoutVerifying()->get($this->API_DOMAIN . '/api/business/' . $this->API_BUSID . '/coupon/' . $code)->json();
+        $coupon = Http::withoutVerifying()->get($this->API_DOMAIN . '/api/business/' . $this->API_BUSID . '/coupon/' . $code)->json();
+        if ($coupon && $coupon['is_active']) {
+            return $coupon;
+        }
+       return null;
     }
 }

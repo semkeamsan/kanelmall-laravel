@@ -196,7 +196,9 @@
                 <p style="height: 40px;overflow:hidden" id="text-limit">
                     {!! $product->description !!}
                 </p>
-                <button class="btn btn-sm" id="read-more">{{ __('Read more') }}</button>
+                @if (strlen($product->description) > 130)
+                    <button class="btn btn-sm" id="read-more">{{ __('Read more') }}</button>
+                @endif
             @endif
         </div>
 

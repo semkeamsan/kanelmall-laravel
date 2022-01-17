@@ -29,7 +29,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        return view('admin.order.form');
+
     }
 
     /**
@@ -40,9 +40,7 @@ class OrderController extends Controller
      */
     public function store(Request $request, Order $order)
     {
-        $validate = $request->validate($order->validation->rules(), $order->validation->messages(), $order->validation->attributes());
-        $order = $order->create($request->all());
-        return  redirect()->back()->with('message', __('Add successfully'));
+
     }
 
     /**
@@ -53,7 +51,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        return  Order::find($id);
     }
 
     /**

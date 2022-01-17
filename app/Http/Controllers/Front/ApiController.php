@@ -88,6 +88,11 @@ class ApiController
                             foreach ($value['prices'] as  $price) {
                                 $price['price'] =  $price['price'] -  ($price['price'] * $promotion->discount_amount) / 100;
                             }
+                        }elseif($promotion->discount_type == 'fixed'){
+                            $value['selling_price'] =  $value['selling_price'] - $promotion->discount_amount;
+                            foreach ($value['prices'] as  $price) {
+                                $price['price'] =  $price['price'] -  $promotion->discount_amount;
+                            }
                         }
                     }
                 }

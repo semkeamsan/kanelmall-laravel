@@ -277,11 +277,9 @@ class Cart extends Component
                     'transaction_id' => $checkout['transactionID'],
                     'status' => 'paid',
                 ]);
-                return redirect()->route('front.account.myorder', 'status=paid');
-            }else{
-                return redirect()->route('front.account.myorder', 'status=pending');
             }
             CartHelper::clear();
+            return redirect()->route('front.account.myorder', 'status='.$order->status);
         }
         return redirect()->route('login');
     }

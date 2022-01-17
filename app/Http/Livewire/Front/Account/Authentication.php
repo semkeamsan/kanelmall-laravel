@@ -12,7 +12,7 @@ class Authentication extends Component
     public $email;
     public $phone;
     public $password;
-    public $auths = [];
+    public $auths;
 
     public $rules = [];
 
@@ -44,7 +44,7 @@ class Authentication extends Component
     public function update()
     {
         $this->response = [
-            'type' => 'error',
+            'type' => 'danger',
             'message' => __('Update Unsucessfully'),
         ];
 

@@ -38,7 +38,7 @@ class Personal extends Component
     public function update()
     {
         $this->response = [
-            'type' => 'error',
+            'type' => 'danger',
             'message' => __('Update Unsucessfully'),
         ];
 

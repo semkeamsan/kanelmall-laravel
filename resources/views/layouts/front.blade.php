@@ -86,6 +86,7 @@
         Livewire.hook('message.processed', (message, component) => {
             Kanel.select2(false);
             Kanel.select2Image(false);
+            Kanel.datepicker();
         });
         window.livewire.on('urlChange', param => {
             history.pushState(null, null, param);

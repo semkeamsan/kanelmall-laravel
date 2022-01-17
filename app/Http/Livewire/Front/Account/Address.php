@@ -31,6 +31,7 @@ class Address extends Component
     public $longitude;
     public function mount()
     {
+        $this->provinces = Province::get();
         $this->province = request()->user()->province_id;
         $this->district = request()->user()->district_id;
         $this->commune = request()->user()->commune_id;
@@ -42,7 +43,7 @@ class Address extends Component
 
     public function render()
     {
-        $this->provinces = Province::get();
+
         if ($this->province) {
             $this->districts = Province::find($this->province)->districts;
         }
@@ -64,8 +65,6 @@ class Address extends Component
             }
         }
 
-
-
         return view('livewire.front.account.address');
     }
     public function samelocation()
@@ -78,7 +77,7 @@ class Address extends Component
     public function update()
     {
         $this->response = [
-            'type' => 'error',
+            'type' => 'danger',
             'message' => __('Update Unsucessfully'),
         ];
 
@@ -102,7 +101,43 @@ class Address extends Component
             'message' => __('Update Successfully'),
         ];
     }
+    public function updatedProvince()
+    {
+        $this->districts = Province::find($this->province)->districts;
+        $this->communes = [];
+        $this->villages = [];
 
+        $this->district = null;
+        $this->commune = null;
+        $this->village = null;
+    }
+    public function updatedDistrict()
+    {
+        if ($this->districts) {
+            $a = Province::find($this->province)->districts->find($this->district);
+            if ($a) {
+                $this->communes = $a->communes;
+            } else {
+                $this->communes = [];
+                $this->villages = [];
+
+                $this->commune = null;
+                $this->village = null;
+            }
+        }
+    }
+    public function updatedCommune()
+    {
+        if ($this->communes) {
+            $a = Province::find($this->province)->districts->find($this->district)->communes->find($this->commune);
+            if ($a) {
+                $this->villages = $a->villages;
+            } else {
+                $this->villages = [];
+                $this->village = null;
+            }
+        }
+    }
     public function hydrate()
     {
         $this->response = null;

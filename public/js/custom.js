@@ -1,6 +1,7 @@
 const Kanel = {
     init: function () {
         Kanel.image();
+        Kanel.datepicker();
         Kanel.grid();
 
 
@@ -383,24 +384,27 @@ const Kanel = {
                 window.livewire.find(id).set(n, v);
             }
         });
+    },
+    datepicker : function(){
+        if ($(`.datepicker`).length) {
+            $(`.datepicker`).datepicker({
+                todayHighlight: true,
+                format: `${$(this).attr(`data-format`) ?? `yyyy-mm-dd`}`,
+                disableTouchKeyboard: !0,
+                autoclose: !1,
+                language: `${$('html').attr('lang') ?? 'en'}`,
+            });
+            $(".datepicker").on('changeDate', function (e) {
+                var id = $(this).parents('#livewire').attr(`wire:id`);
+                var model = $(this).attr(`wire:model`);
+                var val = e.format(0, `${$(this).attr(`data-format`) ?? `yyyy-mm-dd`}`);
+                window.livewire.find(id).set(model, val);
+            });
+        }
     }
 };
 Kanel.init();
 const datetime = () => {
     return (new Date()).getTime();
 }
-if ($(`.datepicker`).length) {
-    $(`.datepicker`).datepicker({
-        todayHighlight: true,
-        format: `${$(this).attr(`data-format`) ?? `yyyy-mm-dd`}`,
-        disableTouchKeyboard: !0,
-        autoclose: !1,
-        language: `${$('html').attr('lang') ?? 'en'}`,
-    });
-    $(".datepicker").on('changeDate', function (e) {
-        var id = $(this).parents('#livewire').attr(`wire:id`);
-        var model = $(this).attr(`wire:model`);
-        var val = e.format(0, `${$(this).attr(`data-format`) ?? `yyyy-mm-dd`}`);
-        window.livewire.find(id).set(model, val);
-    });
-}
+

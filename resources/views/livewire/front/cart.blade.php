@@ -232,6 +232,7 @@
                                 </span>
                             </div>
                         </div>
+
                         @if ($districts)
                             <div class="aui-product-text-content-list">
                                 <div class="aui-product-text-content-list-ft">

@@ -44,6 +44,21 @@
 ]) !!}
 
     <section class="container py-6">
+        @if ($response)
+        <div class="alert alert-{{ $response['type'] }} alert-dismissible fade show" role="alert">
+            <strong>
+                @if ($response['type'] == 'success')
+                    <i class="fa fa-check-circle" aria-hidden="true"></i>
+                @else
+                    <i class="fa fa-times-circle" aria-hidden="true"></i>
+                @endif
+            </strong>
+            {{ $response['message'] }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
         <div class="row">
             <div class="col-xl-8">
                 <div class="form-row mb-2">
@@ -139,17 +154,35 @@
         </div>
     </footer>
     {!! Form::close() !!}
-
-    @if ($response)
-        <script>
-            Swal.fire({
-                toast: true,
-                type: `{{ $response['type'] }}`,
-                html: `<span>{{ $response['message'] }}</span>`,
-                showConfirmButton: false,
-                timer: 3000,
-            });
-        </script>
-    @endif
+    <div wire:loading wire:target="update">
+        <div class="swal2-container swal2-center swal2-fade swal2-shown"
+            class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
+            <div class="swal2-header">
+                <h2 class="swal2-title text-primary" id="swal2-title">
+                    {{ __('Updating') }}
+                </h2>
+            </div>
+            <div class="swal2-actions swal2-loading" style="display: flex;">
+                <div class="swal2-confirm swal2-styled"
+                    style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div wire:loading wire:target="avatar">
+        <div class="swal2-container swal2-center swal2-fade swal2-shown"
+            class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
+            <div class="swal2-header">
+                <h2 class="swal2-title text-primary" id="swal2-title">
+                    {{ __('Uploading') }}
+                </h2>
+            </div>
+            <div class="swal2-actions swal2-loading" style="display: flex;">
+                <div class="swal2-confirm swal2-styled"
+                    style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 

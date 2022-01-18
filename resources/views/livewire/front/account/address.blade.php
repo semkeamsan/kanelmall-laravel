@@ -180,7 +180,7 @@
         <div class="swal2-container swal2-center swal2-fade swal2-shown"
             class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
             <div class="swal2-header">
-                <h2 class="swal2-title text-primary" id="swal2-title">
+                <h2 class="swal2-title text-white" id="swal2-title">
                     {{ __('Processing') }}
                 </h2>
             </div>
@@ -195,7 +195,7 @@
         <div class="swal2-container swal2-center swal2-fade swal2-shown"
             class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
             <div class="swal2-header">
-                <h2 class="swal2-title text-primary" id="swal2-title">
+                <h2 class="swal2-title text-white" id="swal2-title">
                     {{ __('Updating') }}
                 </h2>
             </div>
@@ -212,7 +212,7 @@
                 `<div class="swal2-container swal2-center swal2-fade swal2-shown"
                     class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
                     <div class="swal2-header">
-                        <h2 class="swal2-title text-primary" id="swal2-title">
+                        <h2 class="swal2-title text-white" id="swal2-title">
                             ${window.languages.Processing??'Processing'}...
                         </h2>
                     </div>

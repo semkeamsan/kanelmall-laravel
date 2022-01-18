@@ -61,6 +61,21 @@
                 style="z-index: 1;left: 0;right: 0;width: 100%;">
                 {{ __('Processing') }}...
             </div>
+            @if ($response)
+                <div class="alert alert-{{ $response['type'] }} alert-dismissible fade show" role="alert">
+                    <strong>
+                        @if ($response['type'] == 'success')
+                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        @else
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        @endif
+                    </strong>
+                    {{ $response['message'] }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
             @if ($orders->count())
                 @foreach ($orders as $k => $order)
                     <form class="needs-validation px-1 pb-2" wire:submit.prevent="payment" novalidate>
@@ -518,7 +533,7 @@
         <div class="swal2-container swal2-center swal2-fade swal2-shown"
             class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
             <div class="swal2-header">
-                <h2 class="swal2-title text-primary" id="swal2-title">
+                <h2 class="swal2-title text-white" id="swal2-title">
                     {{ __('Processing') }}
                 </h2>
             </div>
@@ -533,7 +548,7 @@
         <div class="swal2-container swal2-center swal2-fade swal2-shown"
             class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
             <div class="swal2-header">
-                <h2 class="swal2-title text-primary" id="swal2-title">
+                <h2 class="swal2-title text-white" id="swal2-title">
                     {{ __('Uploading') }}...
                 </h2>
             </div>
@@ -548,7 +563,7 @@
         <div class="swal2-container swal2-center swal2-fade swal2-shown"
             class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
             <div class="swal2-header">
-                <h2 class="swal2-title text-primary" id="swal2-title">
+                <h2 class="swal2-title text-white" id="swal2-title">
                     {{ __('Processing') }} {{ __('Payment') }}
                 </h2>
             </div>
@@ -563,7 +578,7 @@
         <div class="swal2-container swal2-center swal2-fade swal2-shown"
             class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
             <div class="swal2-header">
-                <h2 class="swal2-title text-primary" id="swal2-title">
+                <h2 class="swal2-title text-white" id="swal2-title">
                     {{ __('Processing') }}
                 </h2>
             </div>
@@ -581,7 +596,7 @@
             `<div class="swal2-container swal2-center swal2-fade swal2-shown"
                 class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
                 <div class="swal2-header">
-                    <h2 class="swal2-title text-primary" id="swal2-title">
+                    <h2 class="swal2-title text-white" id="swal2-title">
                         ${window.languages.Processing??'Processing'}...
                     </h2>
                 </div>

@@ -298,16 +298,20 @@ class Order extends Component
     }
     public function receive($orderid)
     {
-        $this->orders->find($orderid)->update([
-            'comment' => @$this->comments[$orderid],
-            'status' => 'received',
-        ]);
-        (new ApiController)->received($this->orders->find($orderid)->transaction_id);
-        $this->response = [
-            'type' => 'success',
-            'message' => __('Successfully'),
-        ];
-        return redirect()->route('front.account.myorder', 'status=received');
+        $checkout = (new ApiController)->received($this->orders->find($orderid)->transaction_id);
+        dd($checkout);
+        if ($checkout) {
+            $this->orders->find($orderid)->update([
+                'comment' => @$this->comments[$orderid],
+                'status' => 'received',
+            ]);
+            $this->response = [
+                'type' => 'success',
+                'message' => __('Successfully'),
+            ];
+            return redirect()->route('front.account.myorder', 'status=received');
+        }
+
     }
 
     public function orderdelete($orderid)

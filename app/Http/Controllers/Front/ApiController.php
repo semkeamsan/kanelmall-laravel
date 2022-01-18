@@ -261,31 +261,17 @@ class ApiController
     }
     public function transactions()
     {
-        $orders = Order::whereIn('status', ['paid', 'delivered'])->get();
+        $orders = Order::whereNotIn('status', ['pending'])->get();
         if ($orders->count()) {
             $ids = $orders->pluck('transaction_id');
             $transactions = Http::withoutVerifying()->get($this->API_DOMAIN . '/api/business/' . $this->API_BUSID . '/transactions/' . $ids->implode(','))->json();
             if ($transactions) {
                 foreach ($transactions as $t) {
                     $order = $orders->where('transaction_id', $t['id'])->first();
-                    if ($t['order_status'] == 'delivered') {
-                        if ($order) {
-                            $order->update([
-                                'status' => 'delivered'
-                            ]);
-                        }
-                    } elseif ($t['order_status'] == 'cancel') {
-                        if ($order) {
-                            $order->update([
-                                'status' => 'cancel'
-                            ]);
-                        }
-                    } elseif ($t['order_status'] == 'received') {
-                        if ($order) {
-                            $order->update([
-                                'status' => 'received'
-                            ]);
-                        }
+                    if ($order && $t['order_status']) {
+                        $order->update([
+                            'status' => $t['order_status']
+                        ]);
                     }
                 }
             }
@@ -296,7 +282,7 @@ class ApiController
 
     public function received($transactionIds)
     {
-        return Http::withoutVerifying()->get($this->API_DOMAIN . '/api/business/' . $this->API_BUSID . '/transactions/received/' . $transactionIds)->json();
+        return Http::withoutVerifying()->post($this->API_DOMAIN . '/api/business/' . $this->API_BUSID . '/transactions/received/' . $transactionIds)->json();
     }
 
     public function coupon($code)

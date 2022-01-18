@@ -30,7 +30,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::get('/{provider}/callback', 'Auth\\SocialiteController@callback')->name('auth.callback');
 });
 Route::get('init', 'Front\\ApiController@init')->name('init');
-
+Route::get('transactions', 'Front\\ApiController@transactions')->name('transactions');
 Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
     Route::get('/', 'Front\\FrontController@home')->name('front.index');

@@ -159,6 +159,7 @@ class Order extends Component
         return view('livewire.front.order');
     }
 
+
     public function updatedProvince()
     {
         $this->districts = Province::find($this->province)->districts;
@@ -206,6 +207,7 @@ class Order extends Component
     public function status($status)
     {
         $this->status = $status;
+        (new ApiController)->transactions();
         $this->emit('urlChange', LaravelLocalization::getLocalizedURL(app()->getLocale(), route('front.account.myorder', 'status=' . $status)));
     }
     public function togglecheckout($orderid)
@@ -299,7 +301,6 @@ class Order extends Component
     public function receive($orderid)
     {
         $checkout = (new ApiController)->received($this->orders->find($orderid)->transaction_id);
-        dd($checkout);
         if ($checkout) {
             $this->orders->find($orderid)->update([
                 'comment' => @$this->comments[$orderid],

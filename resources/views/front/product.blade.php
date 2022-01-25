@@ -328,9 +328,7 @@
         </div>
     </div>
     @include('front.navbar.footer')
-    @auth
-        <livewire:front.account.notify />
-    @endauth
+
 @endsection
 @push('styles')
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/magnific-popup/magnific-popup.css') }}">

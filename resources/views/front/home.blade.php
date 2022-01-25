@@ -52,9 +52,7 @@
         @include('front.home.product')
     </div>
     @include('front.navbar.footer')
-    @auth
-        <livewire:front.account.notify />
-    @endauth
+
 @endsection
 @push('styles')
     <style>

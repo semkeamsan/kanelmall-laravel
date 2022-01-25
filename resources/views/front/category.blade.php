@@ -62,8 +62,4 @@
         </div>
     </section>
     @include('front.navbar.footer')
-    @auth
-        <livewire:front.account.notify />
-    @endauth
-
 @endsection

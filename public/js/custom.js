@@ -37,7 +37,7 @@ const Kanel = {
             $(`head`).append(`<style>.aui-product-text-content{height:${$(window).height() - 150}px}</style>`)
 
         });
-        var $loading = $(`<div class="svg-loader">
+        var $loading = $(`<div class="svg-loader py-5">
                         <svg class="svg-container" height="50" width="50" viewBox="0 0 100 100">
                             <circle class="loader-svg bg" cx="50" cy="50" r="45"></circle>
                             <circle class="loader-svg animate" cx="50" cy="50" r="45"></circle>
@@ -49,8 +49,10 @@ const Kanel = {
                     var page = $(`.aui-list-product:last`).data('page');
                     if (page) {
                         $(`.aui-list-product:last`).after($loading);
+                        var scrollTop = $(document).height();
                         $.get(`${ajaxroutes.home}/?page=${page+1}`).done(res => {
                             $(`.aui-list-product:last`).append($(res).html());
+                            $(`html, body`).animate({ scrollTop: scrollTop -300 }, 1000);
                             Kanel.grid();
                             setTimeout(() => {
                                 Kanel.grid();
@@ -239,17 +241,14 @@ const Kanel = {
     },
     grid: function () {
         if ($('.aui-list-product').length) {
-            var $grid = $('.aui-list-product').masonry({
-                itemSelector: '.aui-list-product-item',
-                initLayout: false,
-            });
-            $grid.masonry('on', 'layoutComplete', function() {
-                setTimeout(function(){
-                    $(`.product-holder`).remove();
-                    $(`.aui-list-product`).removeClass('invisible');
-                },2000);
+            new Masonry('.aui-list-product', {
+                itemSelector: '.aui-list-product-item'
             });
 
+            setTimeout(function(){
+                $(`.product-holder`).remove();
+                $(`.aui-list-product`).removeClass('invisible');
+            },2000);
         }
     },
     otp: function (inputs) {

@@ -142,7 +142,7 @@
                                                     </div>
 
                                                     <div class="aui-list-product-fl-mes">
-                                                        <div class="aui-btn-purchase">
+                                                        <div class="aui-btn-purchase d-none">
                                                             @if ($order->status == 'pending' || $order->status == 'cancel')
                                                                 <div class="aui-cart-box-list-text-arithmetic">
                                                                     <a href="javascript:void(0);" class="minus"
@@ -158,11 +158,10 @@
                                                                     </a>
 
                                                                 </div>
-                                                            @else
-                                                                <span>{{ __('Quantity') }} :
-                                                                    {{ $o->qty }}</span>
                                                             @endif
+
                                                         </div>
+                                                        <span>{{ __('Quantity') }} : {{ $o->qty }}</span>
                                                     </div>
                                                     <div class="aui-list-product-fl-mes">
                                                         <span class="aui-list-product-item-total-price">
@@ -172,7 +171,7 @@
                                                             </span>
                                                         </span>
                                                     </div>
-                                                    @if ($order->status == 'pending' || $order->status == 'cancel')
+                                                    @if ($order->status == 'pending')
                                                         <div class="aui-list-product-fl-mes">
                                                             <div class="aui-list-title-btn">
                                                                 <a href="#"
@@ -188,7 +187,7 @@
                                     </li>
                                 @endforeach
                             </ul>
-                            @if ($order->status == 'pending' || $order->status == 'cancel')
+                            @if ($order->status == 'pending')
                                 <div>
                                     <input wire:model="coupon.{{ $order->id }}" type="text"
                                         class="form-control rounded-0" placeholder="{{ __('Coupon code') }}">
@@ -327,8 +326,8 @@
                                         <span class="text-danger text-xs">*</span>
                                     @endif
                                     <select class="form-control select2" wire:model="district">
+                                        <option value="">{{ __('Please Select') }}</option>
                                         @foreach ($districts as $item)
-                                            <option value="">{{ __('Please Select') }}</option>
                                             <option value="{{ $item->id }}">
                                                 {{ $item->translation->name }}
                                             </option>
@@ -352,8 +351,8 @@
                                         <span class="text-danger text-xs">*</span>
                                     @endif
                                     <select class="form-control select2" wire:model="commune">
+                                        <option value="">{{ __('Please Select') }}</option>
                                         @foreach ($communes as $item)
-                                            <option value="">{{ __('Please Select') }}</option>
                                             <option value="{{ $item->id }}">
                                                 {{ $item->translation->name }}
                                             </option>
@@ -377,6 +376,7 @@
                                         <span class="text-danger text-xs">*</span>
                                     @endif
                                     <select class="form-control select2" wire:model="village">
+                                          <option value="">{{ __('Please Select') }}</option>
                                         @foreach ($villages as $item)
                                             <option value="{{ $item->id }}">{{ $item->translation->name }}</option>
                                         @endforeach

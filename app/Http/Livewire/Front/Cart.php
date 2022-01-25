@@ -82,10 +82,10 @@ class Cart extends Component
                 $this->villages = [];
             }
         }
-
         foreach (session('products', collect()) as $k => $product) {
-            if (in_array($product->id, CartHelper::get())) {
-                $product->qty = ($product->enable_stock && $product->instock) ? 1 : 0;
+            $cart = CartHelper::exists($product->id);
+            if ($cart) {
+                $product->qty = ($product->enable_stock && $product->instock) ? $cart['data']['qty'] : 0;
                 $this->products[] = json_decode(json_encode($product), true);
             }
         }
@@ -96,6 +96,7 @@ class Cart extends Component
 
     public function render()
     {
+
         $this->total();
         return view('livewire.front.cart');
     }

@@ -95,9 +95,17 @@
                                                 <div class="aui-cart-box-list-text-pri">
 
                                                     @if ($product['prices'])
-                                                        <b class="price">
+                                                        {{-- <b class="price">
                                                             {{ currency(min(array_column($product['prices'], 'price')), 'USD', session('currency')) }}
-                                                        </b>
+                                                        </b> --}}
+                                                        @foreach ($product['prices'] as $price)
+                                                            @if ($product['qty'] >= $price['qty'])
+                                                                <b class="price">
+                                                                    {{ currency($price['price'], 'USD', session('currency')) }}
+                                                                </b>
+                                                            @endif
+                                                        @endforeach
+
                                                     @else
                                                         <b class="price">
                                                             {{ currency($product['selling_price'], 'USD', session('currency')) }}
@@ -112,7 +120,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="aui-cart-box-list-text-price">
+                                            <div class="aui-cart-box-list-text-price d-none">
                                                 <div class="aui-cart-box-list-text-arithmetic">
                                                     <a href="javascript:void(0);" class="minus"
                                                         wire:click="qtyremove({{ $key }})">-</a>
@@ -129,6 +137,14 @@
                                                             {{ $product['instock'] }}
                                                         </span>
                                                     @endif --}}
+                                            </div>
+                                            <div class="aui-list-product-fl-mes">
+                                                <span class="aui-list-product-item-total-price">
+                                                    {{ __('Quantity') }} :
+                                                    <span class="aui-list-product-item-price" id="total-price">
+                                                        {{ $product['qty'] }}
+                                                    </span>
+                                                </span>
                                             </div>
                                             <div class="aui-list-product-fl-mes">
                                                 <span class="aui-list-product-item-total-price">

@@ -87,4 +87,21 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(SocialAuth::class)->latest('id');
     }
+
+    public function province()
+    {
+        return $this->belongsTo(Province::class);
+    }
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+    public function commune()
+    {
+        return $this->belongsTo(Commune::class);
+    }
+    public function village()
+    {
+        return $this->belongsTo(Village::class);
+    }
 }

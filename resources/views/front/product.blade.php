@@ -11,7 +11,15 @@
         }
 
         .aui-banner-content {
-            height: 420px;
+            /* height: 420px; */
+        }
+
+        .mfp-close-btn-in .mfp-close {
+            right: -6px;
+            text-align: right;
+            padding-right: 6px;
+            width: 100%;
+            color: #fff !important;
         }
 
     </style>
@@ -249,16 +257,76 @@
         <footer class="aui-footer-product">
             <div class="aui-footer-product-fixed">
                 <div class="aui-footer-product-action-list float-right">
-                    <a href="{{ route('front.cartadd', $product->id) }}" data-toggle="add-cart"
-                        class="yellow-color {{ !Cart::exists($product->id) ?: 'd-none' }}">
+                    <a href="{{ route('front.cartadd', $product->id) }}"
+                        data-ydui-actionsheet="{target:'#action-cart',closeElement:'#cancel'}"
+                        class="yellow-color w-100 {{ !Cart::exists($product->id) ?: 'd-none' }}">
                         {{ __('Add Cart') }}
                     </a>
-                    <a href="{{ route('front.account.orderadd', $product->id) }}"
-                        class="red-color {{ !Cart::exists($product->id) ?: 'w-100' }}">{{ __('Buy Now') }}</a>
+                    {{-- <a href="{{ route('front.account.orderadd', $product->id) }}"
+                        class="red-color {{ !Cart::exists($product->id) ?: 'w-100' }}">{{ __('Buy Now') }}</a> --}}
                 </div>
             </div>
         </footer>
     @endif
+    <div class="m-actionsheet" id="action-cart">
+        <div style="position:relative">
+            <div class="aui-spec-menu-top">
+                <div class="aui-spec-first-pic">
+                    <img src="{{ $product->image_url }}">
+                </div>
+                <div class="aui-spec-first-sif">
+                    @if ($product->prices)
+                        <h2 class="p-0">
+                            {{ currency(max(array_column($product->prices, 'price')), 'USD', session('currency')) }}</h2>
+                    @else
+                        <h2 class="p-0">{{ currency($product->selling_price, 'USD', session('currency')) }}
+                        </h2>
+                    @endif
+
+                    <div> {{ __('SKU') }} : {{ $product->sku }}</div>
+                    <div> {{ __('Category') }} : <span class="text-primary">{{ $product->category->name }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="aui-product-text-content h-100">
+                <div class="aui-product-text-content-list">
+                    <div class="aui-product-text-content-list-bd">
+                        <span>{{ __('Quantity') }} :</span>
+                    </div>
+                    <div class="aui-product-text-content-list-ft">
+                        <div class="aui-cart-box-list-text-price d-flex">
+                            <button onclick="qty('-')" class="btn minus m-0">-</button>
+                            <input type="number" class="num border py-1 mx-1 text-center" value="1">
+                            <button onclick="qty('+')" class="btn plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="aui-product-text-content-list">
+                    <div class="aui-product-text-content-list-bd">
+                        <span>{{ __('Total') }} :</span>
+                    </div>
+                    <div class="aui-product-text-content-list-ft total">
+                        @if ($product->prices)
+                            <h2>{{ currency(max(array_column($product->prices, 'price')), 'USD', session('currency')) }}
+                            </h2>
+                        @else
+                            <h2>{{ currency($product->selling_price, 'USD', session('currency')) }}</h2>
+                        @endif
+                    </div>
+                </div>
+
+            </div>
+
+            <a href="javascript:;" class="actionsheet-action" id="cancel"></a>
+            <div class="aui-product-function">
+                <a href="{{ route('front.cartadd', $product->id) }}" class="yellow-color" data-toggle="add-cart">
+                    {{ __('Add Cart') }}</a>
+                <a href="{{ route('front.account.orderadd', $product->id) }}"
+                    class="red-color">{{ __('Buy Now') }}</a>
+            </div>
+
+        </div>
+    </div>
     @include('front.navbar.footer')
     @auth
         <livewire:front.account.notify />
@@ -270,14 +338,20 @@
 @push('scripts')
     <script src="{{ asset('vendor/owl.carousel/owl.carousel.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/magnific-popup/jquery.magnific-popup.js') }}"></script>
-
     <script>
         $(document).ready(() => {
             var media = {!! json_encode($product->galleries) !!};
+
+            if (media.length == 0) {
+                media = [{
+                    path: `{{ $product->image_url }}`,
+                    type: 'image',
+                }];
+            }
             var items = media.map(function(item) {
                 if (item.type == 'video') {
                     return {
-                        src: `<video class="w-100" controls autoplay src="${item.path}"></video>`,
+                        src: `<div class="mfp-figure"><figure><video class="w-100" controls autoplay src="${item.path}" style="padding:40px 0 40px"></video><figcaption><div class="mfp-bottom-bar"><div class="mfp-title"></div><div class="mfp-counter"></div></div></figcaption></figure></div>`,
                         type: 'inline',
                         midClick: true
                     };
@@ -318,22 +392,59 @@
         $(`[data-toggle="play"]`).click(function(e) {
             e.preventDefault();
             var video = $(this).parents('.video').find('video').get(0);
-            video.play();
-            $(this).addClass('d-none');
+            //video.play();
+            // $(this).addClass('d-none');
         });
-        $(`#read-more`).click(function(){
+        $(`#read-more`).click(function() {
 
-            if($(`#text-limit`).hasClass('read')){
+            if ($(`#text-limit`).hasClass('read')) {
                 $(this).text(`{{ __('Read more') }}`);
                 $(`#text-limit`).removeClass('read').css({
                     height: 40,
                 });
-            }else{
+            } else {
                 $(this).text(`{{ __('Hide description') }}`);
                 $(`#text-limit`).addClass('read').css({
                     height: 'auto',
                 });
             }
+        });
+
+        function qty(sign) {
+            var a = $(`.num`).val();
+            var b = eval(a + sign + 1);
+            if (b == 0) {
+                $(`.num`).val(1).trigger('input');
+            } else {
+                $(`.num`).val(b).trigger('input');
+            }
+        }
+        var currency = {!! collect(currency()->getCurrency(session('currency'))) !!};
+        var instock = {{ $product->instock }};
+        var price = {{ $product->selling_price }};
+        var price_range = {!! collect($product->prices) !!};
+        $(`.num`).on(`input`, function(e) {
+            var a = $(this).val();
+            if (a > instock) {
+                a = instock;
+                $(this).val(a);
+            }
+            if (price_range.length) {
+                $.each(price_range, (i, p) => {
+                    if (a >= p.qty) {
+                        price = p.price;
+                    }
+                });
+            }
+            var t = Intl.NumberFormat(currency.code, {
+                style: 'currency',
+                currency: currency.code
+            }).format(((price * a) * currency.exchange_rate));
+            $(`.total h2`).text(`${currency.symbol}${t.replace('$','').replace('KHR','')}`);
+            var cart_url = `{{ route('front.cartadd', $product->id) }}`;
+            var order_url = `{{ route('front.account.orderadd', $product->id) }}`;
+            $(this).parents(`.m-actionsheet`).find(`.yellow-color`).attr('href', `${cart_url}?qty=${a}`);
+            $(this).parents(`.m-actionsheet`).find(`.red-color`).attr('href', `${order_url}?qty=${a}`);
         });
     </script>
 @endpush

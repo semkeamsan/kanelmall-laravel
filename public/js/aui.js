@@ -238,7 +238,7 @@
 /**
  * CitySelect Plugin
  */
-!function (window) {
+ !function (window) {
     "use strict";
 
     var $body = $(window.document.body);
@@ -297,7 +297,7 @@
         if (defaultSet.provance) {
             _this.setNavTxt(0, defaultSet.provance);
         } else {
-            $cityElement.find('.cityselect-nav a').eq(0).addClass('crt').html('请选择');
+            $cityElement.find('.cityselect-nav a').eq(0).addClass('crt').html(`${window.languages['Please Select']??['Please Select']}`);
         }
 
         if (defaultSet.city) {
@@ -330,7 +330,7 @@
         _this.$cityElement = $('' +
             '<div class="m-cityselect">' +
             '    <div class="cityselect-header">' +
-            '        <p class="cityselect-title">所在地区</p>' +
+            '        <p class="cityselect-title">'+(window.languages['Location']??"Location")+'</p>' +
             '        <div class="cityselect-nav">' +
             '            <a href="javascript:;" ></a>' +
             '            <a href="javascript:;"></a>' +
@@ -348,6 +348,7 @@
             '            <div class="cityselect-item-box"></div>' +
             '        </li>' +
             '    </ul>' +
+            //' <a href="javascript:void(0);" class="actionsheet-action" id="cancel"></a>'+
             '</div>');
 
         $body.append(_this.$cityElement);
@@ -370,7 +371,7 @@
         index < 2 && $nav.removeClass('crt');
 
         $nav.eq(index).html(txt);
-        $nav.eq(index + 1).addClass('crt').html('请选择');
+        $nav.eq(index + 1).addClass('crt').html(`${window.languages['Please Select']??['Please Select']}`);
         $nav.eq(index + 2).removeClass('crt').html('');
     };
 

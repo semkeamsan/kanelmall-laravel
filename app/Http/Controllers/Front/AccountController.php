@@ -18,7 +18,7 @@ class AccountController extends Controller
         $order = request()->user()->orders()->where('status', 'pending')->whereDate('created_at', now())->first() ?? request()->user()->orders()->create([]);
         $product = product($id);
         $price = $product->selling_price;
-        $product->qty = $product->instock ? 1 : 0;
+        $product->qty = $product->instock ? request('qty', 1) : 0;
         if ($product->prices) {
             foreach ($product->prices as $key => $value) {
                 if ($product->qty >= $value->qty) {

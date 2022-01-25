@@ -8,6 +8,7 @@
     background: -webkit-gradient(linear, left top, right top, from(var(--color-primary)), to(#ff1679));
     background: -webkit-gradient(linear, left top, right top, from(var(--color-primary)), to(#ff1679));
     background: -webkit-gradient(linear, left top, right top, color-stop(0, var(--color-primary)), to(#ff1679));
+    background-color: var(--color-primary);
     background: linear-gradient(to right, var(--color-primary) 0, var(--color-primary) 100%);
 }
 

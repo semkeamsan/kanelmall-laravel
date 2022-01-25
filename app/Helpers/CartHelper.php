@@ -15,18 +15,23 @@ class CartHelper
      * @param string $slug request()->input('slug')
      * @return array
      */
-    public static function add($slug)
+    public static function add($slug , $qty = 1)
     {
+        $data = [
+            'id' => $slug,
+            'qty' => $qty,
+        ];
+
         if ($slug) {
             if (Session::has(self::$session)) {
                 $exists = self::exists($slug);
                 if ($exists) {
                     return $exists;
                 } else {
-                    Session::push(self::$session, $slug);
+                    Session::push(self::$session, $data);
                 }
             } else {
-                Session::put(self::$session, [$slug]);
+                Session::put(self::$session, [$data]);
             }
             return [
                 'status'  => true,
@@ -47,10 +52,11 @@ class CartHelper
         if (Session::has(self::$session)) {
             $session_detail = Session::get(self::$session);
             foreach ($session_detail as $k => $session) {
-                if ($session == $slug) {
+                if ($session['id'] == $slug) {
                     return array(
                         'status' => false,
                         'message' => __('Exists'),
+                        'data'    => $session,
                         'count'   => count(Session::get(self::$session))
                     );
                 }
@@ -88,7 +94,7 @@ class CartHelper
         if (Session::has(self::$session)) {
             $session_detail = Session::get(self::$session);
             foreach ($session_detail as $k => $session) {
-                if ($session == $slug) {
+                if ($session['id'] == $slug) {
                     unset($session_detail[$k]);
                     Session::put(self::$session, $session_detail);
                     return array(
@@ -104,7 +110,7 @@ class CartHelper
 
     public static function clear(){
         foreach (self::get() as $key => $value) {
-            self::delete($value);
+            self::delete($value['id']);
         }
     }
 }

@@ -76,9 +76,7 @@ class FrontController extends Controller
     }
     public function cartadd($slug)
     {
-
-        $cart = new CartHelper;
-        $add =  $cart->add($slug);
+        $add = CartHelper::add($slug, request('qty',1));
         if (request()->ajax()) {
             return $add;
         }
@@ -86,8 +84,7 @@ class FrontController extends Controller
     }
     public function cartremove($slug)
     {
-        $cart = new CartHelper;
-        $delete =  $cart->delete($slug);
+        $delete = CartHelper::delete($slug);
         if (request()->ajax()) {
             return $delete;
         }

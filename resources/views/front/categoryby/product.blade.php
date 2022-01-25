@@ -2,7 +2,7 @@
     <section class="aui-list-product" data-page="">
         @foreach ($products as $product)
             <div class="aui-list-product-item col-4">
-                @if ($product->enable_stock && $product->instock)
+                {{-- @if ($product->enable_stock && $product->instock)
                     <div class="aui-top-action">
                         <a href="{{ route('front.cartadd', $product->id) }}"
                             class="aui-top-action-item aui-add-cart {{ Cart::exists($product->id) ? 'd-none' : null }}"
@@ -10,7 +10,7 @@
                             <i class="fa fa-cart-plus text-white"></i>
                         </a>
                     </div>
-                @endif
+                @endif --}}
                 <a href="{{ route('front.product', $product->id) }}">
                     <div class="aui-list-product-item-img">
                         @if ($product->video_url)

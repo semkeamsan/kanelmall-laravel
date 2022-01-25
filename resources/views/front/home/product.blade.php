@@ -1,5 +1,5 @@
 @if ($products->count())
-    <section class="aui-list-product" data-page="1">
+    <section class="aui-list-product invisible" data-page="1">
         @foreach ($products as $product)
             <div class="aui-list-product-item col-6">
                 <div class="aui-top-action">

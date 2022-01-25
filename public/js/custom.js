@@ -239,9 +239,17 @@ const Kanel = {
     },
     grid: function () {
         if ($('.aui-list-product').length) {
-            new Masonry('.aui-list-product', {
-                itemSelector: '.aui-list-product-item'
+            var $grid = $('.aui-list-product').masonry({
+                itemSelector: '.aui-list-product-item',
+                initLayout: false,
             });
+            $grid.masonry('on', 'layoutComplete', function() {
+                setTimeout(function(){
+                    $(`.product-holder`).remove();
+                    $(`.aui-list-product`).removeClass('invisible');
+                },2000);
+            });
+
         }
     },
     otp: function (inputs) {

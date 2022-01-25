@@ -48,6 +48,7 @@
     <div class="aui-content-box">
         {{-- @include('front.home.promotion')
         @include('front.home.category') --}}
+        @include('front.home.product-holder')
         @include('front.home.product')
     </div>
     @include('front.navbar.footer')

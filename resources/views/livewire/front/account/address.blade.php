@@ -234,14 +234,21 @@
                             $loading.remove();
                         }, 2000);
                     }, function(error) {
-                        console.warn(`ERROR(${error.code}): ${error.message}`);
+                        al.warn(`ERROR(${error.code}): ${error.message}`);
+                        Swal.fire({
+                                toast: true,
+                                type: 'error',
+                                html: `ERROR(${error.code}): ${error.message}`,
+                                showConfirmButton: false,
+                                timer: 3000,
+                            });
                     }, {
                         enableHighAccuracy: true,
                         timeout: 5000,
                         maximumAge: 0
                     });
                 } else {
-                    $(this).after(`Geolocation is not supported by this browser.`);
+                    alert(`Geolocation is not supported by this browser.`);
                 }
             });
         </script>

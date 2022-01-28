@@ -67,29 +67,31 @@
     <script src="{{ asset('js/custom.js') }}"></script>
     @livewireScripts
     <script>
-        const ajaxroutes = {
-            home: `{{ route('ajax.front.home') }}`,
-        };
-        $i = 0;
-        var ajax = () => {
-            $.get(`{{ route('init') }}`).done(() => {
-                window.init = true;
-            }).fail((error) => {
-                console.error(error.statusText);
-                if ($i < 10) {
-                    ajax();
-                }
-                $i++;
+         const ajaxroutes = {
+                home: `{{ route('ajax.front.home') }}`,
+            };
+        $(document).ready(() => {
+            $i = 0;
+            var ajax = () => {
+                $.get(`{{ route('init') }}`).done(() => {
+                    window.init = true;
+                }).fail((error) => {
+                    console.error(error.statusText);
+                    if ($i < 10) {
+                        ajax();
+                    }
+                    $i++;
+                });
+            }
+            ajax();
+            Livewire.hook('message.processed', (message, component) => {
+                Kanel.select2(false);
+                Kanel.select2Image(false);
+                Kanel.datepicker();
             });
-        }
-        ajax();
-        Livewire.hook('message.processed', (message, component) => {
-            Kanel.select2(false);
-            Kanel.select2Image(false);
-            Kanel.datepicker();
-        });
-        window.livewire.on('urlChange', param => {
-            history.pushState(null, null, param);
+            window.livewire.on('urlChange', param => {
+                history.pushState(null, null, param);
+            });
         });
     </script>
     @stack('scripts')

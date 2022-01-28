@@ -43,6 +43,7 @@ const Kanel = {
                             <circle class="loader-svg animate" cx="50" cy="50" r="45"></circle>
                         </svg>
                     </div>`);
+        var $ajax = null;
         $(window).on('scroll', function () {
             if ($('.aui-content-box').length) {
                 if ($(window).scrollTop() >= $('.aui-content-box').offset().top + $('.aui-content-box').outerHeight() - window.innerHeight) {
@@ -50,9 +51,14 @@ const Kanel = {
                     if (page) {
                         $(`.aui-list-product:last`).after($loading);
                         var scrollTop = $(document).height();
-                        $.get(`${ajaxroutes.home}/?page=${page+1}`).done(res => {
+                        if ($ajax) {
+                            $ajax.abort();
+                        }
+                        $ajax = $.get(`${ajaxroutes.home}/?page=${page+1}`).done(res => {
                             $(`.aui-list-product:last`).append($(res).html());
-                            $(`html, body`).animate({ scrollTop: scrollTop -300 }, 1000);
+                            $(`html, body`).animate({
+                                scrollTop: scrollTop - 300
+                            }, 1000);
                             Kanel.grid();
                             setTimeout(() => {
                                 Kanel.grid();
@@ -245,10 +251,10 @@ const Kanel = {
                 itemSelector: '.aui-list-product-item'
             });
 
-            setTimeout(function(){
+            setTimeout(function () {
                 $(`.product-holder`).remove();
                 $(`.aui-list-product`).removeClass('invisible');
-            },2000);
+            }, 2000);
         }
     },
     otp: function (inputs) {
@@ -392,7 +398,7 @@ const Kanel = {
             }
         });
     },
-    datepicker : function(){
+    datepicker: function () {
         if ($(`.datepicker`).length) {
             $(`.datepicker`).datepicker({
                 todayHighlight: true,
@@ -414,4 +420,3 @@ Kanel.init();
 const datetime = () => {
     return (new Date()).getTime();
 }
-

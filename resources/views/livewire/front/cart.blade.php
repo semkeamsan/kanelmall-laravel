@@ -219,32 +219,57 @@
         @endif
     </section>
     @auth
-        <form>
-            <div class="m-actionsheet {{ $checkout ? 'actionsheet-toggle' : null }}" id="action-checkout">
-                <div style="position:relative">
-                    <div class="p-3 border-bottom text-left">
-                        <h4>{{ __('Payment') }}</h4>
-                    </div>
-                    <div class="aui-product-text-content">
-                        <label for="location" class="form-control-label">{{ __('Location') }}</label>
-                        @if (collect($rules)->get('province'))
-                            <span class="text-danger text-xs">*</span>
-                        @endif
-                        <div class="px-2 border rounded">
+        <div class="m-actionsheet {{ $checkout ? 'actionsheet-toggle' : null }}" id="action-checkout">
+            <div style="position:relative">
+                <div class="p-3 border-bottom text-left">
+                    <h4>{{ __('Payment') }}</h4>
+                </div>
+                <div class="aui-product-text-content">
+                    <label for="location" class="form-control-label">{{ __('Location') }}</label>
+                    @if (collect($rules)->get('province'))
+                        <span class="text-danger text-xs">*</span>
+                    @endif
+                    <div class="px-2 border rounded">
+                        <div class="aui-product-text-content-list">
+                            <div class="aui-product-text-content-list-ft">
+                                <span>
+                                    <label for="province" class="form-control-label d-none">{{ __('Province') }}</label>
+                                    {{-- @if (collect($rules)->get('province'))
+                                    <span class="text-danger text-xs">*</span>
+                                @endif --}}
+                                    <select class="form-control select2" wire:model="province" wire:change="province"
+                                        data-placeholder="{{ __('Province') }}">
+                                        @foreach ($provinces as $item)
+                                            <option value="{{ $item->id }}">{{ $item->translation->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('province')
+                                        <div class="error-feedback d-block">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </span>
+                            </div>
+                        </div>
+
+                        @if ($districts)
                             <div class="aui-product-text-content-list">
                                 <div class="aui-product-text-content-list-ft">
                                     <span>
-                                        <label for="province" class="form-control-label d-none">{{ __('Province') }}</label>
-                                        {{-- @if (collect($rules)->get('province'))
+                                        <label for="district"
+                                            class="form-control-label d-none">{{ __('District') }}</label>
+                                        {{-- @if (collect($rules)->get('district'))
                                         <span class="text-danger text-xs">*</span>
                                     @endif --}}
-                                        <select class="form-control select2" wire:model="province" wire:change="province"
-                                            data-placeholder="{{ __('Province') }}">
-                                            @foreach ($provinces as $item)
-                                                <option value="{{ $item->id }}">{{ $item->translation->name }}</option>
+                                        <select class="form-control select2" wire:model="district">
+                                            <option value="">{{ __('Please Select') }} / {{ __('District') }}</option>
+                                            @foreach ($districts as $item)
+                                                <option value="{{ $item->id }}">
+                                                    {{ $item->translation->name }}
+                                                </option>
                                             @endforeach
                                         </select>
-                                        @error('province')
+                                        @error('district')
                                             <div class="error-feedback d-block">
                                                 {{ $message }}
                                             </div>
@@ -252,74 +277,25 @@
                                     </span>
                                 </div>
                             </div>
-
-                            @if ($districts)
-                                <div class="aui-product-text-content-list">
-                                    <div class="aui-product-text-content-list-ft">
-                                        <span>
-                                            <label for="district"
-                                                class="form-control-label d-none">{{ __('District') }}</label>
-                                            {{-- @if (collect($rules)->get('district'))
-                                            <span class="text-danger text-xs">*</span>
-                                        @endif --}}
-                                            <select class="form-control select2" wire:model="district">
-                                                <option value="">{{ __('Please Select') }} / {{ __('District') }}</option>
-                                                @foreach ($districts as $item)
-                                                    <option value="{{ $item->id }}">
-                                                        {{ $item->translation->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            @error('district')
-                                                <div class="error-feedback d-block">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </span>
-                                    </div>
-                                </div>
-                            @endif
-                            @if ($communes)
-                                <div class="aui-product-text-content-list">
-                                    <div class="aui-product-text-content-list-ft">
-                                        <span>
-                                            <label for="commune"
-                                                class="form-control-label d-none">{{ __('Commune') }}</label>
-                                            {{-- @if (collect($rules)->get('commune'))
-                                            <span class="text-danger text-xs">*</span>
-                                        @endif --}}
-                                            <select class="form-control select2" wire:model="commune">
-                                                <option value="">{{ __('Please Select') }} / {{ __('Commune') }}</option>
-                                                @foreach ($communes as $item)
-                                                    <option value="{{ $item->id }}">
-                                                        {{ $item->translation->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            @error('commune')
-                                                <div class="error-feedback d-block">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </span>
-                                    </div>
-                                </div>
-                            @endif
-                            {{-- @if ($villages)
+                        @endif
+                        @if ($communes)
                             <div class="aui-product-text-content-list">
                                 <div class="aui-product-text-content-list-ft">
                                     <span>
-                                         <label for="village" class="form-control-label">{{ __('Village') }}</label>
-                                        @if (collect($rules)->get('village'))
-                                            <span class="text-danger text-xs">*</span>
-                                        @endif
-                                        <select class="form-control select2" wire:model="village">
-                                            <option value="">{{ __('Please Select') }} / {{ __('Village') }}</option>
-                                            @foreach ($villages as $item)
-                                                <option value="{{ $item->id }}">{{ $item->translation->name }}</option>
+                                        <label for="commune"
+                                            class="form-control-label d-none">{{ __('Commune') }}</label>
+                                        {{-- @if (collect($rules)->get('commune'))
+                                        <span class="text-danger text-xs">*</span>
+                                    @endif --}}
+                                        <select class="form-control select2" wire:model="commune">
+                                            <option value="">{{ __('Please Select') }} / {{ __('Commune') }}</option>
+                                            @foreach ($communes as $item)
+                                                <option value="{{ $item->id }}">
+                                                    {{ $item->translation->name }}
+                                                </option>
                                             @endforeach
                                         </select>
-                                         @error('village')
+                                        @error('commune')
                                             <div class="error-feedback d-block">
                                                 {{ $message }}
                                             </div>
@@ -327,42 +303,22 @@
                                     </span>
                                 </div>
                             </div>
-                        @endif --}}
-                        </div>
+                        @endif
+                        {{-- @if ($villages)
                         <div class="aui-product-text-content-list">
                             <div class="aui-product-text-content-list-ft">
                                 <span>
-
-                                    <label for="address" class="form-control-label">{{ __('My shipping address') }}</label>
-                                    @if (collect($rules)->get('address'))
+                                     <label for="village" class="form-control-label">{{ __('Village') }}</label>
+                                    @if (collect($rules)->get('village'))
                                         <span class="text-danger text-xs">*</span>
                                     @endif
-                                    @if ($communes)
-                                        <a href="#" class="float-right"
-                                            wire:click.prevent="samelocation">{{ __('Same Location') }}</a>
-                                    @endif
-                                    <textarea rows="1" class="form-control" wire:model="address" cols="50"></textarea>
-                                    @error('address')
-                                        <div class="error-feedback d-block">
-                                            {{ $message }}
-                                        </div>
-                                    @else
-                                        <div class="invalid-feedback">
-                                            {{ __('validation.required', ['attribute' => __('Address')]) }}
-                                        </div>
-                                    @enderror
-                                </span>
-                            </div>
-                        </div>
-                        <div class="aui-product-text-content-list">
-                            <div class="aui-product-text-content-list-ft">
-                                <span>
-                                    <label for="phone" class="form-control-label">{{ __('Phone') }}</label>
-                                    @if (collect($rules)->get('phone'))
-                                        <span class="text-danger text-xs">*</span>
-                                    @endif
-                                    {!! Form::text('phone', auth()->user()->phone, ['class' => 'form-control', 'wire:model' => 'phone']) !!}
-                                    @error('phone')
+                                    <select class="form-control select2" wire:model="village">
+                                        <option value="">{{ __('Please Select') }} / {{ __('Village') }}</option>
+                                        @foreach ($villages as $item)
+                                            <option value="{{ $item->id }}">{{ $item->translation->name }}</option>
+                                        @endforeach
+                                    </select>
+                                     @error('village')
                                         <div class="error-feedback d-block">
                                             {{ $message }}
                                         </div>
@@ -370,101 +326,143 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="aui-product-text-content-list">
-                            <div class="aui-product-text-content-list-ft">
-                                <span>
+                    @endif --}}
+                    </div>
+                    <div class="aui-product-text-content-list">
+                        <div class="aui-product-text-content-list-ft">
+                            <span>
 
-                                    <label for="map" class="form-control-label">{{ __('Map') . ' (Embed) ' }}</label>
-                                    @if (collect($rules)->get('latitude') || collect($rules)->get('longitude'))
-                                        <span class="text-danger text-xs">*</span>
-                                    @endif
-                                    <button class="float-right btn btn-sm mr-0" data-toggle="map">
-                                        <i class="fas fa-map-marked-alt"></i>
-                                    </button>
-                                    <div class="input-group">
-                                        <input class="form-control" placeholder="{{ __('Latitude') }}"
-                                            wire:model="latitude" type="text">
-                                        <input class="form-control" placeholder="{{ __('Longitude') }}"
-                                            wire:model="longitude" type="text">
+                                <label for="address" class="form-control-label">{{ __('My shipping address') }}</label>
+                                @if (collect($rules)->get('address'))
+                                    <span class="text-danger text-xs">*</span>
+                                @endif
+                                @if ($communes)
+                                    <a href="#" class="float-right"
+                                        wire:click.prevent="samelocation">{{ __('Same Location') }}</a>
+                                @endif
+                                <textarea rows="1" class="form-control" wire:model="address" cols="50"></textarea>
+                                @error('address')
+                                    <div class="error-feedback d-block">
+                                        {{ $message }}
                                     </div>
-
-                                    @if ($latitude && $longitude)
-                                        <iframe
-                                            src="https://maps.google.com/maps?q={{ $latitude }},{{ $longitude }}&hl={{ app()->getLocale() }}&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                                            width="100%" height="100" class="border"></iframe>
-                                    @endif
-                                </span>
-                            </div>
-                        </div>
-                        <div class="aui-product-text-content-list">
-                            <div class="aui-product-text-content-list-ft">
-                                <span>
-                                    <label for="payment_method" class="form-control-label">{{ __('Payment Via') }}</label>
-                                    @if (collect($rules)->get('payment_via') || collect($rules)->get('payment_image'))
-                                        <span class="text-danger text-xs">*</span>
-                                    @endif
-                                    <div class="form-row">
-                                        <div class="col-6">
-                                            <select class="form-control select2-image" wire:model="payment_via"
-                                                data-minimum-results-for-search="Infinity">
-                                                <option data-src="{{ asset('images/aba.png') }}" value="aba">
-                                                    {{ __('ABA') }}</option>
-                                                <option data-src="{{ asset('images/acleda.png') }}" value="acleda">
-                                                    {{ __('Acleda') }}</option>
-                                                <option data-src="{{ asset('images/true_money.png') }}" value="true_money">
-                                                    {{ __('True Money') }}</option>
-                                                <option data-src="{{ asset('images/e_money.png') }}" value="e_money">
-                                                    {{ __('e-Money') }}</option>
-                                                <option data-src="{{ asset('images/wing.png') }}" value="wing">
-                                                    {{ __('Wing') }}</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-6">
-                                            <label class="btn m-0 p-2 form-control"
-                                                for="payment_image">{{ __('Upload Payment') }}</label>
-                                            <input type="file" class="form-control d-none" wire:model="payment_image"
-                                                accept="image/*" id="payment_image">
-
-                                        </div>
+                                @else
+                                    <div class="invalid-feedback">
+                                        {{ __('validation.required', ['attribute' => __('Address')]) }}
                                     </div>
-                                    @error('payment_via')
-                                        <div class="error-feedback d-block">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                    @error('payment_image')
-                                        <div class="error-feedback d-block">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                    @if ($payment_image)
-                                        <div class="col p-3 border">
-                                            <div class="avatar rounded bg-transparent w-100 h-100">
-                                                @if (gettype($payment_image) == 'string')
-                                                    <img class="w-100" src="{{ $payment_image }}">
-                                                @else
-                                                    <img class="w-100" src="{{ $payment_image->temporaryUrl() }}">
-                                                @endif
-                                            </div>
-                                        </div>
-                                    @endif
-                                </span>
-                            </div>
+                                @enderror
+                            </span>
                         </div>
                     </div>
-
-                    <a href="javascript:void(0);" class="actionsheet-action" id="cancel"
-                        wire:click.prevent="togglecheckout"></a>
-                    @if ($payment_image)
-                        <div class="aui-product-function">
-                            <button class="red-color w-100" wire:click="payment">
-                                {{ __('Payment') }}
-                            </button>
+                    <div class="aui-product-text-content-list">
+                        <div class="aui-product-text-content-list-ft">
+                            <span>
+                                <label for="phone" class="form-control-label">{{ __('Phone') }}</label>
+                                @if (collect($rules)->get('phone'))
+                                    <span class="text-danger text-xs">*</span>
+                                @endif
+                                {!! Form::text('phone', auth()->user()->phone, ['class' => 'form-control', 'wire:model' => 'phone']) !!}
+                                @error('phone')
+                                    <div class="error-feedback d-block">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </span>
                         </div>
-                    @endif
+                    </div>
+                    <div class="aui-product-text-content-list">
+                        <div class="aui-product-text-content-list-ft">
+                            <span>
+
+                                <label for="map" class="form-control-label">{{ __('Map') . ' (Embed) ' }}</label>
+                                @if (collect($rules)->get('latitude') || collect($rules)->get('longitude'))
+                                    <span class="text-danger text-xs">*</span>
+                                @endif
+                                <button class="float-right btn btn-sm mr-0" data-toggle="map">
+                                    <i class="fas fa-map-marked-alt"></i>
+                                </button>
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="{{ __('Latitude') }}"
+                                        wire:model="latitude" type="text">
+                                    <input class="form-control" placeholder="{{ __('Longitude') }}"
+                                        wire:model="longitude" type="text">
+                                </div>
+
+                                @if ($latitude && $longitude)
+                                    <iframe
+                                        src="https://maps.google.com/maps?q={{ $latitude }},{{ $longitude }}&hl={{ app()->getLocale() }}&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                                        width="100%" height="100" class="border"></iframe>
+                                @endif
+                            </span>
+                        </div>
+                    </div>
+                    <div class="aui-product-text-content-list">
+                        <div class="aui-product-text-content-list-ft">
+                            <span>
+                                <label for="payment_method" class="form-control-label">{{ __('Payment Via') }}</label>
+                                @if (collect($rules)->get('payment_via') || collect($rules)->get('payment_image'))
+                                    <span class="text-danger text-xs">*</span>
+                                @endif
+                                <div class="form-row">
+                                    <div class="col-6">
+                                        <select class="form-control select2-image" wire:model="payment_via"
+                                            data-minimum-results-for-search="Infinity">
+                                            <option data-src="{{ asset('images/aba.png') }}" value="aba">
+                                                {{ __('ABA') }}</option>
+                                            <option data-src="{{ asset('images/acleda.png') }}" value="acleda">
+                                                {{ __('Acleda') }}</option>
+                                            <option data-src="{{ asset('images/true_money.png') }}" value="true_money">
+                                                {{ __('True Money') }}</option>
+                                            <option data-src="{{ asset('images/e_money.png') }}" value="e_money">
+                                                {{ __('e-Money') }}</option>
+                                            <option data-src="{{ asset('images/wing.png') }}" value="wing">
+                                                {{ __('Wing') }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="btn m-0 p-2 form-control"
+                                            for="payment_image">{{ __('Upload Payment') }}</label>
+                                        <input type="file" class="form-control d-none" wire:model="payment_image"
+                                            accept="image/*" id="payment_image">
+
+                                    </div>
+                                </div>
+                                @error('payment_via')
+                                    <div class="error-feedback d-block">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                @error('payment_image')
+                                    <div class="error-feedback d-block">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                @if ($payment_image)
+                                    <div class="col p-3 border">
+                                        <div class="avatar rounded bg-transparent w-100 h-100">
+                                            @if (gettype($payment_image) == 'string')
+                                                <img class="w-100" src="{{ $payment_image }}">
+                                            @else
+                                                <img class="w-100" src="{{ $payment_image->temporaryUrl() }}">
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endif
+                            </span>
+                        </div>
+                    </div>
                 </div>
+
+                <a href="javascript:void(0);" class="actionsheet-action" id="cancel"
+                    wire:click.prevent="togglecheckout"></a>
+                @if ($payment_image)
+                    <div class="aui-product-function">
+                        <button class="red-color w-100" wire:click="payment">
+                            {{ __('Payment') }}
+                        </button>
+                    </div>
+                @endif
             </div>
-        </form>
+        </div>
         @if ($checkout)
             <div class="mask-black" wire:click.prevent="togglecheckout"></div>
         @endif
@@ -534,68 +532,40 @@
                 </div>
             </div>`
         );
-
-        /* Set up getCurrentPosition options with a timeout */
-        const navigatorLocationOptions = {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0
-        };
-
         $(document).on('click', `[data-toggle="map"]`, function(e) {
             e.preventDefault();
             $loading.appendTo('body');
-
-            /* Determine browser permissions status */
-            navigator.permissions.query({
-                    name: 'geolocation'
-                })
-                .then((result) => {
-                    /* result.state will be 'granted', 'denied', or 'error' */
-                    if (result.state === 'granted') {
-                        navigator.geolocation.getCurrentPosition(position => {
-                            @this.set('latitude', position.coords.latitude);
-                            @this.set('longitude', position.coords.longitude);
-                            setTimeout(() => {
-                                $loading.remove();
-                            }, 2000);
-                            /* Got the location! Write your successful code here. */
-
-                        }, (error) => {
-                            /* System/OS location services disabled */
-                            console.log('System/OS services disabled', navigator);
-                            Swal.fire({
-                                toast: true,
-                                type: 'error',
-                                html: `<span>{{ __('System/OS services disabled') }}</span>`,
-                                showConfirmButton: false,
-                                timer: 3000,
-                            });
-                        }, navigatorLocationOptions);
-
-                    } else {
-                        /* Browser location services disabled or error */
-                        console.log('Browser location services disabled', navigator);
-                        Swal.fire({
-                            toast: true,
-                            type: 'error',
-                            html: `<span>{{ __('Browser location services disabled') }}</span>`,
-                            showConfirmButton: false,
-                            timer: 3000,
-                        });
-
-                    }
-                }, (error) => {
-                    /* Browser doesn't support querying for permissions */
-                    console.log('Browser permissions services unavailable', navigator);
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    @this.set('latitude', position.coords.latitude);
+                    @this.set('longitude', position.coords.longitude);
+                    setTimeout(() => {
+                        $loading.remove();
+                    }, 2000);
+                }, function(error) {
                     Swal.fire({
                         toast: true,
                         type: 'error',
-                        html: `<span>{{ __('Browser permissions services unavailable') }}</span>`,
+                        html: `<span>${error.message}</span>`,
                         showConfirmButton: false,
                         timer: 3000,
                     });
+                    console.warn(`ERROR(${error.code}): ${error.message}`);
+                }, {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0
                 });
+            } else {
+                Swal.fire({
+                    toast: true,
+                    type: 'error',
+                    html: `<span>Geolocation is not supported by this browser.</span>`,
+                    showConfirmButton: false,
+                    timer: 3000,
+                });
+
+            }
         });
     </script>
 @endpush

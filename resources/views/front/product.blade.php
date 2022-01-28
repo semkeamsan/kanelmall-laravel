@@ -472,13 +472,13 @@
                 currency: currency.code
             }).format(price * currency.exchange_rate);
 
-            $(`#price-change-by-qty`).text(`${currency.symbol}${p.replace('$','').replace('KHR','')}`);
+            $(`#price-change-by-qty`).text(`${currency.symbol}${p.replace('$','').replace('KHR','').replace('US','')}`);
             var t = Intl.NumberFormat(currency.code, {
                 style: 'currency',
                 currency: currency.code
             }).format(((price * a) * currency.exchange_rate));
 
-            $(`.total h2`).text(`${currency.symbol}${t.replace('$','').replace('KHR','')}`);
+            $(`.total h2`).text(`${currency.symbol}${t.replace('$','').replace('KHR','').replace('US','')}`);
             var cart_url = `{{ route('front.cartadd', $product->id) }}`;
             var order_url = `{{ route('front.account.orderadd', $product->id) }}`;
             $(this).parents(`.m-actionsheet`).find(`.yellow-color`).attr('href', `${cart_url}?qty=${a}`);

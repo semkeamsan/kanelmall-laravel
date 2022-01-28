@@ -6,10 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta HTTP-EQUIV="MSThemeCompatible" content="Yes" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+
     @yield('meta')
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="shortcut icon" href="{{ asset('favicon.jpg') }}">
@@ -68,6 +66,7 @@
     <script src="{{ asset('vendor/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
     <script src="{{ asset('vendor/masonry-layout/masonry.pkgd.min.js') }}"></script>
     <script src="{{ asset('vendor/owl.carousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('vendor/fastclick/fastclick.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
     @if (app()->getLocale() != 'en')
         <script src="{{ asset('vendor/sweetalert2/dist/locales/' . app()->getLocale() . '.js') }}"></script>

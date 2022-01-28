@@ -94,29 +94,31 @@
                                             <div class="aui-cart-box-list-text-price">
                                                 <div class="aui-cart-box-list-text-pri">
 
+                                                    @php
+                                                        $price = $product['selling_price'];
+                                                    @endphp
                                                     @if ($product['prices'])
                                                         {{-- <b class="price">
-                                                            {{ currency(min(array_column($product['prices'], 'price')), 'USD', session('currency')) }}
-                                                        </b> --}}
+                                                        {{ currency(min(array_column($product['prices'], 'price')), 'USD', session('currency')) }}
+                                                    </b> --}}
+
                                                         @foreach ($product['prices'] as $price)
                                                             @if ($product['qty'] >= $price['qty'])
-                                                                <b class="price">
-                                                                    {{ currency($price['price'], 'USD', session('currency')) }}
-                                                                </b>
+                                                                @php
+                                                                    $price = $price['price'];
+                                                                @endphp
                                                             @endif
                                                         @endforeach
 
-                                                    @else
-                                                        <b class="price">
-                                                            {{ currency($product['selling_price'], 'USD', session('currency')) }}
-                                                        </b>
                                                     @endif
-
-                                                    @if ($product['promotion'])
+                                                    <b class="price">
+                                                        {{ currency($price['price'], 'USD', session('currency')) }}
+                                                    </b>
+                                                    {{-- @if ($product['promotion'])
                                                         <small style="text-decoration: line-through;color:#ddd">
                                                             {{ currency($product['price'], 'USD', session('currency')) }}
                                                         </small>
-                                                    @endif
+                                                    @endif --}}
                                                 </div>
                                             </div>
 
@@ -208,14 +210,14 @@
                 </div>
             </div>
             @if ($total)
-            <div class="aui-payment-bar border-top">
-                @auth
-                    <button wire:click.prevent="togglecheckout" class="settlement w-100">{{ __('Order') }}</button>
-                @else
-                    <button class="settlement w-100"
-                        onclick="location.href=`{{ route('login') }}`">{{ __('Login') }}</button>
-                @endauth
-            </div>
+                <div class="aui-payment-bar border-top">
+                    @auth
+                        <button wire:click.prevent="togglecheckout" class="settlement w-100">{{ __('Order') }}</button>
+                    @else
+                        <button class="settlement w-100"
+                            onclick="location.href=`{{ route('login') }}`">{{ __('Login') }}</button>
+                    @endauth
+                </div>
             @endif
 
         @endif

@@ -11,7 +11,7 @@
         }
 
         .aui-banner-content {
-            /* height: 420px; */
+            height: 420px;
         }
 
         .mfp-close-btn-in .mfp-close {
@@ -77,7 +77,9 @@
 @section('content')
 
     <header class="aui-header-default aui-header-fixed ">
-        <a href="#back" onclick="history.back()" class="aui-header-item">
+        <a href="#"
+            onclick="if(document.referrer) {window.open(document.referrer,'_self');} else {history.go(-1);} return false;"
+            class="aui-header-item">
             <i class="aui-icon aui-icon-back"></i>
         </a>
         <a href="#" class="aui-header-item-icon position-absolute right-0"
@@ -114,8 +116,7 @@
                         <div class="aui-product-text-content-list-ft">
                             <a class="border-0 d-flex {{ $currency->code == session('currency') ? 'active' : null }}"
                                 href="{{ route('currency.set', $currency->code) }}">
-                                <span class="px-2">{{ $currency->code }} - ( {{ $currency->symbol }}
-                                    )</span>
+                                <span class="px-2">{{ $currency->code }} - ( {{ $currency->symbol }})</span>
                             </a>
                         </div>
                     </div>
@@ -146,7 +147,7 @@
                                                     <i class="fa fa-4x fa-play-circle text-white"></i>
                                                 </a>
                                                 <video muted src="{{ $gallery->path }}"></video>
-                                                <div class="bottom-2 position-absolute right-2" data-toggle="muted">
+                                                <div class="d-none bottom-2 position-absolute right-2" data-toggle="muted">
                                                     <i class="fa fa-2x fa-volume-mute text-white"></i>
                                                 </div>
                                             </div>
@@ -185,16 +186,23 @@
         @endif
 
         <div class="aui-real-price clearfix">
+            @if (count($product->prices) > 1)
             <span>
-                {{ currency($product->selling_price, 'USD', session('currency')) }}
+                {{ currency(min(array_column($product->prices, 'price')), 'USD', session('currency')) }}
             </span>
-            @if ($product->promotion)
-                <del><span class="aui-font-num">
-                        {{ currency($product->price, 'USD', session('currency')) }}</span></del>
+            @else
+                <span>
+                    {{ currency($product->selling_price, 'USD', session('currency')) }}
+                </span>
+                @if ($product->promotion)
+                    <del><span class="aui-font-num">
+                            {{ currency($product->price, 'USD', session('currency')) }}</span></del>
+                @endif
+                <div class="aui-settle-choice">
+                    <span>{{ __('Sale Price') }}</span>
+                </div>
             @endif
-            <div class="aui-settle-choice">
-                <span>{{ __('Sale Price') }}</span>
-            </div>
+
         </div>
         <div class="aui-product-title">
             <h2>
@@ -260,7 +268,7 @@
                     <a href="{{ route('front.cartadd', $product->id) }}"
                         data-ydui-actionsheet="{target:'#action-cart',closeElement:'#cancel'}"
                         class="yellow-color w-100 {{ !Cart::exists($product->id) ?: 'd-none' }}">
-                        {{ __('Add Cart') }}
+                        {{ __('Order') }}
                     </a>
                     {{-- <a href="{{ route('front.account.orderadd', $product->id) }}"
                         class="red-color {{ !Cart::exists($product->id) ?: 'w-100' }}">{{ __('Buy Now') }}</a> --}}
@@ -362,10 +370,26 @@
 
             $(document).ready(() => {
                 $('.owl-carousel').magnificPopup({
-                    index: parseInt($(this).attr('data-index'), 10),
-                    items: items,
+                    delegate: 'a',
+                    //type: 'image',
+                    //index: parseInt($(this).attr('data-index'), 10),
+                    //items: items,
+                    callbacks: {
+                        elementParse: function(item) {
+                            item.type = 'image';
+                            if ($(item.el).hasClass('play')) {
+                                item.src = `<div class="mfp-figure"><figure><video class="w-100" controls autoplay src="${item.src}" style="padding:40px 0 40px"></video><figcaption><div class="mfp-bottom-bar"><div class="mfp-title"></div><div class="mfp-counter"></div></div></figcaption></figure></div>`;
+                                item.type = 'inline';
+                                item.midClick = true;
+                            }
+                        }
+                    },
                     gallery: {
                         enabled: true
+                    },
+                    tLoading: `{{ __('Loading image') }} #%curr%...`,
+                    image: {
+                        tError: `<a href="%url%">{{ __('The image') }} #%curr%</a> {{ __('could not be loaded') }}.`,
                     },
                 });
             });

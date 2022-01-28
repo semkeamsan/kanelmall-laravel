@@ -22,7 +22,9 @@
                     <div class="aui-list-product-item-img">
                         @if ($product->video_url)
                             <div class="video position-relative">
-                                <video autoplay muted src="{{ $product->video_url }}"></video>
+                                <video autoplay="" muted="" playsinline="" data-wf-ignore="true" data-object-fit="cover">
+                                    <source src="{{ $product->video_url }}" data-wf-ignore="true" />
+                                </video>
                                 <div class="bottom-2 position-absolute right-2" data-toggle="muted">
                                     <i class="fa fa-2x fa-volume-mute text-white"></i>
                                 </div>
@@ -35,17 +37,26 @@
                     <div class="aui-list-product-item-text">
                         <h3> {{ $product->name }} </h3>
                         <div class="aui-list-product-mes-box">
-                            <div>
-                                <span class="aui-list-product-item-price">
-                                    {{ currency($product->selling_price, 'USD', session('currency')) }}
-                                </span>
-                                @if ($product->promotion)
-                                    <span class="aui-list-product-item-del-price">
-                                        {{ currency($product->price, 'USD', session('currency')) }}
+                            @if (count($product->prices) > 1)
+                                <div>
+                                    <span class="aui-list-product-item-price">
+                                        {{ currency(min(array_column($product->prices, 'price')), 'USD', session('currency')) }}
                                     </span>
-                                @endif
+                                </div>
+                            @else
+                                <div>
+                                    <span class="aui-list-product-item-price">
+                                        {{ currency($product->selling_price, 'USD', session('currency')) }}
+                                    </span>
+                                    @if ($product->promotion)
+                                        <span class="aui-list-product-item-del-price">
+                                            {{ currency($product->price, 'USD', session('currency')) }}
+                                        </span>
+                                    @endif
 
-                            </div>
+                                </div>
+                            @endif
+
                             @if ($product->enable_stock && $product->instock)
                                 <div class="aui-comment"><i class="fa fa-check"></i> {{ __('Instock') }}</div>
                             @endif

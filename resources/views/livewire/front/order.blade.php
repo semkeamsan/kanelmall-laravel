@@ -1,6 +1,6 @@
 <div id="livewire">
     <header class="aui-header-default aui-header-fixed">
-        <a href="#back" onclick="history.back()" class="aui-header-item">
+        <a href="#" onclick="if(document.referrer) {window.open(document.referrer,'_self');} else {history.go(-1);} return false;" class="aui-header-item">
             <i class="aui-icon aui-icon-back"></i>
         </a>
         <div class="aui-header-center aui-header-center-clear">
@@ -122,21 +122,27 @@
                                                     <div class="aui-list-product-fl-mes">
                                                         <div class="aui-cart-box-list-text-price">
                                                             <div class="aui-cart-box-list-text-pri">
+                                                                @php
+                                                                    $price = $o->product->selling_price;
+                                                                @endphp
                                                                 @if ($o->product->prices)
-                                                                    <b class="price">
-                                                                        {{ currency(min(array_column($o->product->prices, 'price')), 'USD', session('currency')) }}
-                                                                    </b>
-                                                                @else
-                                                                    <b class="price">
-                                                                        {{ currency($o->product->selling_price, 'USD', session('currency')) }}
-                                                                    </b>
+                                                                    @foreach ($o->product->prices as $p)
+                                                                        @if ($o->qty >= $p->qty)
+                                                                            @php
+                                                                                $price = $p->price;
+                                                                            @endphp
+                                                                        @endif
+                                                                    @endforeach
                                                                 @endif
-                                                                @if ($o->product->promotion)
+                                                                <b class="price">
+                                                                    {{ currency($price , 'USD', session('currency')) }}
+                                                                </b>
+                                                                {{-- @if ($o->product->promotion)
                                                                     <small
                                                                         style="text-decoration: line-through;color:#ddd">
                                                                         {{ currency($o->product->price, 'USD', session('currency')) }}
                                                                     </small>
-                                                                @endif
+                                                                @endif --}}
                                                             </div>
                                                         </div>
                                                     </div>

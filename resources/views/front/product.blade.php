@@ -22,6 +22,13 @@
             color: #fff !important;
         }
 
+        .mfp-arrow-right:after {
+            border-left: 17px solid #607d8b !important;
+        }
+       .mfp-arrow-left:after {
+            border-right: 17px solid #607d8b !important;
+        }
+
     </style>
 @endpush
 @section('meta')
@@ -284,7 +291,7 @@
                 </div>
                 <div class="aui-spec-first-sif">
                     @if ($product->prices)
-                        <h2 class="p-0">
+                        <h2 class="p-0" id="price-change-by-qty">
                             {{ currency(max(array_column($product->prices, 'price')), 'USD', session('currency')) }}</h2>
                     @else
                         <h2 class="p-0">{{ currency($product->selling_price, 'USD', session('currency')) }}
@@ -378,7 +385,7 @@
                         elementParse: function(item) {
                             item.type = 'image';
                             if ($(item.el).hasClass('play')) {
-                                item.src = `<div class="mfp-figure"><figure><video class="w-100" controls autoplay src="${item.src}" style="padding:40px 0 40px"></video><figcaption><div class="mfp-bottom-bar"><div class="mfp-title"></div><div class="mfp-counter"></div></div></figcaption></figure></div>`;
+                                item.src = `<div class="mfp-figure"><figure><video class="w-100" autoplay="" controls playsinline="" data-wf-ignore="true" data-object-fit="cover" style="padding:40px 0 40px"> <source src="${item.src}" data-wf-ignore="true" /> </video><figcaption><div class="mfp-bottom-bar"><div class="mfp-title"></div><div class="mfp-counter"></div></div></figcaption></figure></div>`;
                                 item.type = 'inline';
                                 item.midClick = true;
                             }
@@ -453,15 +460,24 @@
             }
             if (price_range.length) {
                 $.each(price_range, (i, p) => {
-                    if (a >= p.qty) {
+                    if (a >= parseInt(p.qty)) {
                         price = p.price;
                     }
                 });
+
             }
+
+            var p = Intl.NumberFormat(currency.code, {
+                style: 'currency',
+                currency: currency.code
+            }).format(price * currency.exchange_rate);
+
+            $(`#price-change-by-qty`).text(`${currency.symbol}${p.replace('$','').replace('KHR','')}`);
             var t = Intl.NumberFormat(currency.code, {
                 style: 'currency',
                 currency: currency.code
             }).format(((price * a) * currency.exchange_rate));
+
             $(`.total h2`).text(`${currency.symbol}${t.replace('$','').replace('KHR','')}`);
             var cart_url = `{{ route('front.cartadd', $product->id) }}`;
             var order_url = `{{ route('front.account.orderadd', $product->id) }}`;

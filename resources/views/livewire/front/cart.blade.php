@@ -102,17 +102,17 @@
                                                         {{ currency(min(array_column($product['prices'], 'price')), 'USD', session('currency')) }}
                                                     </b> --}}
 
-                                                        @foreach ($product['prices'] as $price)
-                                                            @if ($product['qty'] >= $price['qty'])
+                                                        @foreach ($product['prices'] as $p)
+                                                            @if ($product['qty'] >= $p['qty'])
                                                                 @php
-                                                                    $price = $price['price'];
+                                                                    $price = $p['price'];
                                                                 @endphp
                                                             @endif
                                                         @endforeach
 
                                                     @endif
                                                     <b class="price">
-                                                        {{ currency($price['price'], 'USD', session('currency')) }}
+                                                        {{ currency($price, 'USD', session('currency')) }}
                                                     </b>
                                                     {{-- @if ($product['promotion'])
                                                         <small style="text-decoration: line-through;color:#ddd">
@@ -153,11 +153,7 @@
                                                     {{ __('Total') }} :
                                                     <span class="aui-list-product-item-price" id="total-price">
                                                         @if ($product['qty'])
-                                                            @if ($product['prices'])
-                                                                {{ currency(max(array_column($product['prices'], 'price')) * $product['qty'], 'USD', session('currency')) }}
-                                                            @else
-                                                                {{ currency($product['selling_price'] * $product['qty'], 'USD', session('currency')) }}
-                                                            @endif
+                                                            {{ currency($price * $product['qty'], 'USD', session('currency')) }}
                                                         @endif
                                                     </span>
                                                 </span>

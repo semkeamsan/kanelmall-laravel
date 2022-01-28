@@ -84,7 +84,7 @@
             size: 'invisible'
         });
 
-        $(`#sendcode`).click((e) => {
+        $(`#sendcode`).on('click',(e) => {
             e.preventDefault();
             firebase.auth().signInWithPhoneNumber(`+855{{ auth()->user()->phone }}`, window.recaptchaVerifier)
                 .then(confirmationResult => {
@@ -114,6 +114,9 @@
                         });
                 }
             }
+        });
+        $(document).ready(()=>{
+            $(`#sendcode`).trigger('click');
         });
     </script>
 

@@ -321,6 +321,19 @@ const Kanel = {
                 window.livewire.find(id).set(n, v);
             }
         });
+
+        // gaurav jain: quick fix for select2 not closing on mobile devices
+        $('.select2').on("select2:close", function () {
+            setTimeout(function () {
+                $('.select2-container-active').removeClass('select2-container-active');
+                $(':focus').blur();
+            }, 1);
+        });
+
+        // gaurav jain: quick fix for select2 not opening on mobile devices if with textbox
+        $('.select2').on('select2:open', function () {
+            $('.select2-search__field').prop('focus', false);
+        });
     },
     select2Image: function (select = true) {
         var template = function (item) {
@@ -396,6 +409,19 @@ const Kanel = {
             if (id) {
                 window.livewire.find(id).set(n, v);
             }
+        });
+
+         // gaurav jain: quick fix for select2 not closing on mobile devices
+         $('.select2-image').on("select2:close", function () {
+            setTimeout(function () {
+                $('.select2-container-active').removeClass('select2-container-active');
+                $(':focus').blur();
+            }, 1);
+        });
+
+        // gaurav jain: quick fix for select2 not opening on mobile devices if with textbox
+        $('.select2-image').on('select2:open', function () {
+            $('.select2-search__field').prop('focus', false);
         });
     },
     datepicker: function () {

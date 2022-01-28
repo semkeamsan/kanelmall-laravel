@@ -532,40 +532,68 @@
                 </div>
             </div>`
         );
+
+        /* Set up getCurrentPosition options with a timeout */
+        const navigatorLocationOptions = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        };
+
         $(document).on('click', `[data-toggle="map"]`, function(e) {
             e.preventDefault();
             $loading.appendTo('body');
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    @this.set('latitude', position.coords.latitude);
-                    @this.set('longitude', position.coords.longitude);
-                    setTimeout(() => {
-                        $loading.remove();
-                    }, 2000);
-                }, function(error) {
+
+            /* Determine browser permissions status */
+            navigator.permissions.query({
+                    name: 'geolocation'
+                })
+                .then((result) => {
+                    /* result.state will be 'granted', 'denied', or 'error' */
+                    if (result.state === 'granted') {
+                        navigator.geolocation.getCurrentPosition(position => {
+                            @this.set('latitude', position.coords.latitude);
+                            @this.set('longitude', position.coords.longitude);
+                            setTimeout(() => {
+                                $loading.remove();
+                            }, 2000);
+                            /* Got the location! Write your successful code here. */
+
+                        }, (error) => {
+                            /* System/OS location services disabled */
+                            console.log('System/OS services disabled', navigator);
+                            Swal.fire({
+                                toast: true,
+                                type: 'error',
+                                html: `<span>{{ __('System/OS services disabled') }}</span>`,
+                                showConfirmButton: false,
+                                timer: 3000,
+                            });
+                        }, navigatorLocationOptions);
+
+                    } else {
+                        /* Browser location services disabled or error */
+                        console.log('Browser location services disabled', navigator);
+                        Swal.fire({
+                            toast: true,
+                            type: 'error',
+                            html: `<span>{{ __('Browser location services disabled') }}</span>`,
+                            showConfirmButton: false,
+                            timer: 3000,
+                        });
+
+                    }
+                }, (error) => {
+                    /* Browser doesn't support querying for permissions */
+                    console.log('Browser permissions services unavailable', navigator);
                     Swal.fire({
                         toast: true,
                         type: 'error',
-                        html: `<span>${error.message}</span>`,
+                        html: `<span>{{ __('Browser permissions services unavailable') }}</span>`,
                         showConfirmButton: false,
                         timer: 3000,
                     });
-                    console.warn(`ERROR(${error.code}): ${error.message}`);
-                }, {
-                    enableHighAccuracy: true,
-                    timeout: 5000,
-                    maximumAge: 0
                 });
-            } else {
-                Swal.fire({
-                    toast: true,
-                    type: 'error',
-                    html: `<span>Geolocation is not supported by this browser.</span>`,
-                    showConfirmButton: false,
-                    timer: 3000,
-                });
-
-            }
         });
     </script>
 @endpush

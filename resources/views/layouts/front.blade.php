@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta HTTP-EQUIV="MSThemeCompatible" content="Yes" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
     @yield('meta')
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="shortcut icon" href="{{ asset('favicon.jpg') }}">
@@ -43,6 +47,11 @@
     <script>
         window.languages = {!! collect(Lang::get('*')) !!};
     </script>
+    <style>
+        html {
+            touch-action: manipulation;
+        }
+    </style>
 </head>
 
 <body>
@@ -67,9 +76,9 @@
     <script src="{{ asset('js/custom.js') }}"></script>
     @livewireScripts
     <script>
-         const ajaxroutes = {
-                home: `{{ route('ajax.front.home') }}`,
-            };
+        const ajaxroutes = {
+            home: `{{ route('ajax.front.home') }}`,
+        };
         $(document).ready(() => {
             $i = 0;
             var ajax = () => {

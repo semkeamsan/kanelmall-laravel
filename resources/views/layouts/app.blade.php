@@ -31,6 +31,9 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     @stack('styles')
+    <script>
+        window.languages = {!! collect(Lang::get('*')) !!};
+    </script>
 </head>
 
 <body>

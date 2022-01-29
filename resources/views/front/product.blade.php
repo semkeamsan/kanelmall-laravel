@@ -274,13 +274,19 @@
         <footer class="aui-footer-product">
             <div class="aui-footer-product-fixed">
                 <div class="aui-footer-product-action-list float-right">
+                    @if (!Cart::exists($product->id))
+                        <a href="{{ route('front.cartadd', $product->id) }}"
+                            data-ydui-actionsheet="{target:'#action-cart',closeElement:'#cancel'}"
+                            class="yellow-color w-100">
+                            {{ __('Order') }}
+                        </a>
+                    @endif
+
                     <a href="{{ route('front.cartadd', $product->id) }}"
                         data-ydui-actionsheet="{target:'#action-cart',closeElement:'#cancel'}"
-                        class="yellow-color w-100 {{ !Cart::exists($product->id) ?: 'd-none' }}">
-                        {{ __('Order') }}
+                        class="red-color w-100">
+                        {{ __('Buy Now') }}
                     </a>
-                    {{-- <a href="{{ route('front.account.orderadd', $product->id) }}"
-                        class="red-color {{ !Cart::exists($product->id) ?: 'w-100' }}">{{ __('Buy Now') }}</a> --}}
                 </div>
             </div>
         </footer>
@@ -336,7 +342,7 @@
 
             <a href="javascript:;" class="actionsheet-action" id="cancel"></a>
             <div class="aui-product-function">
-                <a href="{{ route('front.cartadd', $product->id) }}" class="yellow-color" data-toggle="add-cart">
+                <a href="{{ route('front.cartadd', $product->id) }}" class="yellow-color {{ !Cart::exists($product->id) ?: 'd-none' }}" data-toggle="add-cart">
                     {{ __('Add Cart') }}</a>
                 <a href="{{ route('front.account.orderadd', $product->id) }}"
                     class="red-color">{{ __('Buy Now') }}</a>

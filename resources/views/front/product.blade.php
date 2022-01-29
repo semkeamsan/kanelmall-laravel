@@ -345,7 +345,7 @@
                 <a href="{{ route('front.cartadd', $product->id) }}" class="yellow-color {{ !Cart::exists($product->id) ?: 'd-none' }}" data-toggle="add-cart">
                     {{ __('Add Cart') }}</a>
                 <a href="{{ route('front.account.orderadd', $product->id) }}"
-                    class="red-color">{{ __('Buy Now') }}</a>
+                    class="red-color {{ !Cart::exists($product->id) ?: 'w-100' }}">{{ __('Buy Now') }}</a>
             </div>
 
         </div>

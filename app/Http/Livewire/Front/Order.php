@@ -23,6 +23,7 @@ class Order extends Component
         'address' => 'required',
         'payment_via' => 'required',
         'payment_image' => 'required',
+        'payment_detail' => 'required',
     ];
     public $attributes;
     public $checkout = false;
@@ -48,6 +49,7 @@ class Order extends Component
     public $payment_via;
     public $payment_image;
     public $response;
+    public $payment_detail;
     public function mount()
     {
         $this->province = auth()->user()->province_id;
@@ -286,6 +288,7 @@ class Order extends Component
             'longitude' => $this->longitude,
             'payment_via' => $this->payment_via,
             'payment_image' => $this->payment_image,
+            'payment_detail' => $this->payment_detail,
             //'status' => 'paid',
         ]);
         $checkout =  (new ApiController)->checkout($this->orders->find($orderid));

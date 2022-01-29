@@ -182,11 +182,13 @@
         @if (count($product->prices) > 1)
             <div class="aui-me-content-item-text p-2 bg text-center">
                 @foreach ($product->prices as $value)
-                    <a href="#">
-                        <span class="text-white">
-                            {{ currency($value->price, 'USD', session('currency')) }}</span>
-                        <span class="text-white">{{ $value->name }}</span>
-                    </a>
+                    @if ($value->qty <= $product->instock )
+                        <a href="#">
+                            <span class="text-white">
+                                {{ currency($value->price, 'USD', session('currency')) }}</span>
+                            <span class="text-white">{{ $value->name }}</span>
+                        </a>
+                    @endif
                 @endforeach
 
             </div>
@@ -472,7 +474,7 @@
                 currency: currency.code
             }).format(price * currency.exchange_rate);
 
-            $(`#price-change-by-qty`).text(`${currency.symbol}${p.replace('$','').replace('KHR','').replace('US','')}`);
+        $(`#price-change-by-qty`).text(`${currency.symbol}${p.replace('$','').replace('KHR','').replace('US','')}`);
             var t = Intl.NumberFormat(currency.code, {
                 style: 'currency',
                 currency: currency.code

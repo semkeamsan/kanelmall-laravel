@@ -9,7 +9,7 @@
             <img width="26" src="{{ asset('images/flags/' . app()->getLocale() . '.svg') }}" />
         </a>
     </header>
-    <div class="m-actionsheet" id="action-languages">
+    <div class="m-actionsheet" id="action-languages" wire:ignore>
         <div style="position:relative">
             <div class="p-3 border-bottom text-left">
                 <h4>{{ __('Languages') }}</h4>
@@ -51,9 +51,9 @@
 
     <section class="aui-cart-content">
         <div class="aui-cart-box">
-            @auth
+            {{-- @auth
                 @include('front.account.action')
-            @endauth
+            @endauth --}}
             <div class="aui-cart-box-list border-top">
                 @if (count($products))
                     <ul>
@@ -425,6 +425,18 @@
                                             accept="image/*" id="payment_image">
 
                                     </div>
+                                    <div class="col-12">
+                                        <textarea rows="1" class="form-control" wire:model="payment_detail" cols="50" placeholder="{{ __('Payment detail') }}"></textarea>
+                                        @error('payment_detail')
+                                            <div class="error-feedback d-block">
+                                                {{ $message }}
+                                            </div>
+                                        @else
+                                            <div class="invalid-feedback">
+                                                {{ __('validation.required', ['attribute' => __('Payment detail')]) }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                 </div>
                                 @error('payment_via')
                                     <div class="error-feedback d-block">
@@ -446,6 +458,10 @@
                                             @endif
                                         </div>
                                     </div>
+                                @else
+                                <div class="error-feedback d-block">
+                                    {{ __('Please upload payment to continue') }}...
+                                </div>
                                 @endif
                             </span>
                         </div>
@@ -515,57 +531,3 @@
 
     @include('front.navbar.footer')
 </div>
-@push('scripts')
-    <script>
-        var $loading = $(
-            `<div class="swal2-container swal2-center swal2-fade swal2-shown"
-                class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
-                <div class="swal2-header">
-                    <h2 class="swal2-title text-white" id="swal2-title">
-                        ${window.languages.Processing??'Processing'}...
-                    </h2>
-                </div>
-                <div class="swal2-actions swal2-loading" style="display: flex;">
-                    <div class="swal2-confirm swal2-styled"
-                        style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
-                    </div>
-                </div>
-            </div>`
-        );
-        $(document).on('click', `[data-toggle="map"]`, function(e) {
-            e.preventDefault();
-            $loading.appendTo('body');
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    @this.set('latitude', position.coords.latitude);
-                    @this.set('longitude', position.coords.longitude);
-                    setTimeout(() => {
-                        $loading.remove();
-                    }, 2000);
-                }, function(error) {
-                    Swal.fire({
-                        toast: true,
-                        type: 'error',
-                        html: `<span>${error.message}</span>`,
-                        showConfirmButton: false,
-                        timer: 3000,
-                    });
-                    console.warn(`ERROR(${error.code}): ${error.message}`);
-                }, {
-                    enableHighAccuracy: true,
-                    timeout: 5000,
-                    maximumAge: 0
-                });
-            } else {
-                Swal.fire({
-                    toast: true,
-                    type: 'error',
-                    html: `<span>Geolocation is not supported by this browser.</span>`,
-                    showConfirmButton: false,
-                    timer: 3000,
-                });
-
-            }
-        });
-    </script>
-@endpush

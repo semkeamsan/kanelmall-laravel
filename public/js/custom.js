@@ -3,7 +3,7 @@ const Kanel = {
         Kanel.image();
         Kanel.datepicker();
         Kanel.grid();
-
+        Kanel.map();
 
         $(`input`).prop("autocomplete", "off");
         if ($('.owl-carousel').length) {
@@ -415,6 +415,49 @@ const Kanel = {
                 window.livewire.find(id).set(model, val);
             });
         }
+    },
+    map: function () {
+        var $loading = $(
+            `<div class="swal2-container swal2-center swal2-fade swal2-shown"
+                class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
+                <div class="swal2-header">
+                    <h2 class="swal2-title text-white" id="swal2-title">
+                        ${window.languages.Processing??'Processing'}...
+                    </h2>
+                </div>
+                <div class="swal2-actions swal2-loading" style="display: flex;">
+                    <div class="swal2-confirm swal2-styled"
+                        style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
+                    </div>
+                </div>
+            </div>`
+        );
+        $(document).on('click', `[data-toggle="map"]`, function (e) {
+            e.preventDefault();
+            $loading.appendTo('body');
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var id = $(this).parents(`#livewire`).attr(`wire:id`);
+                    if (id) {
+                        window.livewire.find(id).set('latitude', position.coords.latitude);
+                        window.livewire.find(id).set('longitude', position.coords.longitude);
+                    }
+                    setTimeout(() => {
+                        $loading.remove();
+                    }, 2000);
+                }, function (error) {
+                    $loading.remove();
+                    alert(`${window.languages['User denied Geolocation'] ??'User denied Geolocation'}, ${window.languages['Please allow locaton access'] ??'Please allow locaton access'}`);
+                }, {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0
+                });
+            } else {
+                $loading.remove();
+                alert(`Geolocation is not supported by this browser`);
+            }
+        });
     }
 };
 Kanel.init();

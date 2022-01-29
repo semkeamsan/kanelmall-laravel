@@ -24,6 +24,7 @@ class Cart extends Component
         'payment_via' => 'required',
         //'payment_image' => 'required|image|max:2048',
         'payment_image' => 'required|image',
+        'payment_detail' => 'required',
     ];
     public $attributes = [];
     public $products = [];
@@ -46,6 +47,7 @@ class Cart extends Component
     public $address;
     public $payment_image;
     public $payment_via;
+    public $payment_detail;
     public function mount()
     {
         if (request()->user()) {
@@ -259,6 +261,7 @@ class Cart extends Component
                 'longitude' => $this->longitude,
                 'payment_via' => $this->payment_via,
                 'payment_image' => asset('storage/payments/' . $name),
+                'payment_detail' => $this->payment_detail,
             ]);
 
             if ($this->coupon) {

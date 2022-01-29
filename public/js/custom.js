@@ -467,7 +467,7 @@ const Kanel = {
                     $loading.remove();
                     $modal.find(`.modal-body`).html(`<p>${window.languages['User denied Geolocation'] ??'User denied Geolocation'}</p> <p>${window.languages['Please allow locaton access'] ??'Please allow locaton access'}</p>`);
                     $modal.find(`.modal-body`).append(`<p><a href="https://support.google.com/chrome/answer/142065?hl=en" target="_blank">Website</a></p>`);
-                    $modal.find(`.modal-body`).append(`<p><a href="https://support.google.com/chrome/answer/3467281?hl=en" target="_blank">Android device’s</a></p>`);
+                    $modal.find(`.modal-body`).append(`<p><a href="https://support.google.com/chrome/answer/6179507?hl=en" target="_blank">Android device’s</a></p>`);
                     $modal.find(`.modal-body`).append(`<p><a href="https://support.apple.com/en-us/HT207092" target="_blank">IOS device’s</a></p>`);
                     $modal.modal('show');
                 }, {

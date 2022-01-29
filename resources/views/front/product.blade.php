@@ -277,14 +277,14 @@
                     @if (!Cart::exists($product->id))
                         <a href="{{ route('front.cartadd', $product->id) }}"
                             data-ydui-actionsheet="{target:'#action-cart',closeElement:'#cancel'}"
-                            class="yellow-color w-100">
-                            {{ __('Order') }}
+                            class="yellow-color">
+                            {{ __('Add Cart') }}
                         </a>
                     @endif
 
                     <a href="{{ route('front.cartadd', $product->id) }}"
                         data-ydui-actionsheet="{target:'#action-cart',closeElement:'#cancel'}"
-                        class="red-color w-100">
+                        class="red-color {{ !Cart::exists($product->id) ?: 'w-100' }}">
                         {{ __('Buy Now') }}
                     </a>
                 </div>

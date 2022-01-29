@@ -426,7 +426,7 @@
 
                                     </div>
                                     <div class="col-12">
-                                        <textarea rows="1" class="form-control" wire:model="payment_detail" cols="50" placeholder="{{ __('Payment detail') }}"></textarea>
+                                        <textarea rows="3" class="form-control" wire:model="payment_detail" cols="50" placeholder="{{ __('Payment detail') }}"></textarea>
                                         @error('payment_detail')
                                             <div class="error-feedback d-block">
                                                 {{ $message }}

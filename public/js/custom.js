@@ -435,9 +435,9 @@ const Kanel = {
         var $modal = $(`<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header pb-0">
               <h5 class="modal-title" id="exampleModalLongTitle"> ${window.languages.Error??'Error'}</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <button type="button" class="close d-none" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -465,7 +465,7 @@ const Kanel = {
                     }, 2000);
                 }, function (error) {
                     $loading.remove();
-                    $modal.find(`.modal-body`).html(`${window.languages['User denied Geolocation'] ??'User denied Geolocation'}, ${window.languages['Please allow locaton access'] ??'Please allow locaton access'}`);
+                    $modal.find(`.modal-body`).html(`<p>${window.languages['User denied Geolocation'] ??'User denied Geolocation'}</p> <p>${window.languages['Please allow locaton access'] ??'Please allow locaton access'}</p>`);
                     $modal.modal('show');
                 }, {
                     enableHighAccuracy: true,
@@ -474,7 +474,7 @@ const Kanel = {
                 });
             } else {
                 $loading.remove();
-                $modal.find(`.modal-body`).html(`Geolocation is not supported by this browser`);
+                $modal.find(`.modal-body`).html(`<p>Geolocation is not supported by this browser</p>`);
                 $modal.modal('show');
             }
         });

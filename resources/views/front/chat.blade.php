@@ -70,7 +70,7 @@
                 <a href="{{ $chat->link }}">
                     <i class="icon {{ $chat->icon }}" @if( $chat->color) style="background:{{ $chat->color }}" @endif style="color:inherit"></i>
                 </a>
-                <a class="link" href="{{ $chat->link }}"> {{ $chat->link }} </a>
+                <a class="link" href="{{ $chat->link }}"> {{ $chat->name }} </a>
             </div>
             @endforeach
         </section>

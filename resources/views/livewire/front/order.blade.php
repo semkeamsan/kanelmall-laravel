@@ -577,7 +577,7 @@
             </div>
         </div>
     </div>
-    <div wire:loading wire:target="togglecheckout,remove,samelocation,delete">
+    <div wire:loading wire:target="togglecheckout,remove,samelocation,delete,receive">
         <div class="swal2-container swal2-center swal2-fade swal2-shown"
             class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
             <div class="swal2-header">

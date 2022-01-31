@@ -484,7 +484,7 @@ const Kanel = {
                     }, 2000);
                 }, function (error) {
                     $loading.remove();
-                    $modal.find(`.modal-body`).html(`<p>${window.languages['User denied Geolocation'] ??'User denied Geolocation'}.</p> <p>${window.languages['Please allow locaton access'] ??'Please allow locaton access'}.</p>`);
+                    $modal.find(`.modal-body`).html(`<p>${window.languages['User denied Geolocation'] ??'User denied Geolocation'}.</p> <p>${window.languages['Please allow location access'] ??'Please allow location access'}.</p>`);
                     $modal.find(`.modal-body`).append(`
                         <p>${window.languages['For help'] ??'For help'}:</p>
                         <div class="pl-3">

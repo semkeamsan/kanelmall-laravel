@@ -208,7 +208,7 @@
             @if ($total)
                 <div class="aui-payment-bar border-top">
                     @auth
-                        <button wire:click.prevent="togglecheckout" class="settlement w-100">{{ __('Order') }}</button>
+                        <button wire:click.prevent="togglecheckout" class="settlement w-100">{{ __('Make Payment') }}</button>
                     @else
                         <button class="settlement w-100"
                             onclick="location.href=`{{ route('login') }}`">{{ __('Login') }}</button>
@@ -425,17 +425,11 @@
                                             accept="image/*" id="payment_image">
 
                                     </div>
-                                    <div class="col-12">
-                                        <textarea rows="3" class="form-control" wire:model="payment_detail" cols="50" placeholder="{{ __('Payment detail') }}"></textarea>
-                                        @error('payment_detail')
-                                            <div class="error-feedback d-block">
-                                                {{ $message }}
-                                            </div>
-                                        @else
-                                            <div class="invalid-feedback">
-                                                {{ __('validation.required', ['attribute' => __('Payment detail')]) }}
-                                            </div>
-                                        @enderror
+                                    <div class="col-12 my-2">
+                                        <fieldset class="border px-2">
+                                        <legend class="w-auto text-sm">របៀបនៃការទូទាត់៖</legend>
+                                        <p class="text-sm" style="white-space: pre">{{ session('business.how_to_pay') }}</p>
+                                        </fieldset>
                                     </div>
                                 </div>
                                 @error('payment_via')
@@ -482,21 +476,6 @@
         @if ($checkout)
             <div class="mask-black" wire:click.prevent="togglecheckout"></div>
         @endif
-        <div wire:loading wire:target="togglecheckout,remove,samelocation">
-            <div class="swal2-container swal2-center swal2-fade swal2-shown"
-                class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
-                <div class="swal2-header">
-                    <h2 class="swal2-title text-white" id="swal2-title">
-                        {{ __('Processing') }}
-                    </h2>
-                </div>
-                <div class="swal2-actions swal2-loading" style="display: flex;">
-                    <div class="swal2-confirm swal2-styled"
-                        style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
-                    </div>
-                </div>
-            </div>
-        </div>
         <div wire:loading wire:target="payment_image">
             <div class="swal2-container swal2-center swal2-fade swal2-shown"
                 class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
@@ -518,6 +497,21 @@
                 <div class="swal2-header">
                     <h2 class="swal2-title text-white" id="swal2-title">
                         {{ __('Processing') }} {{ __('Payment') }}
+                    </h2>
+                </div>
+                <div class="swal2-actions swal2-loading" style="display: flex;">
+                    <div class="swal2-confirm swal2-styled"
+                        style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div wire:loading wire:target="togglecheckout,remove,samelocation">
+            <div class="swal2-container swal2-center swal2-fade swal2-shown"
+                class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
+                <div class="swal2-header">
+                    <h2 class="swal2-title text-white" id="swal2-title">
+                        {{ __('Processing') }}
                     </h2>
                 </div>
                 <div class="swal2-actions swal2-loading" style="display: flex;">

@@ -304,6 +304,21 @@ const Kanel = {
         }
     },
     select2: function (select = true) {
+        var $loading = $(
+            `<div class="swal2-container swal2-center swal2-fade swal2-shown"
+                class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
+                <div class="swal2-header">
+                    <h2 class="swal2-title text-white" id="swal2-title">
+                        ${window.languages.Processing??'Processing'}...
+                    </h2>
+                </div>
+                <div class="swal2-actions swal2-loading" style="display: flex;">
+                    <div class="swal2-confirm swal2-styled"
+                        style="border-left-color: var(--primary); border-right-color: var(--primary); display: flex;">
+                    </div>
+                </div>
+            </div>`
+        );
         $('.select2').each(function () {
             $(this).select2();
             if (select) {
@@ -313,12 +328,16 @@ const Kanel = {
         });
 
 
-        $('.select2').on('select2:select', function () {
+        $('.select2').unbind('select2:select').on('select2:select', function () {
             var id = $(this).parents(`#livewire`).attr(`wire:id`);
             var n = $(this).attr('wire:model');
             var v = $(this).val();
             if (id) {
+                $loading.appendTo('body');
                 window.livewire.find(id).set(n, v);
+                setTimeout(() => {
+                    $loading.remove();
+                }, 2000);
             }
         });
 
@@ -452,10 +471,10 @@ const Kanel = {
       </div>`);
         $(document).on('click', `[data-toggle="map"]`, function (e) {
             e.preventDefault();
+            var id = $(this).parents(`#livewire`).attr(`wire:id`);
             $loading.appendTo('body');
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
-                    var id = $(this).parents(`#livewire`).attr(`wire:id`);
                     if (id) {
                         window.livewire.find(id).set('latitude', position.coords.latitude);
                         window.livewire.find(id).set('longitude', position.coords.longitude);
@@ -465,10 +484,14 @@ const Kanel = {
                     }, 2000);
                 }, function (error) {
                     $loading.remove();
-                    $modal.find(`.modal-body`).html(`<p>${window.languages['User denied Geolocation'] ??'User denied Geolocation'}</p> <p>${window.languages['Please allow locaton access'] ??'Please allow locaton access'}</p>`);
-                    $modal.find(`.modal-body`).append(`<p><a href="https://support.google.com/chrome/answer/142065?hl=en" target="_blank">Website</a></p>`);
-                    $modal.find(`.modal-body`).append(`<p><a href="https://support.google.com/accounts/answer/6179507?hl=en" target="_blank">Android device’s</a></p>`);
-                    $modal.find(`.modal-body`).append(`<p><a href="https://support.apple.com/en-us/HT207092" target="_blank">IOS device’s</a></p>`);
+                    $modal.find(`.modal-body`).html(`<p>${window.languages['User denied Geolocation'] ??'User denied Geolocation'}.</p> <p>${window.languages['Please allow locaton access'] ??'Please allow locaton access'}.</p>`);
+                    $modal.find(`.modal-body`).append(`
+                        <p>${window.languages['For help'] ??'For help'}:</p>
+                        <div class="pl-3">
+                        <p><a href="https://support.google.com/chrome/answer/142065?hl=en" target="_blank">Website</a></p>
+                        <p><a href="https://support.google.com/accounts/answer/6179507?hl=en" target="_blank">Android device’s</a></p>
+                        <p><a href="https://support.apple.com/en-us/HT207092" target="_blank">IOS device’s</a></p>
+                        </div>`);
                     $modal.modal('show');
                 }, {
                     enableHighAccuracy: true,

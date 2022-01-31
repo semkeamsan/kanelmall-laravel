@@ -14,8 +14,10 @@ class ApiController
 
     public function init()
     {
+
         $this->transactions();
-        $response =  Http::withoutVerifying()->get($this->API_DOMAIN . '/api/business/' . $this->API_BUSID)->json();
+        $response = Http::withoutVerifying()->get($this->API_DOMAIN . '/api/business/' . $this->API_BUSID)->json();
+        session()->put('business',$response);
         $this->sliders($response['sliders']);
         $this->promotions($response['promotions']);
         $this->products($response['products']);
@@ -25,6 +27,7 @@ class ApiController
         } else {
             return true;
         }
+
     }
     public function sliders(array $data)
     {

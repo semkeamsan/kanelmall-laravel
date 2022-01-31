@@ -262,9 +262,11 @@ class ApiController
             return  $response =  Http::withoutVerifying()->post($this->API_DOMAIN . '/api/checkout/web', $data)->json();
         }
     }
-    public function transactions()
+    public function transactions($orders = null)
     {
-        $orders = Order::whereNotIn('status', ['pending'])->get();
+
+
+        $orders = $orders ?? Order::whereNotIn('status', ['pending'])->get();
         if ($orders->count()) {
             $ids = $orders->pluck('transaction_id');
             $transactions = Http::withoutVerifying()->get($this->API_DOMAIN . '/api/business/' . $this->API_BUSID . '/transactions/' . $ids->implode(','))->json();

@@ -207,7 +207,7 @@ class Order extends Component
     public function status($status)
     {
         $this->status = $status;
-        (new ApiController)->transactions();
+        (new ApiController)->transactions($this->orders);
         $this->emit('urlChange', LaravelLocalization::getLocalizedURL(app()->getLocale(), route('front.account.myorder', 'status=' . $status)));
     }
     public function togglecheckout($orderid)

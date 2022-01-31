@@ -58,7 +58,7 @@
         <div class="aui-header-fixed bg-white border-bottom" style="top:auto">
             @include('front.account.action')
         </div>
-        <div class="pt-6 pb-5">
+        <div class="pt-6 pb-5 px-1">
             <div wire:loading wire:target="status" class="p-2 position-relative text-primary text-center"
                 style="z-index: 1;left: 0;right: 0;width: 100%;">
                 {{ __('Processing') }}...
@@ -73,7 +73,7 @@
                         @endif
                     </strong>
                     {{ $response['message'] }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="top: 50%">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>

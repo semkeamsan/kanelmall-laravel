@@ -123,16 +123,15 @@
                                             <span>{{ __('Register with') }}</span>
                                         </div>
                                         <div class="btn-wrapper text-center">
-                                            <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" class="d-xl-none d-sm-block"></fb:login-button>
-                                            <a onclick="checkLoginState();" id="loginfb"
-                                                href1="{{ route('auth.with', 'facebook') }}"
-                                                class="btn btn-neutral btn-icon mb-2 d-xl-block d-none">
+                                            {{-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" class="d-xl-none d-sm-block"></fb:login-button> --}}
+                                            <a href="{{ route('auth.with', 'facebook') }}"
+                                                class="btn btn-neutral btn-icon mb-2">
                                                 <span class="btn-inner--icon"><img
                                                         src="{{ asset('images/facebook.svg') }}"></span>
                                                 <span class="btn-inner--text">{{ __('Facebook') }}</span>
                                             </a>
                                             <a href="{{ route('auth.with', 'google') }}"
-                                                class="btn btn-neutral btn-icon mb-2 d-none">
+                                                class="btn btn-neutral btn-icon mb-2">
                                                 <span class="btn-inner--icon"><img
                                                         src="{{ asset('images/google.svg') }}"></span>
                                                 <span class="btn-inner--text">{{ __('Google') }}</span>

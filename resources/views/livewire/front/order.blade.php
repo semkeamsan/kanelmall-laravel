@@ -73,7 +73,13 @@
                         @endif
                     </strong>
                     {{ $response['message'] }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="top: 50%">
+                    @if (@$response['status'])
+                        <button class="btn btn-sm text-white"
+                            wire:click.prevent="status('{{ $response['status'] }}')">{{ __('Link') }}</button>
+                    @endif
+
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                        style="top: 50%">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -195,38 +201,80 @@
                                     </li>
                                 @endforeach
                             </ul>
+
+
+
                             @if ($order->status == 'pending')
-                                <div>
-                                    <input wire:model="coupon.{{ $order->id }}" type="text"
-                                        class="form-control rounded-0" placeholder="{{ __('Coupon code') }}">
-                                    @if ($coupon_message[$order->id])
-                                        <div class="error-feedback d-block px-2">
-                                            {{ $coupon_message[$order->id] }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="aui-payment-bar border-bottom">
-                                    <div class="shop-total">
-                                        <strong>
-                                            {{ __('Total') }} :
-                                            {{ currency($order->total_price, 'USD', session('currency')) }}
-                                            @if ($order->total_price_coupon)
-                                                <strong>
-                                                    =>
-                                                    {{ currency($order->total_price_coupon, 'USD', session('currency')) }}
-                                                </strong>
+                                <table class="table table-sm">
+
+                                    <tr>
+                                        <td>
+                                            {{ __('Coupon code') }}
+                                        </td>
+                                        <td>
+
+                                            <input wire:model="coupon.{{ $order->id }}" type="text"
+                                                class="form-control form-control-sm"
+                                                placeholder="{{ __('Coupon code') }}">
+                                            @if ($coupon_message[$order->id])
+                                                <div class="error-feedback d-block px-2">
+                                                    {{ $coupon_message[$order->id] }}
+                                                </div>
                                             @endif
-                                        </strong>
-                                    </div>
-                                </div>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            {{ __('Total') }}
+                                        </td>
+                                        <td>
+
+                                            <b>
+                                                {{ currency($order->total_price, 'USD', session('currency')) }}
+                                                @if ($order->total_price_coupon)
+                                                    ⟶
+                                                    {{ currency($order->total_price_coupon, 'USD', session('currency')) }}
+                                                @endif
+                                            </b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            {{ __('Shipping fee') }}
+                                        </td>
+                                        <td>
+                                            <select wire:model="shippings.{{ $order->id }}"
+                                                class="form-control form-control-sm select2">
+                                                @foreach (session('shippings') as $item)
+                                                    <option value="{{ $item->id }}"
+                                                        {{ $loop->first ? 'selected' : null }}>
+                                                        {{ $item->name }} -
+                                                        {{ $item->packing_charge_type == 'fixed'? currency($item->packing_charge, 'USD', session('currency')): $item->packing_charge . '%' }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    @if ($order->final_total_price)
+                                        <tr>
+                                            <td>
+                                                {{ __('Total Price') }}
+                                            </td>
+                                            <td>
+                                                <h3 class="text-primary">
+                                                    {{ currency($order->final_total_price, 'USD', session('currency')) }}
+                                                </h3>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                </table>
                                 @if ($order->total_price)
                                     <div class="aui-payment-bar border-bottom">
                                         <button type="submit" class="settlement w-100"
                                             wire:click.prevent="togglecheckout({{ $order->id }})">{{ __('Make Payment') }}</button>
                                     </div>
                                 @endif
-
-
                             @endif
                             @if ($order->status !== 'pending')
                                 <div class="aui-list-title-btn">
@@ -255,6 +303,22 @@
 
                                             </span>
                                         </div>
+                                        @if ($order->shipping_fee_id)
+                                            <div class="pb-1">
+                                                {{ __('Shipping fee') }} :
+                                                <span>
+                                                    {{  $order->shippingData->packing_charge_type == 'fixed'? currency( $order->shippingData->packing_charge, 'USD', session('currency')):  $order->shippingData->packing_charge . '%' }}
+                                                </span>
+                                            </div>
+                                        @endif
+                                        @if ($order->final_total_price)
+                                            <div class="pb-1">
+                                                {{ __('Total Price') }} :
+                                                <span>
+                                                    {{ currency($order->final_total_price, 'USD', session('currency')) }}
+                                                </span>
+                                            </div>
+                                        @endif
                                         @if ($order->payment_image)
                                             <div>
                                                 <a href="{{ $order->payment_image }}" target="_blank"
@@ -497,8 +561,10 @@
                                 </div>
                                 <div class="col-12 my-2">
                                     <fieldset class="border px-2">
-                                        <legend class="w-auto text-sm">របៀបនៃការទូទាត់៖</legend>
-                                        <p class="text-sm" style="white-space: pre">{{ session('business.how_to_pay') }}</p>
+                                        <legend class="w-auto text-sm">{{ __('How to pay') }}</legend>
+                                        <p class="text-sm" style="white-space: pre-line">
+                                            {{ trim(session('business.how_to_pay')) }}
+                                        </p>
                                     </fieldset>
                                 </div>
                             </div>

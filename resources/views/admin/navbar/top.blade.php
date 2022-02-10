@@ -60,14 +60,14 @@
                             </a>
                         @endif
 
-                        <a href="#" class="dropdown-item">
+                        {{-- <a href="#" class="dropdown-item">
                             <i class="fal fa-cog"></i>
                             <span>{{ __('Settings') }}</span>
                         </a>
                         <a href="#" class="dropdown-item">
                             <i class="fal fa-calendar-alt"></i>
                             <span>{{ __('Activity') }}</span>
-                        </a>
+                        </a> --}}
 
                         <div class="dropdown-divider"></div>
                         {!! Form::open(['url' => route('logout')]) !!}

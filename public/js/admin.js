@@ -1469,6 +1469,7 @@ t();
     }(),
     Select2 = function () {
         var e = $('[data-toggle="select"]');
+
         var fn = function(){
             e.each(function () {
                 var selected = [];

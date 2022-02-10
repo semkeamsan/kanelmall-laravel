@@ -320,7 +320,9 @@ const Kanel = {
             </div>`
         );
         $('.select2').each(function () {
-            $(this).select2();
+            $(this).select2({
+                minimumResultsForSearch: $(this).find('option').length > 5 ? true : -1,
+            });
             if (select) {
                 var selected = $(this).find(`option[selected]`);
                 $(this).val(selected.val()).trigger('change');
@@ -401,6 +403,7 @@ const Kanel = {
         }
         $('.select2-image').each(function () {
             $(this).select2({
+                minimumResultsForSearch: $(this).find('option').length > 5 ? true : -1,
                 templateResult: template,
                 templateSelection: template2,
             });

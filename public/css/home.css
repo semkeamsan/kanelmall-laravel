@@ -2143,7 +2143,6 @@ input.check:checked {
     height: 49px;
     line-height: 49px;
     font-size: 16px;
-    padding-left: 5px;
     color: var(--color-primary);
 }
 .aui-payment-bar .settlement {

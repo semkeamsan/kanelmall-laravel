@@ -8,6 +8,7 @@ use App\Helpers\CartHelper;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use App\Http\Controllers\Front\ApiController;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class Cart extends Component
 {
@@ -28,7 +29,9 @@ class Cart extends Component
     public $attributes = [];
     public $products = [];
     public $total = 0;
+    public $shipping_fee;
     public $total_coupon = 0;
+    public $total_price = 0;
     public $coupon = null;
     public $coupon_message = null;
     public $provinces;
@@ -46,8 +49,11 @@ class Cart extends Component
     public $address;
     public $payment_image;
     public $payment_via;
+    public $response;
     public function mount()
     {
+
+        $this->shipping_fee = session('shippings')->first()->id;
         if (request()->user()) {
             $this->province = auth()->user()->province_id;
             $this->district = auth()->user()->district_id;
@@ -147,6 +153,7 @@ class Cart extends Component
     {
         $this->total = 0;
         $this->total_coupon = 0;
+        $this->total_price = 0;
         foreach ($this->products as $k => $product) {
             $price = $product['selling_price'];
             if ($product['prices']) {
@@ -166,6 +173,13 @@ class Cart extends Component
             }
         }
         $this->coupon_message = null;
+        if($shipping = shipping($this->shipping_fee)){
+            if ($shipping->packing_charge_type == 'percentage') {
+                $this->total_price =  $this->total +  ($this->total * $shipping->packing_charge) / 100;
+            } elseif ($shipping->packing_charge_type == 'fixed') {
+                $this->total_price =    $this->total +  $shipping->packing_charge;
+            }
+        }
         if ($this->coupon) {
             $coupon =  (new ApiController)->coupon($this->coupon);
             if ($coupon) {
@@ -175,6 +189,14 @@ class Cart extends Component
                     } elseif ($coupon['discount_type'] == 'fixed') {
                         $this->total_coupon =    $this->total -  $coupon['discount_amount'];
                     }
+                    if($shipping = shipping($this->shipping_fee)){
+                        if ($shipping->packing_charge_type == 'percentage') {
+                            $this->total_price =  $this->total_coupon +  ($this->total_coupon * $shipping->packing_charge) / 100;
+                        } elseif ($shipping->packing_charge_type == 'fixed') {
+                            $this->total_price =    $this->total_coupon +  $shipping->packing_charge;
+                        }
+                    }
+
                 } else {
                     $this->coupon_message = __('Coupon code expired');
                 }
@@ -201,6 +223,11 @@ class Cart extends Component
     {
         CartHelper::delete($this->products[$key]['id']);
         unset($this->products[$key]);
+        $this->response = [
+            'status' => count($this->products) == 0 ? 'cancel' : null,
+            'type' => 'success',
+            'message' => __('Successfully'),
+        ];
     }
 
     public function togglecheckout()
@@ -214,6 +241,7 @@ class Cart extends Component
     }
     public function payment()
     {
+
         if (request()->user()) {
 
             $this->checkout = true;
@@ -259,6 +287,7 @@ class Cart extends Component
                 'longitude' => $this->longitude,
                 'payment_via' => $this->payment_via,
                 'payment_image' => asset('storage/payments/' . $name),
+                'shipping_fee_id' => $this->shipping_fee,
             ]);
 
             if ($this->coupon) {
@@ -280,8 +309,12 @@ class Cart extends Component
                 ]);
             }
             CartHelper::clear();
-            return redirect()->route('front.account.myorder', 'status='.$order->status);
+            return redirect()->to(LaravelLocalization::getLocalizedURL(app()->getLocale(),route('front.account.myorder','status='.$order->status)));
         }
         return redirect()->route('login');
+    }
+    public function hydrate()
+    {
+        $this->response = null;
     }
 }

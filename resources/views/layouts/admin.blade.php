@@ -54,7 +54,6 @@
     <!-- Argon JS -->
     <script src="{{ asset('js/admin.js') }}"></script>
     {{-- Custom Scripts --}}
-    <script src="{{ asset('js/custom.js') }}"></script>
     <script src="{{ asset('js/custom.min.js') }}"></script>
     @stack('scripts')
     @if (session('message'))

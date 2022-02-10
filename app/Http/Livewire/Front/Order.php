@@ -34,6 +34,7 @@ class Order extends Component
     public $coupon = [];
     public $coupon_message = [];
     public $comments = [];
+    public $shippings = [];
     public $provinces;
     public $province;
     public $districts;
@@ -98,10 +99,27 @@ class Order extends Component
         }
         $this->orders = $this->orders->filter(function ($order) {
             $order->total_price = $order->products->sum('total_price');
+            $order->final_total_price = 0;
             $order->total_price_coupon = 0;
             if ($this->payment_image == null) {
                 $this->payment_image  = $order->payment_image;
             }
+
+
+            if (!@$this->shippings[$order->id]) {
+                $this->shippings[$order->id] = $order->shipping_fee_id;
+            }
+
+            if($this->shippings[$order->id]){
+                $order->shippingData = shipping($this->shippings[$order->id]);
+                if ($order->shippingData->packing_charge_type == 'percentage') {
+                    $order->final_total_price =  $order->total_price +  ($order->total_price * $order->shippingData->packing_charge) / 100;
+                } elseif ($order->shippingData->packing_charge_type == 'fixed') {
+                    $order->final_total_price =    $order->total_price +  $order->shippingData->packing_charge;
+                }
+            }
+
+
             if (!@$this->coupon[$order->id]) {
                 $this->coupon[$order->id] = $order->coupon;
             }
@@ -123,6 +141,7 @@ class Order extends Component
                 }
             }
 
+
             if ($order->coupon) {
                 $coupon =  (new ApiController)->coupon($order->coupon);
                 if ($coupon && now()->diff($coupon['end_at'])->invert === 0) {
@@ -132,8 +151,19 @@ class Order extends Component
                     } elseif ($order->couponData['discount_type'] == 'fixed') {
                         $order->total_price_coupon = $order->total_price - $order->couponData['discount_amount'];
                     }
+
+
+                        if($order->shipping_fee_id){
+                            if ($order->shippingData->packing_charge_type == 'percentage') {
+                                $order->final_total_price =  $order->total_price_coupon +  ($order->total_price_coupon * $order->shippingData->packing_charge) / 100;
+                            } elseif ($order->shippingData->packing_charge_type == 'fixed') {
+                                $order->final_total_price =    $order->total_price_coupon +  $order->shippingData->packing_charge;
+                            }
+                        }
                 }
             }
+
+
 
 
             if ($order->status == 'pending' && now()->diff($order->created_at->addDays(2))->invert) {
@@ -286,7 +316,7 @@ class Order extends Component
             'longitude' => $this->longitude,
             'payment_via' => $this->payment_via,
             'payment_image' => $this->payment_image,
-            //'status' => 'paid',
+            'shipping_fee_id' => 'paid',
         ]);
         $checkout =  (new ApiController)->checkout($this->orders->find($orderid));
         if ($checkout && @$checkout['success']) {
@@ -294,24 +324,35 @@ class Order extends Component
                 'transaction_id' => $checkout['transactionID'],
                 'status' => 'paid',
             ]);
-            return redirect()->route('front.account.myorder', 'status=paid');
+            return redirect()->to(LaravelLocalization::getLocalizedURL(app()->getLocale(),route('front.account.myorder','status=paid')));
         }
-        return redirect()->route('front.account.myorder', 'status=pending');
+
+        return redirect()->to(LaravelLocalization::getLocalizedURL(app()->getLocale(),route('front.account.myorder','status=pending')));
     }
     public function receive($orderid)
     {
-        $checkout = (new ApiController)->received($this->orders->find($orderid)->transaction_id);
-        if ($checkout) {
-            $this->orders->find($orderid)->update([
-                'comment' => @$this->comments[$orderid],
-                'status' => 'received',
-            ]);
+        (new ApiController)->transactions($this->orders);
+        if($this->orders->find($orderid)->status == 'cancel'){
             $this->response = [
-                'type' => 'success',
-                'message' => __('Successfully'),
+                'type' => 'warning',
+                'status' => 'cancel',
+                'message' => __('Your order has been cancel'),
             ];
-            return redirect()->route('front.account.myorder', 'status=received');
+        }else{
+            $checkout = (new ApiController)->received($this->orders->find($orderid)->transaction_id);
+            if ($checkout) {
+                $this->orders->find($orderid)->update([
+                    'comment' => @$this->comments[$orderid],
+                    'status' => 'received',
+                ]);
+                $this->response = [
+                    'type' => 'success',
+                    'message' => __('Successfully'),
+                ];
+                return redirect()->to(LaravelLocalization::getLocalizedURL(app()->getLocale(),route('front.account.myorder','status=received')));
+            }
         }
+
 
     }
 
@@ -319,7 +360,6 @@ class Order extends Component
     {
         $this->orders->find($orderid)->delete();
         $this->response = [
-            'status' => $this->status,
             'type' => 'success',
             'message' => __('Delete successfully'),
         ];

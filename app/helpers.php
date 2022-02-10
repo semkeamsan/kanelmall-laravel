@@ -63,3 +63,12 @@ function category(int $id)
         }
     }
 }
+function shipping(int $id)
+{
+    foreach (session('shippings') as $shipping) {
+        if ($shipping->id == $id) {
+            return  $shipping;
+            break;
+        }
+    }
+}

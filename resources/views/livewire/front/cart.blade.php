@@ -54,6 +54,23 @@
             {{-- @auth
                 @include('front.account.action')
             @endauth --}}
+            @if ($response)
+                <div class="alert alert-{{ $response['type'] }} alert-dismissible fade show m-1" role="alert">
+                    <strong>
+                        @if ($response['type'] == 'success')
+                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        @else
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        @endif
+                    </strong>
+                    {{ $response['message'] }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                        style="top: 50%">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
             <div class="aui-cart-box-list border-top">
                 @if (count($products))
                     <ul>
@@ -184,31 +201,72 @@
             </div>
         </div>
         @if (count($products))
-            <div>
-                <input wire:model="coupon" type="text" class="form-control rounded-0"
-                    placeholder="{{ __('Coupon code') }}">
-                @if ($coupon_message)
-                    <div class="error-feedback d-block px-2">
-                        {{ $coupon_message }}
-                    </div>
-                @endif
-            </div>
-            <div class="aui-payment-bar border-top">
-                <div class="shop-total">
-                    <strong>
-                        {{ __('Total') }} : {{ currency($total, 'USD', session('currency')) }}
-                    </strong>
-                    @if ($total_coupon)
-                        <strong>
-                            => {{ currency($total_coupon, 'USD', session('currency')) }}
-                        </strong>
+        <table class="table table-sm">
+            <tr>
+                <td>
+                    {{ __('Coupon code') }}
+                </td>
+                <td>
+
+                    <input wire:model="coupon" type="text" class="form-control form-control-sm"
+                        placeholder="{{ __('Coupon code') }}">
+                    @if ($coupon_message)
+                        <div class="error-feedback d-block px-2">
+                            {{ $coupon_message }}
+                        </div>
                     @endif
-                </div>
-            </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ __('Total') }}
+                </td>
+                <td>
+
+                    <b>
+                        {{ currency($total, 'USD', session('currency')) }}
+                        @if ($total_coupon)
+                            ⟶ {{ currency($total_coupon, 'USD', session('currency')) }}
+                        @endif
+                    </b>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ __('Shipping fee') }}
+                </td>
+                <td>
+                    <select wire:model="shipping_fee" class="form-control form-control-sm select2">
+                        @foreach (session('shippings') as $item)
+                            <option value="{{ $item->id }}" {{ $loop->first ? 'selected' : null }}>
+                                {{ $item->name }} -
+                                {{ $item->packing_charge_type == 'fixed'? currency($item->packing_charge, 'USD', session('currency')): $item->packing_charge . '%' }}
+                            </option>
+                        @endforeach
+                    </select>
+                </td>
+            </tr>
+            @if ($total_price)
+                <tr>
+                    <td>
+                        {{ __('Total Price') }}
+                    </td>
+                    <td>
+                        <h3 class="text-primary">
+                            {{ currency($total_price, 'USD', session('currency')) }}
+                        </h3>
+                    </td>
+                </tr>
+            @endif
+        </table>
+
+
             @if ($total)
                 <div class="aui-payment-bar border-top">
                     @auth
-                        <button wire:click.prevent="togglecheckout" class="settlement w-100">{{ __('Make Payment') }}</button>
+                        <button wire:click.prevent="togglecheckout"
+                            class="settlement w-100">{{ __('Make Payment') }}</button>
                     @else
                         <button class="settlement w-100"
                             onclick="location.href=`{{ route('login') }}`">{{ __('Login') }}</button>
@@ -427,8 +485,10 @@
                                     </div>
                                     <div class="col-12 my-2">
                                         <fieldset class="border px-2">
-                                        <legend class="w-auto text-sm">របៀបនៃការទូទាត់៖</legend>
-                                        <p class="text-sm" style="white-space: pre">{{ session('business.how_to_pay') }}</p>
+                                            <legend class="w-auto text-sm">{{ __('How to pay') }}</legend>
+                                            <p class="text-sm" style="white-space: pre-line">
+                                                {{ trim(session('business.how_to_pay')) }}
+                                            </p>
                                         </fieldset>
                                     </div>
                                 </div>
@@ -453,9 +513,9 @@
                                         </div>
                                     </div>
                                 @else
-                                <div class="error-feedback d-block">
-                                    {{ __('Please upload payment to continue') }}...
-                                </div>
+                                    <div class="error-feedback d-block">
+                                        {{ __('Please upload payment to continue') }}...
+                                    </div>
                                 @endif
                             </span>
                         </div>

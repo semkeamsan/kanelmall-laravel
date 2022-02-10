@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Models\Order;
 use Illuminate\Support\Facades\Http;
+use PDO;
 
 class ApiController
 {
@@ -18,6 +19,7 @@ class ApiController
         $this->transactions();
         $response = Http::withoutVerifying()->get($this->API_DOMAIN . '/api/business/' . $this->API_BUSID)->json();
         session()->put('business',$response);
+        $this->shippings($response['type_of_services']);
         $this->sliders($response['sliders']);
         $this->promotions($response['promotions']);
         $this->products($response['products']);
@@ -134,6 +136,16 @@ class ApiController
         session()->put('categories', $categories);
         return $categories;
     }
+    public function shippings(array $data)
+    {
+
+        $shippings = collect();
+        foreach ($data as $key => $value) {
+            $shippings->add(array_to_jsdecode($value));
+        }
+        session()->put('shippings', $shippings);
+        return $shippings;
+    }
     public  function checkout($order)
     {
         $uid = slug(env('APP_NAME')) . '-' . $this->API_BUSID . '-' . auth()->id();
@@ -153,6 +165,8 @@ class ApiController
             $discount_amount = 0;
             $final_total = $order->products->sum('total_price');
             $coupon = $this->coupon($order->coupon);
+            $shipping = type_service($order->shipping_fee_id);
+
             if ($coupon) {
                 if (now()->diff($coupon['end_at'])->invert === 0) {
                     if ($coupon['discount_type'] == 'percentage') {
@@ -162,6 +176,15 @@ class ApiController
                     }
                 }
             }
+
+            if($shipping){
+                if ($shipping->packing_charge_type == 'percentage') {
+                    $final_total =  $final_total +  ($final_total * $shipping->packing_charge) / 100;
+                } elseif ($shipping->packing_charge_type == 'fixed') {
+                    $final_total =    $final_total +  $shipping->packing_charge;
+                }
+            }
+
             $data = [
                 'coupon_id'  => $coupon ? $coupon['id'] : null,
                 'transaction_id'  =>  $order->transaction_id,
@@ -178,7 +201,7 @@ class ApiController
                 'tax_amount' => '0',
                 'rp_redeemed' => '0',
                 'rp_redeemed_amount' => '0',
-                'shipping_charges' => '0',
+                'shipping_charges' => $shipping ? $shipping->packing_charge: 0,
                 'round_off_amount' => $order->total_price,
                 'final_total' => $final_total,
                 'is_direct_sale' => '0',

@@ -165,7 +165,7 @@ class ApiController
             $discount_amount = 0;
             $final_total = $order->products->sum('total_price');
             $coupon = $this->coupon($order->coupon);
-            $shipping = type_service($order->shipping_fee_id);
+            $shipping = shipping($order->shipping_fee_id);
 
             if ($coupon) {
                 if (now()->diff($coupon['end_at'])->invert === 0) {

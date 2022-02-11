@@ -25,7 +25,8 @@
         .mfp-arrow-right:after {
             border-left: 17px solid #607d8b !important;
         }
-       .mfp-arrow-left:after {
+
+        .mfp-arrow-left:after {
             border-right: 17px solid #607d8b !important;
         }
 
@@ -182,7 +183,7 @@
         @if (count($product->prices) > 1)
             <div class="aui-me-content-item-text p-2 bg text-center">
                 @foreach ($product->prices as $value)
-                    @if ($value->qty <= $product->instock )
+                    @if ($value->qty <= $product->instock)
                         <a href="#">
                             <span class="text-white">
                                 {{ currency($value->price, 'USD', session('currency')) }}</span>
@@ -196,9 +197,9 @@
 
         <div class="aui-real-price clearfix">
             @if (count($product->prices) > 1)
-            <span>
-                {{ currency(min(array_column($product->prices, 'price')), 'USD', session('currency')) }}
-            </span>
+                <span>
+                    {{ currency(min(array_column($product->prices, 'price')), 'USD', session('currency')) }}
+                </span>
             @else
                 <span>
                     {{ currency($product->selling_price, 'USD', session('currency')) }}
@@ -211,7 +212,14 @@
                     <span>{{ __('Sale Price') }}</span>
                 </div>
             @endif
+            <div class="share float-right d-inline-flex align-items-center">
+                <strong>{{ __('Share') }} : </strong>
+                <div class="pl-2">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request()->fullUrl() }}"><i class="fab fa-2x fa-facebook" style="color: #3b5998;"></i></a>
+                    <a href="tg://msg_url?url={{ request()->fullUrl() }}&text={{ $product->name }}"><i class="fab fa-2x fa-telegram" style="color: #2196f3;"></i></a>
+                </div>
 
+            </div>
         </div>
         <div class="aui-product-title">
             <h2>
@@ -276,8 +284,7 @@
                 <div class="aui-footer-product-action-list float-right">
                     @if (!Cart::exists($product->id))
                         <a href="{{ route('front.cartadd', $product->id) }}"
-                            data-ydui-actionsheet="{target:'#action-cart',closeElement:'#cancel'}"
-                            class="yellow-color">
+                            data-ydui-actionsheet="{target:'#action-cart',closeElement:'#cancel'}" class="yellow-color">
                             {{ __('Add Cart') }}
                         </a>
                     @endif
@@ -342,7 +349,8 @@
 
             <a href="javascript:;" class="actionsheet-action" id="cancel"></a>
             <div class="aui-product-function">
-                <a href="{{ route('front.cartadd', $product->id) }}" class="yellow-color {{ !Cart::exists($product->id) ?: 'd-none' }}" data-toggle="add-cart">
+                <a href="{{ route('front.cartadd', $product->id) }}"
+                    class="yellow-color {{ !Cart::exists($product->id) ?: 'd-none' }}" data-toggle="add-cart">
                     {{ __('Add Cart') }}</a>
                 <a href="{{ route('front.account.orderadd', $product->id) }}"
                     class="red-color {{ !Cart::exists($product->id) ?: 'w-100' }}">{{ __('Buy Now') }}</a>
@@ -393,7 +401,8 @@
                         elementParse: function(item) {
                             item.type = 'image';
                             if ($(item.el).hasClass('play')) {
-                                item.src = `<div class="mfp-figure"><figure><video class="w-100" autoplay="" controls playsinline="" data-wf-ignore="true" data-object-fit="cover" style="padding:40px 0 40px"> <source src="${item.src}" data-wf-ignore="true" /> </video><figcaption><div class="mfp-bottom-bar"><div class="mfp-title"></div><div class="mfp-counter"></div></div></figcaption></figure></div>`;
+                                item.src =
+                                    `<div class="mfp-figure"><figure><video class="w-100" autoplay="" controls playsinline="" data-wf-ignore="true" data-object-fit="cover" style="padding:40px 0 40px"> <source src="${item.src}" data-wf-ignore="true" /> </video><figcaption><div class="mfp-bottom-bar"><div class="mfp-title"></div><div class="mfp-counter"></div></div></figcaption></figure></div>`;
                                 item.type = 'inline';
                                 item.midClick = true;
                             }
@@ -480,7 +489,8 @@
                 currency: currency.code
             }).format(price * currency.exchange_rate);
 
-        $(`#price-change-by-qty`).text(`${currency.symbol}${p.replace('$','').replace('KHR','').replace('US','')}`);
+            $(`#price-change-by-qty`).text(
+                `${currency.symbol}${p.replace('$','').replace('KHR','').replace('US','')}`);
             var t = Intl.NumberFormat(currency.code, {
                 style: 'currency',
                 currency: currency.code

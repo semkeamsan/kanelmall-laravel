@@ -256,7 +256,7 @@ Filemanager.prototype = {
                 <div class="fm_card_image-wrapper">
                     <div class="fm_card_image-sizer">
                         ${data.type == 'folder' ? `<div class="fm_grid-card__bg-icon fm_file-icon fm_file-icon--folder"></div>` :
-                        data.extension == 'image' ? `<img draggable="false" class="fm_card_image" src="${data.path}">` :
+                        data.extension == 'image' ? `<img draggable="false" class="fm_card_image bg-dark" src="${data.path}">` :
                             `<div class="fm_grid-card__bg-icon fm_file-icon fm_file-icon--${data.extension}"></div>`
                         }
 
@@ -309,7 +309,7 @@ Filemanager.prototype = {
     },
     information: function (data) {
         if (data.extension == 'image') {
-            this.$right.find(`.fm_layout-cell-content`).html(`<img draggable="false" class="fm_tabbar__image" src=" ${data.path}">`);
+            this.$right.find(`.fm_layout-cell-content`).html(`<img draggable="false" class="fm_tabbar__image bg-dark" src=" ${data.path}">`);
         } else {
             this.$right.find(`.fm_layout-cell-content`).html(`<div class="fm_tabbar__bg-icon fm_file-icon fm_file-icon--${data.extension}"></div>`);
         }
@@ -622,7 +622,7 @@ Filemanager.prototype = {
                     <div class="fm_dataview-item__inner-html">
                         <div class="fm_card_image-wrapper">
                             <div class="fm_card_image-sizer">
-                                ${ ext == 'image' ? `<img draggable="false" class="fm_card_image" src="${URL.createObjectURL(file)}">` :
+                                ${ ext == 'image' ? `<img draggable="false" class="fm_card_image bg-dark" src="${URL.createObjectURL(file)}">` :
                                     `<div class="fm_grid-card__bg-icon fm_file-icon fm_file-icon--${ext}"></div>`
                                 }
 
@@ -1154,7 +1154,7 @@ $.fn.filemanager = function (opts) {
                 var $t = $(`<div class="border m-1" style="width:120px;height:120px;float:left;position: relative;">
                 <i id="del" class="fas fa-times fa-z position-absolute text-danger p-1" style=" z-index: 1; right: 0;"></i>
                 <input type="hidden" class="form-control" name="${options.input_name}" value="${data.path}">
-                <img width="100%" height="100%" src="${data.path}" style="object-fit: contain">
+                <img width="100%" height="100%" src="${data.path}" style="object-fit: contain" class="bg-dark">
                 </div>`);
                 $t.find('#del').click(() => {
                     $t.remove();

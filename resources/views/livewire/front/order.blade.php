@@ -213,11 +213,11 @@
                                         </td>
                                         <td>
 
-                                            <input wire:model="coupon.{{ $order->id }}" type="text"
+                                            <input wire:model.debounce.1000ms="coupon.{{ $order->id }}" type="text"
                                                 class="form-control form-control-sm"
                                                 placeholder="{{ __('Coupon code') }}">
                                             @if ($coupon_message[$order->id])
-                                                <div class="error-feedback d-block px-2">
+                                                <div class="error-feedback d-block">
                                                     {{ $coupon_message[$order->id] }}
                                                 </div>
                                             @endif
@@ -297,7 +297,7 @@
                                             <span>
                                                 {{ currency($order->total_price, 'USD', session('currency')) }}
                                                 @if ($order->total_price_coupon)
-                                                    =>
+                                                     ⟶
                                                     {{ currency($order->total_price_coupon, 'USD', session('currency')) }}
                                                 @endif
 

@@ -31,5 +31,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('email', 'Admin\\AccountController@email')->name('email');
             Route::post('password', 'Admin\\AccountController@password')->name('password');
         });
+        Route::prefix('settings')->as('settings.')->group(function () {
+            Route::get('/', 'Admin\\SettingsController@index')->name('index');
+            Route::post('socialite', 'Admin\\SettingsController@socialite')->name('socialite');
+            Route::post('brandlogo', 'Admin\\SettingsController@brandlogo')->name('brandlogo');
+        });
     });
 });

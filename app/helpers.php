@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Settings;
+
 function array_to_jsdecode(array $array)
 {
     return json_decode(json_encode($array));
@@ -71,4 +73,9 @@ function shipping(int $id)
             break;
         }
     }
+}
+
+function settings($name,$default = null)
+{
+   return Settings::where('name',$name)->pluck('value')->first()??$default;
 }

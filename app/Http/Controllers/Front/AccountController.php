@@ -33,7 +33,9 @@ class AccountController extends Controller
             'total_price' =>  $price * $product->qty,
             'qty' => $product->qty,
         ]);
-
+        $order->update([
+            'total_price' => $order->products->sum('total_price')
+        ]);
 
         return redirect()->route('front.account.myorder', 'status=pending');
     }

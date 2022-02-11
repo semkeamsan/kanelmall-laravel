@@ -208,10 +208,10 @@
                 </td>
                 <td>
 
-                    <input wire:model="coupon" type="text" class="form-control form-control-sm"
+                    <input wire:model.debounce.1000ms="coupon" type="text" class="form-control form-control-sm"
                         placeholder="{{ __('Coupon code') }}">
                     @if ($coupon_message)
-                        <div class="error-feedback d-block px-2">
+                        <div class="error-feedback d-block">
                             {{ $coupon_message }}
                         </div>
                     @endif

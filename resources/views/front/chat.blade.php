@@ -65,6 +65,7 @@
 @section('content')
     <div class="aui-content-box pt-0">
         <section class="p-1">
+            <div class="fb-page" data-href="https://www.facebook.com/{{ env('FACEBOOK_PAGE_ID') }}" data-tabs="" data-width="500" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/Kanel-Mall-{{ env('FACEBOOK_PAGE_ID') }}" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/{{ env('FACEBOOK_PAGE_ID') }}"></a></blockquote></div>
             @foreach ($chatmanagers as $chat)
             <div>
                 <a href="{{ $chat->link }}">
@@ -73,6 +74,7 @@
                 <a class="link" href="{{ $chat->link }}"> {{ $chat->name }} </a>
             </div>
             @endforeach
+
         </section>
     </div>
     @include('front.navbar.footer')
@@ -89,7 +91,7 @@
 
       <script>
         var chatbox = document.getElementById('fb-customer-chat');
-        chatbox.setAttribute("page_id", "104230302176111");
+        chatbox.setAttribute("page_id", "{{ env('FACEBOOK_PAGE_ID') }}");
         chatbox.setAttribute("attribution", "biz_inbox");
       </script>
 

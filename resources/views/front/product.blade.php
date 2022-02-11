@@ -215,8 +215,8 @@
             <div class="share float-right d-inline-flex align-items-center">
                 <strong>{{ __('Share') }} : </strong>
                 <div class="pl-2">
-                    <a target="_blank" href="https://www.facebook.com/dialog/share?app_id={{ env('FACEBOOK_APP_ID') }}&display=popup&href={{ request()->fullUrl() }}&redirect_uri={{ request()->fullUrl() }}"><i class="fab fa-2x fa-facebook" style="color: #3b5998;"></i></a>
-                    <a target="_blank" href="tg://msg_url?url={{ request()->fullUrl() }}&text={{ $product->name }}"><i class="fab fa-2x fa-telegram" style="color: #2196f3;"></i></a>
+                    <a href="https://www.facebook.com/dialog/share?app_id={{ env('FACEBOOK_APP_ID') }}&display=popup&href={{ request()->fullUrl() }}&redirect_uri={{ request()->fullUrl() }}"><i class="fab fa-2x fa-facebook" style="color: #3b5998;"></i></a>
+                    <a href="tg://msg_url?url={{ request()->fullUrl() }}&text={{ $product->name }}"><i class="fab fa-2x fa-telegram" style="color: #2196f3;"></i></a>
                 </div>
 
             </div>

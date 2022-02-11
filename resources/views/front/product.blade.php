@@ -215,7 +215,7 @@
             <div class="share float-right d-inline-flex align-items-center">
                 <strong>{{ __('Share') }} : </strong>
                 <div class="pl-2">
-
+                    <div class="fb-share-button" data-href="{{ request()->fullUrl() }}" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ request()->fullUrl() }}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
                     <a href="https://www.facebook.com/dialog/share?app_id={{ env('FACEBOOK_APP_ID') }}&display=popup&href={{ request()->fullUrl() }}&redirect_uri={{ request()->fullUrl() }}"><i class="fab fa-2x fa-facebook" style="color: #3b5998;"></i></a>
                     <a href="tg://msg_url?url={{ request()->fullUrl() }}&text={{ $product->name }}"><i class="fab fa-2x fa-telegram" style="color: #2196f3;"></i></a>
                 </div>
@@ -360,6 +360,8 @@
         </div>
     </div>
     @include('front.navbar.footer')
+    <div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v13.0&appId=301645085236776&autoLogAppEvents=1" nonce="xLLzQmmT"></script>
 
 @endsection
 @push('styles')

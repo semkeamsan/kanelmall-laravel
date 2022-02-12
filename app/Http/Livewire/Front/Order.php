@@ -109,17 +109,20 @@ class Order extends Component
             if (!@$this->shippings[$order->id]) {
                 $this->shippings[$order->id] = $order->shipping_fee_id;
                 if (!$this->shippings[$order->id]) {
-                    $this->shippings[$order->id] = session('shippings')->first()->id;
+                    $this->shippings[$order->id] = session('shippings',collect())->first()->id??0;
                 }
             }
 
             if ($this->shippings[$order->id]) {
                 $order->shippingData = shipping($this->shippings[$order->id]);
-                if ($order->shippingData->packing_charge_type == 'percentage') {
-                    $order->final_total_price =  $order->total_price +  ($order->total_price * $order->shippingData->packing_charge) / 100;
-                } elseif ($order->shippingData->packing_charge_type == 'fixed') {
-                    $order->final_total_price =    $order->total_price +  $order->shippingData->packing_charge;
+                if($order->shippingData){
+                    if ($order->shippingData->packing_charge_type == 'percentage') {
+                        $order->final_total_price =  $order->total_price +  ($order->total_price * $order->shippingData->packing_charge) / 100;
+                    } elseif ($order->shippingData->packing_charge_type == 'fixed') {
+                        $order->final_total_price =    $order->total_price +  $order->shippingData->packing_charge;
+                    }
                 }
+
             }
 
 
@@ -146,7 +149,7 @@ class Order extends Component
             }
 
 
-            if ($order->coupon) {
+            if ($order->coupon && $order->couponData) {
                 // Not expired
                 if (now()->diff($coupon['end_at'])->invert === 0) {
                     if ($order->couponData['discount_type'] == 'percentage') {

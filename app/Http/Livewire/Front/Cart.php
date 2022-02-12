@@ -53,7 +53,7 @@ class Cart extends Component
     public function mount()
     {
 
-        $this->shipping_fee = session('shippings')->first()->id;
+        $this->shipping_fee =  session('shippings',collect())->first()->id ??0;
         if (request()->user()) {
             $this->province = auth()->user()->province_id;
             $this->district = auth()->user()->district_id;

@@ -49,33 +49,39 @@ function slug($string)
  */
 function product(int $id)
 {
-    foreach (session('products') as $product) {
-        if ($product->id == $id) {
-            return  $product;
-            break;
+    if ($id) {
+        foreach (session('products',[]) as $product) {
+            if ($product->id == $id) {
+                return  $product;
+                break;
+            }
         }
     }
 }
 function category(int $id)
 {
-    foreach (session('categories') as $category) {
-        if ($category->id == $id) {
-            return  $category;
-            break;
+    if ($id) {
+        foreach (session('categories',[]) as $category) {
+            if ($category->id == $id) {
+                return  $category;
+                break;
+            }
         }
     }
 }
 function shipping(int $id)
 {
-    foreach (session('shippings') as $shipping) {
-        if ($shipping->id == $id) {
-            return  $shipping;
-            break;
+    if ($id) {
+        foreach (session('shippings',[]) as $shipping) {
+            if ($shipping->id == $id) {
+                return  $shipping;
+                break;
+            }
         }
     }
 }
 
-function settings($name,$default = null)
+function settings($name, $default = null)
 {
-   return Settings::where('name',$name)->pluck('value')->first()??$default;
+    return Settings::where('name', $name)->pluck('value')->first() ?? $default;
 }

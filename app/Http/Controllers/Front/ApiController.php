@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Front;
 
 use App\Models\Order;
+use Exception;
 use Illuminate\Support\Facades\Http;
-use PDO;
 
 class ApiController
 {
@@ -18,7 +18,7 @@ class ApiController
 
         $this->transactions();
         $response = Http::withoutVerifying()->get($this->API_DOMAIN . '/api/business/' . $this->API_BUSID)->json();
-        session()->put('business',$response);
+        session()->put('business', $response);
         $this->shippings($response['type_of_services']);
         $this->sliders($response['sliders']);
         $this->promotions($response['promotions']);
@@ -29,7 +29,6 @@ class ApiController
         } else {
             return true;
         }
-
     }
     public function sliders(array $data)
     {
@@ -177,7 +176,7 @@ class ApiController
                 }
             }
 
-            if($shipping){
+            if ($shipping) {
                 if ($shipping->packing_charge_type == 'percentage') {
                     $final_total =  $final_total +  ($final_total * $shipping->packing_charge) / 100;
                 } elseif ($shipping->packing_charge_type == 'fixed') {
@@ -201,7 +200,7 @@ class ApiController
                 'tax_amount' => '0',
                 'rp_redeemed' => '0',
                 'rp_redeemed_amount' => '0',
-                'shipping_charges' => $shipping ? $shipping->packing_charge: 0,
+                'shipping_charges' => $shipping ? $shipping->packing_charge : 0,
                 'round_off_amount' => $order->total_price,
                 'final_total' => $final_total,
                 'is_direct_sale' => '0',

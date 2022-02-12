@@ -259,9 +259,15 @@ const Kanel = {
     },
     otp: function (inputs) {
         if (inputs.length) {
+
+            inputs.keypress(function () {
+                if ($(this).val().length == $(this).attr('maxlength')) {
+                    return false;
+                }
+            });
+
             for (let i = 0; i < inputs.length; i++) {
                 inputs[i].addEventListener('keydown', function (event) {
-
                     if (event.key === "Backspace") {
                         inputs[i].value = '';
                         if (i !== 0)
@@ -273,6 +279,9 @@ const Kanel = {
                             inputs[i].value = event.key;
                             if (i !== inputs.length - 1)
                                 inputs[i + 1].focus();
+                                if(inputs[i + 1] == undefined){
+                                    inputs[i - 1].blur();
+                                }
                             event.preventDefault();
                         } else if (event.keyCode > 64 && event.keyCode < 91) {
                             inputs[i].value = String.fromCharCode(event.keyCode);

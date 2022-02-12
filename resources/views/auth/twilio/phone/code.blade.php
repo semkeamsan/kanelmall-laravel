@@ -15,22 +15,22 @@
                                 <div class="input-group otp">
                                     <input
                                         class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline"
-                                        type="text" id="first" maxlength="1" />
+                                        type="number" id="first" maxlength="1" />
                                     <input
                                         class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline"
-                                        type="text" id="second" maxlength="1" />
+                                        type="number" id="second" maxlength="1" />
                                     <input
                                         class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline"
-                                        type="text" id="third" maxlength="1" />
+                                        type="number" id="third" maxlength="1" />
                                     <input
                                         class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline"
-                                        type="text" id="fourth" maxlength="1" />
+                                        type="number" id="fourth" maxlength="1" />
                                     <input
                                         class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline"
-                                        type="text" id="fifth" maxlength="1" />
+                                        type="number" id="fifth" maxlength="1" />
                                     <input
                                         class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline"
-                                        type="text" id="sixth" maxlength="1" />
+                                        type="number" id="sixth" maxlength="1" />
                                 </div>
 
 

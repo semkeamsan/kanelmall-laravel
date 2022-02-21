@@ -10,10 +10,10 @@
                     <div class="aui-list-product-mes-box">
                         <div>
                             <span class="aui-list-product-item-price">
-                                $0.00
+                                {{ currency(0.00, 'USD', session('currency')) }}
                             </span>
                             <span class="aui-list-product-item-del-price">
-                                $0.00
+                                {{ currency(0.00, 'USD', session('currency')) }}
                             </span>
                         </div>
                         <div class="aui-comment"><i class="fa fa-check"></i> {{ __('Instock') }}</div>

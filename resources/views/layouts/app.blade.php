@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     @stack('styles')
     <script>
-        window.languages = {!! collect(Lang::get('*')) !!};
+        window.languages = {!! collect(Lang::get('*'))->merge(collect(\Lang::get('firebase'))) !!};
     </script>
 </head>
 

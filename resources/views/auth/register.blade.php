@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div id="fb-root"></div>
+    <div id="fb-root"></div>
     <!--register -->
     <section class="py-xl-7 register">
         <div class="container">
@@ -16,8 +16,8 @@
 
                             <div class="form-row">
                                 <div class="col-xl-6">
-                                    <form class="form-row align-items-center needs-validation" method="POST"
-                                        novalidate action="{{ route('register') }}">
+                                    <form class="form-row align-items-center needs-validation" method="POST" novalidate
+                                        action="{{ route('register') }}">
                                         @csrf
                                         <div class="mb-3 col-sm-12">
                                             <label>{{ __('Name') }}:</label>
@@ -124,6 +124,11 @@
                                         </div>
                                         <div class="btn-wrapper text-center">
                                             {{-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" class="d-xl-none d-sm-block"></fb:login-button> --}}
+                                            <a href="{{ route('otp.with', 'phone') }}"
+                                                class="btn btn-neutral btn-icon mb-2">
+                                                <span class="btn-inner--icon"><i class="fa fa-phone"></i></span>
+                                                <span class="btn-inner--text">{{ __('Phone') }}</span>
+                                            </a>
                                             <a href="{{ route('auth.with', 'facebook') }}"
                                                 class="btn btn-neutral btn-icon mb-2">
                                                 <span class="btn-inner--icon"><img
@@ -156,7 +161,6 @@
     <div id="recaptcha-container"></div>
 @endsection
 @push('scripts')
-
     <script>
         function checkLoginState() {
             FB.getLoginStatus(function(response) {
@@ -173,8 +177,10 @@
 
             FB.getLoginStatus(function(response) { // Called after the JS SDK has been initialized.
                 if (response.status === 'connected') {
-                    FB.api(`me?fields=id,first_name,last_name,gender`,function(response){
-                        $(`#loginfb`).find(`.btn-inner--text`).text(`{{ __('Continue as') }} ${response.first_name} ${response.last_name}`);
+                    FB.api(`me?fields=id,first_name,last_name,gender`, function(response) {
+                        $(`#loginfb`).find(`.btn-inner--text`).text(
+                            `{{ __('Continue as') }} ${response.first_name} ${response.last_name}`
+                            );
                     });
                 }
                 //statusChangeCallback(response); // Returns the login status.
@@ -193,7 +199,7 @@
                             avatar: response.picture_large.data.url,
                         };
                         $.post(`{{ route('auth.with.data', 'facebook') }}`, data).done((res) => {
-                            if(res){
+                            if (res) {
                                 location.href = `{{ route('front.account.index') }}`;
                             }
                         });

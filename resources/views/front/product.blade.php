@@ -42,7 +42,7 @@
     <meta property="og:url" content="{{ url()->full() }}" />
     <meta property="og:site_name"
         content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}" />
-    <meta property="article:publisher" content="https://www.facebook.com/semkeamsan" />
+    <meta property="article:publisher" content="https://www.facebook.com/kanelmall" />
     <meta property="article:published_time" content="" />
     <meta property="article:modified_time" content="" />
     <meta property="og:updated_time" content="" />
@@ -52,7 +52,7 @@
         content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}">
     <meta name="twitter:description" content="{{ strip_tags($product->description) }}">
     <meta name="twitter:image" content="{{ $product->image_url }}">
-    <meta name="twitter:site" content="@semkeamsan">
+    <meta name="twitter:site" content="@kanelmall">
 
     <meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large" />
     <link rel="canonical" href="{{ url()->full() }}" />
@@ -64,7 +64,7 @@
     <meta property="og:url" content="{{ url()->full() }}" />
     <meta property="og:site_name"
         content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}" />
-    <meta property="article:publisher" content="https://www.facebook.com/semkeamsan" />
+    <meta property="article:publisher" content="https://www.facebook.com/kanelmall" />
     <meta property="article:section" content="Blog" />
     <meta property="og:updated_time" content="" />
     <meta property="og:image" content="{{ $product->image_url }}" />
@@ -78,8 +78,8 @@
     <meta name="twitter:title"
         content="{{ env('APP_NAME') }} — {{ currency($product->selling_price, 'USD', session('currency')) }} {{ $product->name }}" />
     <meta name="twitter:description" content="{{ strip_tags($product->description) }}" />
-    <meta name="twitter:site" content="@semkeamsan" />
-    <meta name="twitter:creator" content="@semkeamsan" />
+    <meta name="twitter:site" content="@kanelmall" />
+    <meta name="twitter:creator" content="@kanelmall" />
     <meta name="twitter:image" content="{{ $product->image_url }}" />
 @endsection
 @section('content')

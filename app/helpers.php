@@ -47,7 +47,7 @@ function slug($string)
  * @param int $id
  * @return stdclass product
  */
-function product(int $id)
+function product( $id)
 {
     if ($id) {
         foreach (session('products',[]) as $product) {
@@ -58,7 +58,7 @@ function product(int $id)
         }
     }
 }
-function category(int $id)
+function category( $id)
 {
     if ($id) {
         foreach (session('categories',[]) as $category) {
@@ -69,7 +69,7 @@ function category(int $id)
         }
     }
 }
-function shipping(int $id)
+function shipping($id)
 {
     if ($id) {
         foreach (session('shippings',[]) as $shipping) {

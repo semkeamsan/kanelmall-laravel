@@ -32,6 +32,9 @@ class SocialiteController extends Controller
 
             if ($auth->user) {
                 auth()->loginUsingId($auth->user->id, true);
+                if(!$auth->user->hasVerifiedEmail()){
+                    $auth->user->markEmailAsVerified();
+                }
                 return redirect()->route('front.account.index');
             } else {
                 $user = User::firstOrCreate(['email' => $user->getEmail()], [

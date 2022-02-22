@@ -376,7 +376,7 @@
                                 @if (collect($rules)->get('province'))
                                     <span class="text-danger text-xs">*</span>
                                 @endif
-                                <select class="form-control" wire:model="province" wire:change="province">
+                                <select class="form-control select2" wire:model="province" wire:change="province">
                                     @foreach ($provinces as $item)
                                         <option value="{{ $item->id }}">{{ $item->translation->name }}</option>
                                     @endforeach

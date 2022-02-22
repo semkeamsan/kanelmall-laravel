@@ -159,12 +159,16 @@
                     $(this).parents('form').attr('action', `{{ route('password.reset.phone') }}`);
                     $(this).parents('form').attr('method', 'get');
                     $(this).attr('name', 'phone');
-                    $(this).parents('form').find('button').text(`{{ __('Send Code') }}`);
+                    $(this).parents('form').find('button').text(`{{ __('Send code') }}`);
+                    $(`#icon-mail`).addClass('d-none');
+                    $(`#icon-phone`).removeClass('d-none');
                 } else {
                     $(this).parents('form').attr('action', `{{ route('password.email') }}`);
                     $(this).parents('form').attr('method', 'post');
                     $(this).attr('name', 'email');
                     $(this).parents('form').find('button').text(`{{ __('Send Password Reset Link') }}`);
+                    $(`#icon-mail`).removeClass('d-none');
+                    $(`#icon-phone`).addClass('d-none');
                 }
                 if ($ajax) {
                     $ajax.abort();
@@ -243,10 +247,15 @@
                             $form.find(`button`).text(`{{ __('Reset Password ') }}`);
 
                         }).catch(function(error) {
-                            console.log(error.message)
+                            console.log(error)
+                            var message = error.message;
+                            if (window.languages[error.code]) {
+                                message = window.languages[error.code];
+                            }
+
                             $modal.find('.has-error').remove();
                             $modal.find(`.otp`).after(
-                                `<div class="has-error text-danger">${error.message}</div>`
+                                `<div class="has-error text-danger">${message}</div>`
                             );
 
                         });
@@ -277,7 +286,18 @@
                                 .then(confirmationResult => {
                                     confirmation = confirmationResult;
                                     otp(form);
-                                }).catch(error => console.log(error));
+                                }).catch((error)=>{
+                                    console.log(error)
+                                    var message = error.message;
+                                    if (window.languages[error.code]) {
+                                        message = window.languages[error.code];
+                                    }
+
+                                    $(`[name="phone"]`).next('.has-error').remove();
+                                    $(`[name="phone"]`).after(
+                                        `<div class="has-error text-danger">${message}</div>`
+                                    );
+                                });
                         }
 
                     } else {

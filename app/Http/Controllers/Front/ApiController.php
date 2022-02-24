@@ -15,7 +15,6 @@ class ApiController
 
     public function init()
     {
-
         $this->transactions();
         $response = Http::withoutVerifying()->get($this->API_DOMAIN . '/api/business/' . $this->API_BUSID)->json();
         session()->put('business', $response);
@@ -74,6 +73,13 @@ class ApiController
             $value['price'] = 0;
             if ($value['prices']) {
                 $value['price'] =  min(array_column($value['prices'], 'price'));
+                foreach ($value['prices'] as $price){
+                    if ($price['qty'] <= $value['instock']){
+                        $value['price'] =  $price['price'];
+                    }
+                }
+
+
                 $value['selling_price'] = $value['price'];
             } elseif ($value['variations']) {
                 $value['price'] =  $value['variations'][0]['default_sell_price'];
@@ -147,6 +153,7 @@ class ApiController
     }
     public  function checkout($order)
     {
+
         $uid = slug(env('APP_NAME')) . '-' . $this->API_BUSID . '-' . auth()->id();
         $contact = Http::withoutVerifying()->post($this->API_DOMAIN . '/api/business/' . $this->API_BUSID . '/customer', [
             'created_by'  => $this->API_USER,
@@ -161,6 +168,7 @@ class ApiController
         ])->json();
 
         if ($contact) {
+
             $discount_amount = 0;
             $final_total = $order->products->sum('total_price');
             $coupon = $this->coupon($order->coupon);
@@ -280,18 +288,22 @@ class ApiController
                     ];
                 })->toArray(),
             ];
-
-            return  $response =  Http::withoutVerifying()->post($this->API_DOMAIN . '/api/checkout/web', $data)->json();
+             return $response =  Http::withoutVerifying()->post($this->API_DOMAIN . '/api/checkout/web', $data)->json();
         }
     }
     public function transactions($orders = null)
     {
-
-
         $orders = $orders ?? Order::whereNotIn('status', ['pending'])->get();
         if ($orders->count()) {
             $ids = $orders->pluck('transaction_id');
             $transactions = Http::withoutVerifying()->get($this->API_DOMAIN . '/api/business/' . $this->API_BUSID . '/transactions/' . $ids->implode(','))->json();
+            foreach ($ids as $key => $id) {
+                if(!in_array($id,array_column($transactions,'id'))){
+                    $orders->where('transaction_id',$id)->first()->update([
+                        'status' => 'cancel',
+                    ]);
+                }
+            }
             if ($transactions) {
                 foreach ($transactions as $t) {
                     $order = $orders->where('transaction_id', $t['id'])->first();

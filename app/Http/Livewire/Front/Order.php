@@ -62,7 +62,7 @@ class Order extends Component
         $this->longitude = auth()->user()->longitude;
         $this->provinces = Province::get();
         $this->payment_via = 'aba';
-        
+
 
         if ($this->province) {
             $this->districts = Province::find($this->province)->districts;
@@ -350,8 +350,8 @@ class Order extends Component
                 }
             }
         }
-
         $checkout =  (new ApiController)->checkout($this->orders->find($orderid));
+
         if ($checkout && @$checkout['success']) {
             $this->orders->find($orderid)->update([
                 'transaction_id' => $checkout['transactionID'],

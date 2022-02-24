@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Settings;
+use Illuminate\Support\Str;
 
 function array_to_jsdecode(array $array)
 {
@@ -16,7 +17,7 @@ function sql_with_bindings($query)
 }
 function slug($string)
 {
-
+   return preg_replace('/\s+/u', '-', trim(Str::lower($string)));
     $t = $string;
 
     $specChars = array(

@@ -196,22 +196,24 @@
         @endif
 
         <div class="aui-real-price clearfix">
-            @if (count($product->prices) > 1)
-                <span>
-                    {{ currency(min(array_column($product->prices, 'price')), 'USD', session('currency')) }}
-                </span>
-            @else
+
+
+
                 <span>
                     {{ currency($product->selling_price, 'USD', session('currency')) }}
                 </span>
-                @if ($product->promotion)
-                    <del><span class="aui-font-num">
-                            {{ currency($product->price, 'USD', session('currency')) }}</span></del>
+                @if (count($product->prices) == 0 )
+                    @if ($product->promotion)
+                        <del>
+                            <span class="aui-font-num">
+                                {{ currency($product->price, 'USD', session('currency')) }}
+                            </span>
+                        </del>
+                    @endif
+                    <div class="aui-settle-choice">
+                        <span>{{ __('Sale Price') }}</span>
+                    </div>
                 @endif
-                <div class="aui-settle-choice">
-                    <span>{{ __('Sale Price') }}</span>
-                </div>
-            @endif
             <div class="share float-right d-inline-flex align-items-center">
                 <strong>{{ __('Share') }} : </strong>
                 <div class="pl-2">

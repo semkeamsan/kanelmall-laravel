@@ -28,25 +28,20 @@
                     <div class="aui-list-product-item-text">
                         <h3> {{ $product->name }} </h3>
                         <div class="aui-list-product-mes-box">
-                            @if (count($product->prices) > 1)
-                                <div>
-                                    <span class="aui-list-product-item-price">
-                                        {{ currency(min(array_column($product->prices, 'price')), 'USD', session('currency')) }}
-                                    </span>
-                                </div>
-                            @else
-                                <div>
-                                    <span class="aui-list-product-item-price">
-                                        {{ currency($product->selling_price, 'USD', session('currency')) }}
-                                    </span>
+
+                            <div>
+                                <span class="aui-list-product-item-price">
+                                    {{ currency($product->selling_price, 'USD', session('currency')) }}
+                                </span>
+                                @if (count($product->prices) > 1)
                                     @if ($product->promotion)
                                         <span class="aui-list-product-item-del-price">
                                             {{ currency($product->price, 'USD', session('currency')) }}
                                         </span>
                                     @endif
+                                @endif
+                            </div>
 
-                                </div>
-                            @endif
 
                             @if ($product->enable_stock && $product->instock)
                                 <div class="aui-comment"><i class="fa fa-check"></i> {{ __('Instock') }}</div>
@@ -55,10 +50,8 @@
                     </div>
                 </a>
             </div>
-
         @endforeach
     </section>
-
 @else
     @if (request('q'))
         <section class="" data-page="">

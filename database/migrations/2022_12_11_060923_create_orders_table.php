@@ -27,6 +27,7 @@ class CreateOrdersTable extends Migration
             $table->text('longitude')->nullable();
             $table->text('coupon')->nullable();
             $table->text('comment')->nullable();
+            $table->bigInteger('shipping_fee_id')->nullable();
             $table->unsignedBigInteger('province_id')->nullable();
             $table->foreign('province_id')->references('id')->on('provinces')->onDelete('cascade');
             $table->unsignedBigInteger('district_id')->nullable();

@@ -75,7 +75,6 @@
                 @if (count($products))
                     <ul>
                         @foreach ($products as $key => $product)
-
                             <li class="shop-info">
                                 <div class="aui-list-title-info">
                                     <div class="aui-list-product-fl-item">
@@ -126,7 +125,6 @@
                                                                 @endphp
                                                             @endif
                                                         @endforeach
-
                                                     @endif
                                                     <b class="price">
                                                         {{ currency($price, 'USD', session('currency')) }}
@@ -201,65 +199,65 @@
             </div>
         </div>
         @if (count($products))
-        <table class="table table-sm">
-            <tr>
-                <td>
-                    {{ __('Coupon code') }}
-                </td>
-                <td>
-
-                    <input wire:model.debounce.1000ms="coupon" type="text" class="form-control form-control-sm"
-                        placeholder="{{ __('Coupon code') }}">
-                    @if ($coupon_message)
-                        <div class="error-feedback d-block">
-                            {{ $coupon_message }}
-                        </div>
-                    @endif
-
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    {{ __('Total') }}
-                </td>
-                <td>
-
-                    <b>
-                        {{ currency($total, 'USD', session('currency')) }}
-                        @if ($total_coupon)
-                            ⟶ {{ currency($total_coupon, 'USD', session('currency')) }}
-                        @endif
-                    </b>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    {{ __('Shipping fee') }}
-                </td>
-                <td>
-                    <select wire:model="shipping_fee" class="form-control form-control-sm select2">
-                        @foreach (session('shippings') as $item)
-                            <option value="{{ $item->id }}" {{ $loop->first ? 'selected' : null }}>
-                                {{ $item->name }} -
-                                {{ $item->packing_charge_type == 'fixed'? currency($item->packing_charge, 'USD', session('currency')): $item->packing_charge . '%' }}
-                            </option>
-                        @endforeach
-                    </select>
-                </td>
-            </tr>
-            @if ($total_price)
+            <table class="table table-sm">
                 <tr>
                     <td>
-                        {{ __('Total Price') }}
+                        {{ __('Coupon code') }}
                     </td>
                     <td>
-                        <h3 class="text-primary">
-                            {{ currency($total_price, 'USD', session('currency')) }}
-                        </h3>
+
+                        <input wire:model.debounce.1000ms="coupon" type="text" class="form-control form-control-sm"
+                            placeholder="{{ __('Coupon code') }}">
+                        @if ($coupon_message)
+                            <div class="error-feedback d-block">
+                                {{ $coupon_message }}
+                            </div>
+                        @endif
+
                     </td>
                 </tr>
-            @endif
-        </table>
+                <tr>
+                    <td>
+                        {{ __('Total') }}
+                    </td>
+                    <td>
+
+                        <b>
+                            {{ currency($total, 'USD', session('currency')) }}
+                            @if ($total_coupon)
+                                ⟶ {{ currency($total_coupon, 'USD', session('currency')) }}
+                            @endif
+                        </b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{ __('Shipping fee') }}
+                    </td>
+                    <td>
+                        <select wire:model="shipping_fee" class="form-control form-control-sm select2">
+                            @foreach (session('shippings') as $item)
+                                <option value="{{ $item->id }}" {{ $loop->first ? 'selected' : null }}>
+                                    {{ __(trim($item->name)) }} -
+                                    {{ $item->packing_charge_type == 'fixed'? currency($item->packing_charge, 'USD', session('currency')): $item->packing_charge . '%' }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </td>
+                </tr>
+                @if ($total_price)
+                    <tr>
+                        <td>
+                            {{ __('Total Price') }}
+                        </td>
+                        <td>
+                            <h3 class="text-primary">
+                                {{ currency($total_price, 'USD', session('currency')) }}
+                            </h3>
+                        </td>
+                    </tr>
+                @endif
+            </table>
 
 
             @if ($total)
@@ -394,7 +392,7 @@
                                 @if (collect($rules)->get('address'))
                                     <span class="text-danger text-xs">*</span>
                                 @endif
-                                @if ($communes)
+                                @if ($commune)
                                     <a href="#" class="float-right"
                                         wire:click.prevent="samelocation">{{ __('Same Location') }}</a>
                                 @endif
@@ -461,7 +459,7 @@
                                     <span class="text-danger text-xs">*</span>
                                 @endif
                                 <div class="form-row">
-                                    <div class="col-6">
+                                    <div class="col-5 col-xl-6">
                                         <select class="form-control select2-image" wire:model="payment_via"
                                             data-minimum-results-for-search="Infinity">
                                             <option data-src="{{ asset('images/aba.png') }}" value="aba">
@@ -476,47 +474,52 @@
                                                 {{ __('Wing') }}</option>
                                         </select>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col col-xl-6">
                                         <label class="btn m-0 p-2 form-control"
-                                            for="payment_image">{{ __('Upload Payment') }}</label>
+                                            for="payment_image">{{ __('Upload Payment') }} (1MB)</label>
                                         <input type="file" class="form-control d-none" wire:model="payment_image"
                                             accept="image/*" id="payment_image">
 
                                     </div>
+                                    <div class="col-12">
+                                        @error('payment_via')
+                                            <div class="error-feedback d-block">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+
+                                        @if ($payment_image)
+                                            <div class="col p-3 border">
+                                                <div class="avatar rounded bg-transparent w-100 h-100">
+                                                    @if (gettype($payment_image) == 'string')
+                                                        <img class="w-100" src="{{ $payment_image }}">
+                                                    @else
+                                                        <img class="w-100"
+                                                            src="{{ $payment_image->temporaryUrl() }}">
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @else
+                                            @error('payment_image')
+                                                <div class="error-feedback d-block">
+                                                    {{-- {{ $message }} --}}
+                                                    {{ __('The image bigger',['size' => '1MB']) }}
+                                                </div>
+                                            @enderror
+
+                                            <div class="error-feedback d-block">
+                                                {{ __('Please upload payment to continue') }}...
+                                            </div>
+                                        @endif
+                                    </div>
                                     <div class="col-12 my-2">
                                         <fieldset class="border px-2">
                                             <legend class="w-auto text-sm">{{ __('How to pay') }}</legend>
-                                            <p class="text-sm" style="white-space: pre-line">
-                                                {{ trim(session('business.how_to_pay')) }}
-                                            </p>
+                                            <p class="text-xs" style="white-space: pre-line">{!! session('business.how_to_pay') !!}</p>
                                         </fieldset>
                                     </div>
                                 </div>
-                                @error('payment_via')
-                                    <div class="error-feedback d-block">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                                @error('payment_image')
-                                    <div class="error-feedback d-block">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                                @if ($payment_image)
-                                    <div class="col p-3 border">
-                                        <div class="avatar rounded bg-transparent w-100 h-100">
-                                            @if (gettype($payment_image) == 'string')
-                                                <img class="w-100" src="{{ $payment_image }}">
-                                            @else
-                                                <img class="w-100" src="{{ $payment_image->temporaryUrl() }}">
-                                            @endif
-                                        </div>
-                                    </div>
-                                @else
-                                    <div class="error-feedback d-block">
-                                        {{ __('Please upload payment to continue') }}...
-                                    </div>
-                                @endif
+
                             </span>
                         </div>
                     </div>

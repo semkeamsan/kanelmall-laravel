@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
 {
@@ -16,8 +17,14 @@ class OrderController extends Controller
      */
     public function index()
     {
-
-        $collection = Order::latest('id')->get();
+        $collection = Order::latest('id')
+        ->whereHas('user',function($user){
+            $user->when(request('s'),function($user){
+                $user->where('name','like','%'.request('s').'%');
+            });
+        })->when(request('s'),function($order){
+            $order->orWhere('transaction_id','like','%'.request('s').'%');
+        })->paginate(20);
         return view('admin.order.index', compact('collection'));
     }
 
@@ -95,7 +102,12 @@ class OrderController extends Controller
      */
     public function destroy($ids)
     {
-        Order::whereIn('id', explode(',', $ids))->delete();
+        foreach (Order::whereIn('id', explode(',', $ids))->get() as $row) {
+            $payment_image = collect(explode('/',$row->payment_image))->last();
+            if($row->delete()){
+                Storage::delete('public/payments/'.$payment_image);
+            }
+        }
         return  redirect()->back()->with('message', __('Delete successfully'));
     }
 }

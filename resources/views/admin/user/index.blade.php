@@ -11,9 +11,14 @@
                                     href="{{ route('admin.user.create') }}">
                                     {{ __('Add') }}
                                 </a>
-                                <a href="#" class="btn btn-outline-primary" data-toggle="collapse" data-target="#filter">
+                                <a href="#" class="btn btn-outline-primary d-none" data-toggle="collapse" data-target="#filter">
                                     {{ __('Filter') }}
                                 </a>
+                            </div>
+                            <div class="col-auto col-xl-6 mb-3">
+                                <form>
+                                    <input type="text" name="s" class="form-control" placeholder="{{ __('Search') }}" value="{{ request('s') }}">
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -66,6 +71,11 @@
                     </div>
                     <div class="table-responsive py-4">
                         @include('admin.user.templates.table')
+                    </div>
+                    <div class="card-footer">
+                        <div class="float-right">
+                            {!! $collection->appends(request()->except('page'))->links() !!}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -107,13 +107,13 @@ return [
         'string'  => ':attribute ត្រូវតែ :size តួអក្សរ។',
         'array'   => ':attribute ត្រូវតែមានទំហំ :size។',
     ],
-    'starts_with'          => ':attribute must start with one of the following: :values',
-    'string'               => ':attribute must be a string.',
-    'timezone'             => ':attribute must be a valid zone.',
+    'starts_with'          => ':attribute ត្រូវតែចាប់ផ្តើមជាមួយមួយក្នុងចំណោមខាងក្រោម: :values',
+    'string'               => ':attribute ត្រូវតែជាខ្សែអក្សរ។',
+    'timezone'             => ':attribute ត្រូវតែជាតំបន់ត្រឹមត្រូវ។',
     'unique'               => ':attribute ត្រូវបានប្រើរួចហើយ។',
-    'uploaded'             => ':attribute failed to upload.',
+    'uploaded'             => ':attribute បរាជ័យក្នុងការបង្ហោះ។',
     'url'                  => ':attribute ទំរង់ត្រឹមត្រូវ។',
-    'uuid'                 => ':attribute must be a valid UUID.',
+    'uuid'                 => ':attribute ត្រូវតែជា UUID ត្រឹមត្រូវ។',
 
     /*
     |--------------------------------------------------------------------------

@@ -1,7 +1,8 @@
 <table class="table" id="datatable-basic" data-text-all="{{ __('All') }}">
     <thead class="thead-light">
         <tr>
-            <th>{{ __('Id') }}</th>
+            <th>{{ __('Transaction') }}</th>
+            <th>{{ __('User') }}</th>
             <th>{{ __('Payment') }}</th>
             <th>{{ __('Status') }}</th>
             <th>{{ __('Products') }}</th>
@@ -12,6 +13,16 @@
         @foreach ($collection as $key => $row)
             <tr>
             <td>{{ $row->transaction_id }}</td>
+            <td>
+                <div class="media align-items-center">
+                    <a href="#" target="_blank" class="avatar avatar-sm rounded-circle mr-3">
+                        <img src="{{ $row->user->avatar }}">
+                    </a>
+                    <div class="media-body">
+                        <span class="name mb-0 text-sm">{{ $row->user->name }}</span>
+                    </div>
+                </div>
+            </td>
                 <td>
                     @if ($row->payment_image)
                         <a href="{{ $row->payment_image }}" target="_blank" class="border avatar avatar-sm bg-transparent mr-3">
@@ -37,8 +48,7 @@
                 <td>
                     <table class="table table-sm table-bordered">
                         <thead>
-                            <th></th>
-                            <th></th>
+                            <th colspan="2">{{ $row->created_at->translatedFormat('d-M-Y') }}</th>
                         </thead>
                         <tbody>
                             @foreach ($row->products as $k => $p)

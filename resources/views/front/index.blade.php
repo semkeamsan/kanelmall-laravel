@@ -96,7 +96,7 @@
 
     </style>
     <div class="h-100 bg">
-        <img src="{{ asset('images/bg/log.png') }}" class="w-100 h-100" style="object-fit: contain">
+        <img src="{{ asset('images/bg/log.png') }}" class="w-100 {{ config('page.device') == 'web'? 'h-100' : null }}" style="object-fit: contain">
         <div class="position-absolute w-100 bottom-9 text-center ">
             <h2 class="text-white mb-3">{{ __('Welcome to') }} {{ env('APP_NAME') }}</h2>
             @if (session('products'))

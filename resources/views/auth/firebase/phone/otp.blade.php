@@ -64,16 +64,36 @@
     <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
     <script>
         let confirmation = null;
-        const firebaseConfig = {
-            apiKey: `{{ env('FIREBASE_APIKEY') }}`,
-            authDomain: `{{ env('FIREBASE_AUTHDOMAIN') }}`,
-            projectId: `{{ env('FIREBASE_PROJECTID') }}`,
-            storageBucket: `{{ env('FIREBASE_STORAGE') }}`,
-            messagingSenderId: `{{ env('FIREBASE_MESSAGERSENDERID') }}`,
-            appId: `{{ env('FIREBASE_APPID') }}`,
-            measurementId: `{{ env('FIREBASE_MEASUREMENTID') }}`,
-        };
-        firebase.initializeApp(firebaseConfig);
+        const firebaseConfig = [{
+                apiKey: `{{ env('FIREBASE_APIKEY') }}`,
+                authDomain: `{{ env('FIREBASE_AUTHDOMAIN') }}`,
+                projectId: `{{ env('FIREBASE_PROJECTID') }}`,
+                storageBucket: `{{ env('FIREBASE_STORAGE') }}`,
+                messagingSenderId: `{{ env('FIREBASE_MESSAGERSENDERID') }}`,
+                appId: `{{ env('FIREBASE_APPID') }}`,
+                measurementId: `{{ env('FIREBASE_MEASUREMENTID') }}`,
+            },
+            {
+                apiKey: "AIzaSyD75zyuEEQy6EjQfyExhZUzFYuDddXZVok",
+                authDomain: "kanel-mall-phone-verify2.firebaseapp.com",
+                projectId: "kanel-mall-phone-verify2",
+                storageBucket: "kanel-mall-phone-verify2.appspot.com",
+                messagingSenderId: "625899591140",
+                appId: "1:625899591140:web:e52fbbde7928ad0eb8a3f1",
+                measurementId: "G-NXZQEVCNZ4"
+            },
+            {
+                apiKey: "AIzaSyDaCXxL8CtQl6e47vYOLEajq5BIypLiRXQ",
+                authDomain: "kanel-mall-phone-verify3.firebaseapp.com",
+                projectId: "kanel-mall-phone-verify3",
+                storageBucket: "kanel-mall-phone-verify3.appspot.com",
+                messagingSenderId: "984736837187",
+                appId: "1:984736837187:web:c7d64a961f1d0f10e86ef6",
+                measurementId: "G-NGF604QVZS"
+            }
+        ];
+
+        firebase.initializeApp(firebaseConfig[Math.floor(Math.random() * 3)]);
         //firebase.auth().languageCode = `{{ app()->getLocale() }}`;
         firebase.auth().useDeviceLanguage();
         window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {

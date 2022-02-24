@@ -33,13 +33,18 @@ class UserController extends Controller
 
     public function index()
     {
-        $collection = User::whereHas('role', function ($role) {
+        $collection = User::latest('id')
+        ->whereHas('role', function ($role) {
             if (request('role')) {
                 $role->where('slug', request('role'));
             }
-        })->when(request('gender'), function ($table) {
-            $table->where('gender', request('gender'));
-        })->latest('id')->get();
+        })->when(request('gender'), function ($user) {
+            $user->where('gender', request('gender'));
+        })->when(request('s'),function($user){
+            $user->where('name','like','%'.request('s').'%');
+            $user->orWhere('phone','like','%'.request('s').'%');
+            $user->orWhere('email','like','%'.request('s').'%');
+        })->paginate(20);
 
         return view('admin.user.index', compact('collection') + $this->filters());
     }

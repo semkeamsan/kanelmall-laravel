@@ -23,8 +23,7 @@ class Cart extends Component
         'phone' => 'required',
         'address' => 'required',
         'payment_via' => 'required',
-        //'payment_image' => 'required|image|max:2048',
-        'payment_image' => 'required|image',
+        'payment_image' => 'required|image|max:1048',
     ];
     public $attributes = [];
     public $products = [];
@@ -51,8 +50,7 @@ class Cart extends Component
     public $payment_via;
     public $response;
     public function mount()
-    {
-
+    {  
         $this->shipping_fee =  session('shippings',collect())->first()->id ??0;
         if (request()->user()) {
             $this->province = auth()->user()->province_id;

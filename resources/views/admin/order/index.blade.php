@@ -5,7 +5,7 @@
         <div class="col">
             <div class="card-wrapper">
                 <div class="card">
-                    <div class="card-header pb-0 d-none">
+                    <div class="card-header pb-0">
                         <div class="form-row">
                             <div class="col-auto col-xl-6 mb-3">
                                 <a class="btn btn-outline-primary {{ config('page.permissions')->contains('create-store') ?: 'd-none' }}"
@@ -13,10 +13,20 @@
                                     {{ __('Add') }}
                                 </a>
                             </div>
+                            <div class="col-auto col-xl-6 mb-3">
+                                <form>
+                                    <input type="text" name="s" class="form-control" placeholder="{{ __('Search') }}" value="{{ request('s') }}">
+                                </form>
+                            </div>
                         </div>
                     </div>
                     <div class="table-responsive py-4">
                         @include('admin.order.templates.table')
+                    </div>
+                    <div class="card-footer">
+                        <div class="float-right">
+                            {!! $collection->appends(request()->except('page'))->links() !!}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -46,6 +56,6 @@
         <script src="{{ asset('vendor/select2/dist/locales/' . app()->getLocale() . '.js') }}"></script>
     @endif
 
-   
+
 
 @endpush

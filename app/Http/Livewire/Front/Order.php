@@ -7,6 +7,7 @@ use App\Models\Province;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use App\Http\Controllers\Front\ApiController;
+use Illuminate\Support\Facades\Storage;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class Order extends Component
@@ -22,7 +23,7 @@ class Order extends Component
         'phone' => 'required',
         'address' => 'required',
         'payment_via' => 'required',
-        'payment_image' => 'required',
+        'payment_image' => 'required|image|max:2048',
     ];
     public $attributes;
     public $checkout = false;
@@ -61,7 +62,7 @@ class Order extends Component
         $this->longitude = auth()->user()->longitude;
         $this->provinces = Province::get();
         $this->payment_via = 'aba';
-
+        
 
         if ($this->province) {
             $this->districts = Province::find($this->province)->districts;
@@ -93,7 +94,7 @@ class Order extends Component
         if ($this->status == 'all') {
             $this->orders = request()->user()->orders;
         } elseif ($this->status == 'paid') {
-            $this->orders = request()->user()->orders->whereIn('status', ['paid', 'delivered']);
+            $this->orders = request()->user()->orders->whereIn('status', ['paid', 'delivered','confirmed']);
         } else {
             $this->orders = request()->user()->orders->where('status', $this->status);
         }
@@ -337,8 +338,19 @@ class Order extends Component
             'longitude' => $this->longitude,
             'payment_via' => $this->payment_via,
             'payment_image' => $this->payment_image,
-            'shipping_fee_id' => 'paid',
+            'shipping_fee_id' => @$this->shippings[$orderid],
         ]);
+
+        if (@$this->coupon[$orderid]) {
+            if ($coupon =  (new ApiController)->coupon($this->coupon[$orderid])) {
+                if (now()->diff($coupon['end_at'])->invert === 0) {
+                    $this->orders->find($orderid)->update([
+                        'coupon' => $this->coupon[$orderid],
+                    ]);
+                }
+            }
+        }
+
         $checkout =  (new ApiController)->checkout($this->orders->find($orderid));
         if ($checkout && @$checkout['success']) {
             $this->orders->find($orderid)->update([
@@ -371,21 +383,43 @@ class Order extends Component
                     'message' => __('Successfully'),
                 ];
                 return redirect()->to(LaravelLocalization::getLocalizedURL(app()->getLocale(), route('front.account.myorder', 'status=received')));
+            }else{
+
+                $this->orders->find($orderid)->update([
+                    'status' => 'cancel',
+                ]);
+                $this->response = [
+                    'type' => 'warning',
+                    'status' => 'cancel',
+                    'message' => __('Your order has been cancel'),
+                ];
             }
         }
     }
 
     public function orderdelete($orderid)
     {
-        $this->orders->find($orderid)->delete();
+        $payment_image = $this->orders->find($orderid)->payment_image;
+        $payment_image = collect(explode('/',$payment_image))->last();
+        if($this->orders->find($orderid)->delete()){
+            Storage::delete('public/payments/'.$payment_image);
+        }
         $this->response = [
             'type' => 'success',
             'message' => __('Delete successfully'),
         ];
+
         //return redirect()->route('front.account.myorder', 'status='.$this->status);
     }
     public function hydrate()
     {
         $this->response = null;
     }
+
+    public function transactions()
+    {
+        (new ApiController)->transactions($this->orders);
+    }
+
+
 }

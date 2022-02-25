@@ -298,10 +298,14 @@ class ApiController
             $ids = $orders->pluck('transaction_id');
             $transactions = Http::withoutVerifying()->get($this->API_DOMAIN . '/api/business/' . $this->API_BUSID . '/transactions/' . $ids->implode(','))->json();
             foreach ($ids as $key => $id) {
-                if(!in_array($id,array_column($transactions,'id'))){
-                    $orders->where('transaction_id',$id)->first()->update([
-                        'status' => 'cancel',
-                    ]);
+                if( $id && !in_array($id,array_column($transactions??[],'id'))){
+
+                    if($order = $orders->where('transaction_id',$id)->first()){
+                        $order->update([
+                            'status' => 'cancel',
+                        ]);
+                    }
+
                 }
             }
             if ($transactions) {

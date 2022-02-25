@@ -1,5 +1,5 @@
 
-<footer class="aui-footer-default aui-footer-fixed">
+<footer class="aui-footer-default aui-footer-fixed border">
     <a href="{{ route('front.home') }}" class="aui-footer-item {{   Str::contains(Route::currentRouteName(), 'home') ? 'aui-footer-active' : null }}">
         <span class="aui-footer-item-icon aui-icon aui-footer-icon-home"></span>
         <span class="aui-footer-item-text">{{ __('Home') }}</span>

@@ -179,7 +179,7 @@
         </div>
     </div>
 
-    <div class="aui-product-content border-top">
+    <div class="aui-product-content h-100vh">
         @if (count($product->prices) > 1)
             <div class="aui-me-content-item-text p-2 bg text-center">
                 @foreach ($product->prices as $value)
@@ -196,9 +196,6 @@
         @endif
 
         <div class="aui-real-price clearfix">
-
-
-
                 <span>
                     {{ currency($product->selling_price, 'USD', session('currency')) }}
                 </span>

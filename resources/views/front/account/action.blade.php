@@ -1,4 +1,4 @@
-<section class="aui-grid-content">
+<section class="aui-grid-content border">
     <div class="aui-grid-row">
         <a href="{{ route('front.account.myorder', 'status=all') }}" class="aui-grid-row-item {{ request('status',@$status) == 'all'? 'aui-grid-active': null  }}"
         @if (Str::contains(url()->current(),'order'))

@@ -43,7 +43,7 @@
     'wire:submit.prevent' => 'update',
 ]) !!}
 
-    <section class="container py-6">
+    <section class="container py-6 h-100vh">
         @if ($response)
         <div class="alert alert-{{ $response['type'] }} alert-dismissible fade show" role="alert">
             <strong>
@@ -60,7 +60,7 @@
         </div>
     @endif
         <div class="row">
-            <div class="col-xl-8">
+            <div class="col-xl-12">
                 <div class="form-row mb-2">
                     <div class="col-8">
                         <label for="name" class="form-control-label">{{ __('Name') }}</label>
@@ -125,7 +125,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-4">
+            <div class="col-xl-12">
                 <input type="file" id="avatar" class="custom-file-input d-none" wire:model="avatar">
                 <label class="btn btn-secondary mb-3" for="avatar">
                     <i class="fal fa-folder-open"></i>

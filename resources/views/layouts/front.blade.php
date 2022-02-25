@@ -26,7 +26,15 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/icon.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/home.css') }}">
     @livewireStyles
+    <style id="root">
+        :root {
+            --app-width: {{ config('page.device') == 'web'? '500px' : '100%' }};
+        }
+    </style>
     <style>
+        .app-width{
+            width: calc(var(--app-width));
+        }
         .owl-theme,
         .owl-stage-outer,
         .owl-stage,
@@ -38,6 +46,14 @@
         .swal2-popup.swal2-toast {
             width: 260px;
         }
+        #app{
+            margin: auto;
+            position: relative;
+            width: calc(var(--app-width));
+            top: 0;
+            bottom: 0;
+        }
+
 
     </style>
     @stack('styles')
@@ -54,7 +70,7 @@
 </head>
 
 <body>
-    <div id="app" class="h-100">
+    <div id="app" class="border">
         @yield('content')
     </div>
     <!-- Scripts -->

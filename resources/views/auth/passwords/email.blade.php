@@ -127,8 +127,6 @@
                                 </div>
                             @endif
 
-
-
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary d-none">
@@ -322,12 +320,36 @@
                         }
 
                     } else {
-                        var $form = $(form).clone();
-                        $form.addClass('d-none');
-                        $form.appendTo('body');
-                        $form.submit();
+                        password();
+                        if($(`[name="password"]`).length >= 8){
+                            $(`[name="password"]`).parent().find(`.invalid-feedback`).text('');
+                            if($(`[name="password"]`).val() == $(`[name="password"]`).val()){
+                                var $form = $(form).clone();
+                                $form.addClass('d-none');
+                                $form.appendTo('body');
+                                $form.submit();
+                            }
+                        }
                     }
                 }
+            });
+
+            function password(){
+                if( $(`[name="password"]`).val().length >= 8){
+                    $(`[name="password"]`).parent().find(`.invalid-feedback`).text('');
+                }else{
+                    $(`[name="password"]`).parent().find(`.invalid-feedback`).addClass('d-block').text(`{{ __('validation.min.string', ['attribute' => __('Password'),'min'=> 8]) }}`);
+                }
+
+                if($(`[name="password_confirmation"]`).val() == $(`[name="password"]`).val()){
+                    $(`[name="password_confirmation"]`).parent().find(`.invalid-feedback`).text('');
+                }else{
+                    $(`[name="password_confirmation"]`).parent().find(`.invalid-feedback`).addClass('d-block').text(`{{ __('validation.confirmed', ['attribute' => __('Confirm Password')]) }}`);
+                }
+            }
+
+            $(`[name="password"],[name="password_confirmation"]`).on('input',function(){
+                password();
             });
         </script>
 

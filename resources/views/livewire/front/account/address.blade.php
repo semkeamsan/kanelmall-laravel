@@ -36,7 +36,7 @@
             <a href="#" class="actionsheet-action" id="cancel"></a>
         </div>
     </div>
-    <section class="container py-6">
+    <section class="container py-6 h-100vh">
         @if ($response)
             <div class="alert alert-{{ $response['type'] }} alert-dismissible fade show" role="alert">
                 <strong>
@@ -53,7 +53,7 @@
             </div>
         @endif
         <div class="row">
-            <div class="col-xl-8 mb-3">
+            <div class="col-xl-12 mb-3">
                 <label class="form-control-label">{{ __('Location') }}</label>
                 <div class="form-row p-2 border rounded">
                     <div class="col-xl-12 mb-3">
@@ -118,7 +118,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-8 mb-3">
+            <div class="col-xl-12 mb-3">
                 <label for="name" class="form-control-label">{{ __('Address') }}</label>
                 @if (collect($rules)->get('address'))
                     <span class="text-danger text-xs">*</span>
@@ -139,7 +139,7 @@
                     </div>
                 @enderror
             </div>
-            <div class="col-xl-8 mb-3">
+            <div class="col-xl-12 mb-3">
                 <label for="name" class="form-control-label">{{ __('Map') . ' (Embed) ' }}</label>
                 @if (collect($rules)->get('latitude') || collect($rules)->get('longitude'))
                     <span class="text-danger text-xs">*</span>

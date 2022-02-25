@@ -55,10 +55,10 @@
         </div>
     </div>
     <section class="aui-myOrder-content">
-        <div class="aui-header-fixed bg-white border-bottom" style="top:auto">
+        <div class="aui-header-fixed bg-white" style="top:auto">
             @include('front.account.action')
         </div>
-        <div class="pt-6 pb-5 px-1">
+        <div class="pt-6 pb-5 px-1 h-100vh">
             <div wire:loading wire:target="status" class="p-2 position-relative text-primary text-center"
                 style="z-index: 1;left: 0;right: 0;width: 100%;">
                 {{ __('Processing') }}...

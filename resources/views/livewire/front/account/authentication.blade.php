@@ -11,7 +11,7 @@
     </header>
 
 
-    <section class="container py-6">
+    <section class="container py-6 h-100vh">
         @if ($response)
             <div class="alert alert-{{ $response['type'] }} alert-dismissible fade show" role="alert">
                 <strong>
@@ -28,7 +28,7 @@
             </div>
         @endif
         <div class="row">
-            <div class="col-xl-8">
+            <div class="col-xl-12">
                 <div class="mb-2">
                     <label for="email" class="form-control-label">{{ __('Email') }}</label>
                     @if (collect($rules)->get('email'))

@@ -63,7 +63,7 @@
 <meta name="twitter:image" content="{{ asset('images/logo.jpg') }}" />
 @endsection
 @section('content')
-    <div class="aui-content-box pt-0">
+    <div class="aui-content-box pt-0 h-100vh">
         <section class="p-1">
             <div class="fb-page" data-href="https://www.facebook.com/{{ env('FACEBOOK_PAGE_ID') }}" data-tabs="" data-width="500" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/Kanel-Mall-{{ env('FACEBOOK_PAGE_ID') }}" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/{{ env('FACEBOOK_PAGE_ID') }}"></a></blockquote></div>
             @foreach ($chatmanagers as $chat)

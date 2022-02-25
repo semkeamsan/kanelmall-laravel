@@ -54,7 +54,7 @@ class CartHelper
             foreach ($session_detail as $k => $session) {
                 if ($session['id'] == $slug) {
                     return array(
-                        'status' => false,
+                        'status' => true,
                         'message' => __('Exists'),
                         'data'    => $session,
                         'count'   => count(Session::get(self::$session))

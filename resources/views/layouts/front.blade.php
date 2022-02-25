@@ -53,8 +53,9 @@
             top: 0;
             bottom: 0;
         }
-
-
+        .text-ssm{
+            font-size: 12px;
+        }
     </style>
     @stack('styles')
     <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>

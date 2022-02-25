@@ -348,7 +348,7 @@
 
             <a href="javascript:;" class="actionsheet-action" id="cancel"></a>
             <div class="aui-product-function">
-                <a href="{{ route('front.cartadd', $product->id) }}"
+                <a href="{{ route('front.cartadd', $product->id) }}" data-action="action()"
                     class="yellow-color {{ !Cart::exists($product->id) ?: 'd-none' }}" data-toggle="add-cart">
                     {{ __('Add Cart') }}</a>
                 <a href="{{ route('front.account.orderadd', $product->id) }}"
@@ -500,5 +500,9 @@
             $(this).parents(`.m-actionsheet`).find(`.yellow-color`).attr('href', `${cart_url}?qty=${a}`);
             $(this).parents(`.m-actionsheet`).find(`.red-color`).attr('href', `${order_url}?qty=${a}`);
         });
+        function action(){
+            $(`.yellow-color`).remove();
+            $(`.red-color`).addClass(`w-100`);
+        }
     </script>
 @endpush

@@ -515,7 +515,7 @@
                                     <div class="col-12 my-2">
                                         <fieldset class="border px-2">
                                             <legend class="w-auto text-sm">{{ __('How to pay') }}</legend>
-                                            <p class="text-xs" style="white-space: pre-line">{!! session('business.how_to_pay') !!}</p>
+                                            <p class="text-ssm" style="white-space: pre-line">{!! session('business.how_to_pay') !!}</p>
                                         </fieldset>
                                     </div>
                                 </div>

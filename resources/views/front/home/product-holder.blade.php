@@ -1,5 +1,5 @@
 <section class="aui-list-product product-holder">
-    @for ($i = 0; $i < 100; $i++)
+    @for ($i = 0; $i < 10; $i++)
         <div class="aui-list-product-item col-6">
             <a href="#">
                 <div class="aui-list-product-item-img">

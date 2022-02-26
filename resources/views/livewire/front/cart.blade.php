@@ -1,4 +1,4 @@
-<div id="livewire" class="h-100vh">
+<div id="livewire">
     <header class="aui-header-default aui-header-fixed">
         <div class="aui-header-center aui-header-center-clear">
             <div class="">{{ __('Shopping Cart') }} <span id="cart-count">{{ Cart::count() }}</span>
@@ -49,231 +49,232 @@
         </div>
     </div>
 
-    <section class="aui-cart-content">
-        <div class="aui-cart-box">
-            {{-- @auth
+        <section class="aui-content-box aui-cart-content">
+            <div class="aui-cart-box">
+                {{-- @auth
                 @include('front.account.action')
             @endauth --}}
-            @if ($response)
-                <div class="alert alert-{{ $response['type'] }} alert-dismissible fade show m-1" role="alert">
-                    <strong>
-                        @if ($response['type'] == 'success')
-                            <i class="fa fa-check-circle" aria-hidden="true"></i>
-                        @else
-                            <i class="fa fa-times-circle" aria-hidden="true"></i>
-                        @endif
-                    </strong>
-                    {{ $response['message'] }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"
-                        style="top: 50%">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
+                @if ($response)
+                    <div class="alert alert-{{ $response['type'] }} alert-dismissible fade show m-1" role="alert">
+                        <strong>
+                            @if ($response['type'] == 'success')
+                                <i class="fa fa-check-circle" aria-hidden="true"></i>
+                            @else
+                                <i class="fa fa-times-circle" aria-hidden="true"></i>
+                            @endif
+                        </strong>
+                        {{ $response['message'] }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                            style="top: 50%">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
 
-            <div class="aui-cart-box-list border-top">
-                @if (count($products))
-                    <ul>
-                        @foreach ($products as $key => $product)
-                            <li class="shop-info">
-                                <div class="aui-list-title-info">
-                                    <div class="aui-list-product-fl-item">
-                                        <div class="aui-cart-box-list-img border-right" wire:ignore>
-                                            <div class="aui-list-product-fl-img">
-                                                <a href="{{ route('front.product', $product['id']) }}">
-                                                    @if ($product['video_url'])
-                                                        <div class="video position-relative">
-                                                            <video autoplay muted
-                                                                src="{{ $product['video_url'] }}"></video>
-                                                            <div class="bottom-2 position-absolute right-2"
-                                                                data-toggle="muted">
-                                                                <i class="fa fa-2x fa-volume-mute text-white"></i>
+                <div class="aui-cart-box-list border-top">
+                    @if (count($products))
+                        <ul>
+                            @foreach ($products as $key => $product)
+                                <li class="shop-info">
+                                    <div class="aui-list-title-info">
+                                        <div class="aui-list-product-fl-item">
+                                            <div class="aui-cart-box-list-img border-right" wire:ignore>
+                                                <div class="aui-list-product-fl-img">
+                                                    <a href="{{ route('front.product', $product['id']) }}">
+                                                        @if ($product['video_url'])
+                                                            <div class="video position-relative">
+                                                                <video autoplay muted
+                                                                    src="{{ $product['video_url'] }}"></video>
+                                                                <div class="bottom-2 position-absolute right-2"
+                                                                    data-toggle="muted">
+                                                                    <i class="fa fa-2x fa-volume-mute text-white"></i>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    @else
-                                                        <img data-src={{ $product['image_url'] }}
-                                                            src="{{ asset('images/bg/log.jpg') }}">
-                                                    @endif
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="aui-cart-box-list-text py-2">
-                                            <span>
-                                                {{ $product['name'] }}
-                                            </span>
-                                            @if ($product['description'])
-                                                <div class="aui-cart-box-list-text-brief">
-                                                    {!! $product['description'] !!}
+                                                        @else
+                                                            <img data-src={{ $product['image_url'] }}
+                                                                src="{{ asset('images/bg/log.jpg') }}">
+                                                        @endif
+                                                    </a>
                                                 </div>
-                                            @endif
+                                            </div>
+                                            <div class="aui-cart-box-list-text py-2">
+                                                <span>
+                                                    {{ $product['name'] }}
+                                                </span>
+                                                @if ($product['description'])
+                                                    <div class="aui-cart-box-list-text-brief">
+                                                        {!! $product['description'] !!}
+                                                    </div>
+                                                @endif
 
-                                            <div class="aui-cart-box-list-text-price">
-                                                <div class="aui-cart-box-list-text-pri">
+                                                <div class="aui-cart-box-list-text-price">
+                                                    <div class="aui-cart-box-list-text-pri">
 
-                                                    @php
-                                                        $price = $product['selling_price'];
-                                                    @endphp
-                                                    @if ($product['prices'])
-                                                        {{-- <b class="price">
+                                                        @php
+                                                            $price = $product['selling_price'];
+                                                        @endphp
+                                                        @if ($product['prices'])
+                                                            {{-- <b class="price">
                                                         {{ currency(min(array_column($product['prices'], 'price')), 'USD', session('currency')) }}
                                                     </b> --}}
 
-                                                        @foreach ($product['prices'] as $p)
-                                                            @if ($product['qty'] >= $p['qty'])
-                                                                @php
-                                                                    $price = $p['price'];
-                                                                @endphp
-                                                            @endif
-                                                        @endforeach
-                                                    @endif
-                                                    <b class="price">
-                                                        {{ currency($price, 'USD', session('currency')) }}
-                                                    </b>
-                                                    {{-- @if ($product['promotion'])
+                                                            @foreach ($product['prices'] as $p)
+                                                                @if ($product['qty'] >= $p['qty'])
+                                                                    @php
+                                                                        $price = $p['price'];
+                                                                    @endphp
+                                                                @endif
+                                                            @endforeach
+                                                        @endif
+                                                        <b class="price">
+                                                            {{ currency($price, 'USD', session('currency')) }}
+                                                        </b>
+                                                        {{-- @if ($product['promotion'])
                                                         <small style="text-decoration: line-through;color:#ddd">
                                                             {{ currency($product['price'], 'USD', session('currency')) }}
                                                         </small>
                                                     @endif --}}
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="aui-cart-box-list-text-price d-none">
-                                                <div class="aui-cart-box-list-text-arithmetic">
-                                                    <a href="javascript:void(0);" class="minus"
-                                                        wire:click="qtyremove({{ $key }})">-</a>
-                                                    <input type="number" class="num"
-                                                        {{ $product['instock'] > 0 ?: 'disabled' }}
-                                                        wire:model="products.{{ $key }}.qty"
-                                                        value="{{ $product['qty'] }}">
-                                                    <a href="javascript:void(0);" class="plus"
-                                                        wire:click="qtyadd({{ $key }})">+</a>
-                                                </div>
-                                                {{-- @if ($product['qty'] > $product['instock'])
+                                                <div class="aui-cart-box-list-text-price d-none">
+                                                    <div class="aui-cart-box-list-text-arithmetic">
+                                                        <a href="javascript:void(0);" class="minus"
+                                                            wire:click="qtyremove({{ $key }})">-</a>
+                                                        <input type="number" class="num"
+                                                            {{ $product['instock'] > 0 ?: 'disabled' }}
+                                                            wire:model="products.{{ $key }}.qty"
+                                                            value="{{ $product['qty'] }}">
+                                                        <a href="javascript:void(0);" class="plus"
+                                                            wire:click="qtyadd({{ $key }})">+</a>
+                                                    </div>
+                                                    {{-- @if ($product['qty'] > $product['instock'])
                                                         <span id="outstock" class="text-danger">
                                                             {{ __('In Stock') }}
                                                             {{ $product['instock'] }}
                                                         </span>
                                                     @endif --}}
-                                            </div>
-                                            <div class="aui-list-product-fl-mes">
-                                                <span class="aui-list-product-item-total-price">
-                                                    {{ __('Quantity') }} :
-                                                    <span class="aui-list-product-item-price" id="total-price">
-                                                        {{ $product['qty'] }}
+                                                </div>
+                                                <div class="aui-list-product-fl-mes">
+                                                    <span class="aui-list-product-item-total-price">
+                                                        {{ __('Quantity') }} :
+                                                        <span class="aui-list-product-item-price" id="total-price">
+                                                            {{ $product['qty'] }}
+                                                        </span>
                                                     </span>
-                                                </span>
-                                            </div>
-                                            <div class="aui-list-product-fl-mes">
-                                                <span class="aui-list-product-item-total-price">
-                                                    {{ __('Total') }} :
-                                                    <span class="aui-list-product-item-price" id="total-price">
-                                                        @if ($product['qty'])
-                                                            {{ currency($price * $product['qty'], 'USD', session('currency')) }}
-                                                        @endif
+                                                </div>
+                                                <div class="aui-list-product-fl-mes">
+                                                    <span class="aui-list-product-item-total-price">
+                                                        {{ __('Total') }} :
+                                                        <span class="aui-list-product-item-price" id="total-price">
+                                                            @if ($product['qty'])
+                                                                {{ currency($price * $product['qty'], 'USD', session('currency')) }}
+                                                            @endif
+                                                        </span>
                                                     </span>
-                                                </span>
-                                            </div>
+                                                </div>
 
-                                            <div class="aui-cart-box-list-text-price">
-                                                <a href="{{ route('front.cartremove', $product['id']) }}"
-                                                    wire:click.prevent="remove({{ $key }})">
-                                                    <i class="fal fa-trash"></i>
-                                                    {{ __('Remove') }}
-                                                </a>
+                                                <div class="aui-cart-box-list-text-price">
+                                                    <a href="{{ route('front.cartremove', $product['id']) }}"
+                                                        wire:click.prevent="remove({{ $key }})">
+                                                        <i class="fal fa-trash"></i>
+                                                        {{ __('Remove') }}
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
-                @else
-                    <div class="aui-recommend p-2">
-                        <a href="{{ route('front.search') }}">
-                            <div class="border border-primary py-1 text-primary">
-                                <small>{{ __('Go to Products') }}</small>
-                            </div>
-                        </a>
-                    </div>
-                @endif
-            </div>
-        </div>
-        @if (count($products))
-            <table class="table table-sm">
-                <tr>
-                    <td>
-                        {{ __('Coupon code') }}
-                    </td>
-                    <td>
-
-                        <input wire:model.debounce.1000ms="coupon" type="text" class="form-control form-control-sm"
-                            placeholder="{{ __('Coupon code') }}">
-                        @if ($coupon_message)
-                            <div class="error-feedback d-block">
-                                {{ $coupon_message }}
-                            </div>
-                        @endif
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        {{ __('Total') }}
-                    </td>
-                    <td>
-
-                        <b>
-                            {{ currency($total, 'USD', session('currency')) }}
-                            @if ($total_coupon)
-                                ⟶ {{ currency($total_coupon, 'USD', session('currency')) }}
-                            @endif
-                        </b>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        {{ __('Shipping fee') }}
-                    </td>
-                    <td>
-                        <select wire:model="shipping_fee" class="form-control form-control-sm select2">
-                            @foreach (session('shippings') as $item)
-                                <option value="{{ $item->id }}" {{ $loop->first ? 'selected' : null }}>
-                                    {{ __(trim($item->name)) }} -
-                                    {{ $item->packing_charge_type == 'fixed'? currency($item->packing_charge, 'USD', session('currency')): $item->packing_charge . '%' }}
-                                </option>
+                                </li>
                             @endforeach
-                        </select>
-                    </td>
-                </tr>
-                @if ($total_price)
+                        </ul>
+                    @else
+                        <div class="aui-recommend p-2">
+                            <a href="{{ route('front.search') }}">
+                                <div class="border border-primary py-1 text-primary">
+                                    <small>{{ __('Go to Products') }}</small>
+                                </div>
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            </div>
+            @if (count($products))
+                <table class="table table-sm">
                     <tr>
                         <td>
-                            {{ __('Total Price') }}
+                            {{ __('Coupon code') }}
                         </td>
                         <td>
-                            <h3 class="text-primary">
-                                {{ currency($total_price, 'USD', session('currency')) }}
-                            </h3>
+
+                            <input wire:model.debounce.1000ms="coupon" type="text" class="form-control form-control-sm"
+                                placeholder="{{ __('Coupon code') }}">
+                            @if ($coupon_message)
+                                <div class="error-feedback d-block">
+                                    {{ $coupon_message }}
+                                </div>
+                            @endif
+
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            {{ __('Total') }}
+                        </td>
+                        <td>
+
+                            <b>
+                                {{ currency($total, 'USD', session('currency')) }}
+                                @if ($total_coupon)
+                                    ⟶ {{ currency($total_coupon, 'USD', session('currency')) }}
+                                @endif
+                            </b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ __('Shipping fee') }}
+                        </td>
+                        <td>
+                            <select wire:model="shipping_fee" class="form-control form-control-sm select2">
+                                @foreach (session('shippings') as $item)
+                                    <option value="{{ $item->id }}" {{ $loop->first ? 'selected' : null }}>
+                                        {{ __(trim($item->name)) }} -
+                                        {{ $item->packing_charge_type == 'fixed'? currency($item->packing_charge, 'USD', session('currency')): $item->packing_charge . '%' }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </td>
+                    </tr>
+                    @if ($total_price)
+                        <tr>
+                            <td>
+                                {{ __('Total Price') }}
+                            </td>
+                            <td>
+                                <h3 class="text-primary">
+                                    {{ currency($total_price, 'USD', session('currency')) }}
+                                </h3>
+                            </td>
+                        </tr>
+                    @endif
+                </table>
+
+
+                @if ($total)
+                    <div class="aui-payment-bar border-top">
+                        @auth
+                            <button wire:click.prevent="togglecheckout"
+                                class="settlement w-100">{{ __('Make Payment') }}</button>
+                        @else
+                            <button class="settlement w-100"
+                                onclick="location.href=`{{ route('login') }}`">{{ __('Login') }}</button>
+                        @endauth
+                    </div>
                 @endif
-            </table>
 
-
-            @if ($total)
-                <div class="aui-payment-bar border-top">
-                    @auth
-                        <button wire:click.prevent="togglecheckout"
-                            class="settlement w-100">{{ __('Make Payment') }}</button>
-                    @else
-                        <button class="settlement w-100"
-                            onclick="location.href=`{{ route('login') }}`">{{ __('Login') }}</button>
-                    @endauth
-                </div>
             @endif
+        </section>
 
-        @endif
-    </section>
     @auth
         <div class="m-actionsheet {{ $checkout ? 'actionsheet-toggle' : null }}" id="action-checkout">
             <div style="position:relative">
@@ -296,7 +297,8 @@
                                     <select class="form-control select2" wire:model="province" wire:change="province"
                                         data-placeholder="{{ __('Province') }}">
                                         @foreach ($provinces as $item)
-                                            <option value="{{ $item->id }}">{{ $item->translation->name }}</option>
+                                            <option value="{{ $item->id }}">{{ $item->translation->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     @error('province')
@@ -318,7 +320,8 @@
                                         <span class="text-danger text-xs">*</span>
                                     @endif --}}
                                         <select class="form-control select2" wire:model="district">
-                                            <option value="">{{ __('Please Select') }} / {{ __('District') }}</option>
+                                            <option value="">{{ __('Please Select') }} / {{ __('District') }}
+                                            </option>
                                             @foreach ($districts as $item)
                                                 <option value="{{ $item->id }}">
                                                     {{ $item->translation->name }}
@@ -344,7 +347,8 @@
                                         <span class="text-danger text-xs">*</span>
                                     @endif --}}
                                         <select class="form-control select2" wire:model="commune">
-                                            <option value="">{{ __('Please Select') }} / {{ __('Commune') }}</option>
+                                            <option value="">{{ __('Please Select') }} / {{ __('Commune') }}
+                                            </option>
                                             @foreach ($communes as $item)
                                                 <option value="{{ $item->id }}">
                                                     {{ $item->translation->name }}
@@ -503,7 +507,7 @@
                                             @error('payment_image')
                                                 <div class="error-feedback d-block">
                                                     {{-- {{ $message }} --}}
-                                                    {{ __('The image bigger',['size' => '1MB']) }}
+                                                    {{ __('The image bigger', ['size' => '1MB']) }}
                                                 </div>
                                             @enderror
 
@@ -515,7 +519,8 @@
                                     <div class="col-12 my-2">
                                         <fieldset class="border px-2">
                                             <legend class="w-auto text-sm">{{ __('How to pay') }}</legend>
-                                            <p class="text-ssm" style="white-space: pre-line">{!! session('business.how_to_pay') !!}</p>
+                                            <p class="text-ssm" style="white-space: pre-line">
+                                                {!! session('business.how_to_pay') !!}</p>
                                         </fieldset>
                                     </div>
                                 </div>

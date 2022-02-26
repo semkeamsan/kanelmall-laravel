@@ -209,7 +209,12 @@ table {
 }
 
 .aui-content-box {
-    padding-bottom: 44px;
+    height: calc(100% - 95px);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.aui-content-box-no-header {
+    height: calc(100% - 50px);
 }
 
 .aui-fixed-top {
@@ -616,7 +621,7 @@ table {
 }
 
 .aui-header-fixed {
-    position: fixed;
+    position: relative;
     top: 0;
     /* left: 0; */
     width: var(--app-width,100%);;
@@ -708,7 +713,7 @@ table {
 }
 
 .aui-footer-fixed {
-    position: fixed;
+    position: relative;
     bottom: 0;
     /* left: 0; */
     z-index: 49;
@@ -788,8 +793,6 @@ table {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    padding-top: 44px;
-    padding-bottom: 60px;
 }
 
 .aui-scroll-nav {
@@ -948,7 +951,6 @@ table {
 
 /* aui-banner-content */
 .aui-banner-content {
-    padding-top: 45px;
     overflow-x: hidden;
     width: 100%;
     height: auto;
@@ -2352,7 +2354,6 @@ input.check:checked {
 
 .aui-me-content-list {
     width: 100%;
-    padding-top: 45px;
     position: relative;
 }
 
@@ -2792,7 +2793,7 @@ input.check:checked {
 
 .aui-footer-product-fixed {
     display: table;
-    position: fixed;
+    position: relative;
     /* left: 0; */
     bottom: 50px;
     z-index: 10;
@@ -2805,7 +2806,7 @@ input.check:checked {
 
 .aui-footer-button-fixed {
     display: table;
-    position: fixed;
+    position: relative;
     /* left: 0; */
     bottom: 0px;
     z-index: 10;

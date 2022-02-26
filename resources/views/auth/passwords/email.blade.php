@@ -263,7 +263,7 @@
                             $form.append(`<input type="hidden" name="code" value="${code}">`);
                             $form.attr('method', 'post');
                             $form.find(`#reset-pass`).removeClass('d-none');
-                            $form.find(`button`).text(`{{ __('Reset Password ') }}`);
+                            $form.find(`button`).text(`{{ __('Reset Password') }}`);
 
                         }).catch(function(error) {
                             console.log(error)

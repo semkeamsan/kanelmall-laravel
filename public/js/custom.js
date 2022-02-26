@@ -44,57 +44,57 @@ const Kanel = {
                         </svg>
                     </div>`);
         var $ajax = null;
-        $(window).on('scroll', function () {
-            if ($('.aui-content-box').length) {
-                if ($(window).scrollTop() >= $('.aui-content-box').offset().top + $('.aui-content-box').outerHeight() - window.innerHeight) {
-                    var page = $(`.aui-list-product:last`).data('page');
-                    if (page) {
-                        $(`.aui-list-product:last`).after($loading);
-                        var scrollTop = $(document).height();
-                        if ($ajax) {
-                            $ajax.abort();
-                        }
-                        $ajax = $.get(`${ajaxroutes.home}/?page=${page+1}`).done(res => {
-                            $(`.aui-list-product:last`).append($(res).html());
-                            $(`html, body`).animate({
-                                scrollTop: scrollTop - 300
-                            }, 1000);
-                            Kanel.grid();
-                            setTimeout(() => {
-                                Kanel.grid();
-                                Kanel.image();
-                            }, 2000);
-                        }).fail(() => {
-                            $loading.remove();
+        // $(window).on('scroll', function () {
+        //     if ($('.aui-content-box').length) {
+        //         if ($(window).scrollTop() >= $('.aui-content-box').offset().top + $('.aui-content-box').outerHeight() - window.innerHeight) {
+        //             var page = $(`.aui-list-product:last`).data('page');
+        //             if (page) {
+        //                 $(`.aui-list-product:last`).after($loading);
+        //                 var scrollTop = $(document).height();
+        //                 if ($ajax) {
+        //                     $ajax.abort();
+        //                 }
+        //                 $ajax = $.get(`${ajaxroutes.home}/?page=${page+1}`).done(res => {
+        //                     $(`.aui-list-product:last`).append($(res).html());
+        //                     $(`html, body`).animate({
+        //                         scrollTop: scrollTop - 300
+        //                     }, 1000);
+        //                     Kanel.grid();
+        //                     setTimeout(() => {
+        //                         Kanel.grid();
+        //                         Kanel.image();
+        //                     }, 2000);
+        //                 }).fail(() => {
+        //                     $loading.remove();
 
-                        });
-                    }
-                }
-            }
+        //                 });
+        //             }
+        //         }
+        //     }
 
-        });
+        // });
 
-        $(document).on('scroll', '.aui-scroll-content', function () {
+        // $(document).on('scroll', '.aui-scroll-content', function () {
 
-            if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+        //     if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
 
 
-                var page = $(`.aui-list-product:last`).data('page');
-                if (page) {
-                    const urlSearchParams = new URLSearchParams(window.location.search);
-                    const params = Object.fromEntries(urlSearchParams.entries());
-                    var url = ajaxroutes.categoryby;
-                    if (params.q) {
-                        url += `?q=${params.q}&page=${page + 1}`;
-                    } else {
-                        url += `?page=${page + 1}`;
-                    }
-                    $.get(url).done(res => {
-                        $(`.aui-list-product:last`).after(res);
-                    });
-                }
-            }
-        });
+        //         var page = $(`.aui-list-product:last`).data('page');
+        //         if (page) {
+        //             const urlSearchParams = new URLSearchParams(window.location.search);
+        //             const params = Object.fromEntries(urlSearchParams.entries());
+        //             var url = ajaxroutes.categoryby;
+        //             if (params.q) {
+        //                 url += `?q=${params.q}&page=${page + 1}`;
+        //             } else {
+        //                 url += `?page=${page + 1}`;
+        //             }
+        //             $.get(url).done(res => {
+        //                 $(`.aui-list-product:last`).after(res);
+        //             });
+        //         }
+        //     }
+        // });
 
         $(document).on('click', `[data-toggle="muted"]`, function (e) {
             e.preventDefault();
@@ -537,33 +537,33 @@ const datetime = () => {
 //         setTimeout(t, 1e3)
 //     }
 // })();
-!function() {
-    function detectDevTool(allow) {
-    Kanel.grid();
-      if(isNaN(+allow)) allow = 100;
-      var start = +new Date(); // Validation of built-in Object tamper prevention.
-        debugger;
-      var end = +new Date(); // Validates too.
-      if(isNaN(start) || isNaN(end) || end - start > allow) {
-        document.write('');
-        location.href = `https://www.google.com/search?q=${location.origin}`;
-      }
-    }
-    if(window.attachEvent) {
-      if (document.readyState === "complete" || document.readyState === "interactive") {
-          detectDevTool();
-        window.attachEvent('onresize', detectDevTool);
-        window.attachEvent('onmousemove', detectDevTool);
-        window.attachEvent('onfocus', detectDevTool);
-        window.attachEvent('onblur', detectDevTool);
-      } else {
-          setTimeout(argument.callee, 0);
-      }
-    } else {
-      window.addEventListener('load', detectDevTool);
-      window.addEventListener('resize', detectDevTool);
-      window.addEventListener('mousemove', detectDevTool);
-      window.addEventListener('focus', detectDevTool);
-      window.addEventListener('blur', detectDevTool);
-    }
-  }();
+// !function() {
+//     function detectDevTool(allow) {
+//     Kanel.grid();
+//       if(isNaN(+allow)) allow = 100;
+//       var start = +new Date(); // Validation of built-in Object tamper prevention.
+//         debugger;
+//       var end = +new Date(); // Validates too.
+//       if(isNaN(start) || isNaN(end) || end - start > allow) {
+//         document.write('');
+//         location.href = `https://www.google.com/search?q=${location.origin}`;
+//       }
+//     }
+//     if(window.attachEvent) {
+//       if (document.readyState === "complete" || document.readyState === "interactive") {
+//           detectDevTool();
+//         window.attachEvent('onresize', detectDevTool);
+//         window.attachEvent('onmousemove', detectDevTool);
+//         window.attachEvent('onfocus', detectDevTool);
+//         window.attachEvent('onblur', detectDevTool);
+//       } else {
+//           setTimeout(argument.callee, 0);
+//       }
+//     } else {
+//       window.addEventListener('load', detectDevTool);
+//       window.addEventListener('resize', detectDevTool);
+//       window.addEventListener('mousemove', detectDevTool);
+//       window.addEventListener('focus', detectDevTool);
+//       window.addEventListener('blur', detectDevTool);
+//     }
+//   }();

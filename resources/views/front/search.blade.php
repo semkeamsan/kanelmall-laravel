@@ -44,7 +44,7 @@
 @endsection
 @section('content')
     @include('front.navbar.header')
-    <div class="aui-content-box pt-5">
+    <div class="aui-content-box">
         @if ($products->count())
             @include('front.home.product')
         @else

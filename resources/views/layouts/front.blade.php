@@ -70,10 +70,8 @@
 
 </head>
 
-<body>
-    <div id="app" class="border">
+<body id="app" class="border">
         @yield('content')
-    </div>
     <!-- Scripts -->
     <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/aui.js') }}"></script>

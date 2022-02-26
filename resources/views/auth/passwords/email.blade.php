@@ -187,35 +187,35 @@
         <script>
             let confirmation = null;
             const firebaseConfig = [{
-                apiKey: `{{ env('FIREBASE_APIKEY') }}`,
-                authDomain: `{{ env('FIREBASE_AUTHDOMAIN') }}`,
-                projectId: `{{ env('FIREBASE_PROJECTID') }}`,
-                storageBucket: `{{ env('FIREBASE_STORAGE') }}`,
-                messagingSenderId: `{{ env('FIREBASE_MESSAGERSENDERID') }}`,
-                appId: `{{ env('FIREBASE_APPID') }}`,
-                measurementId: `{{ env('FIREBASE_MEASUREMENTID') }}`,
-            },
-            {
-                apiKey: "AIzaSyD75zyuEEQy6EjQfyExhZUzFYuDddXZVok",
-                authDomain: "kanel-mall-phone-verify2.firebaseapp.com",
-                projectId: "kanel-mall-phone-verify2",
-                storageBucket: "kanel-mall-phone-verify2.appspot.com",
-                messagingSenderId: "625899591140",
-                appId: "1:625899591140:web:e52fbbde7928ad0eb8a3f1",
-                measurementId: "G-NXZQEVCNZ4"
-            },
-            {
-                apiKey: "AIzaSyDaCXxL8CtQl6e47vYOLEajq5BIypLiRXQ",
-                authDomain: "kanel-mall-phone-verify3.firebaseapp.com",
-                projectId: "kanel-mall-phone-verify3",
-                storageBucket: "kanel-mall-phone-verify3.appspot.com",
-                messagingSenderId: "984736837187",
-                appId: "1:984736837187:web:c7d64a961f1d0f10e86ef6",
-                measurementId: "G-NGF604QVZS"
-            }
-        ];
+                    apiKey: `{{ env('FIREBASE_APIKEY') }}`,
+                    authDomain: `{{ env('FIREBASE_AUTHDOMAIN') }}`,
+                    projectId: `{{ env('FIREBASE_PROJECTID') }}`,
+                    storageBucket: `{{ env('FIREBASE_STORAGE') }}`,
+                    messagingSenderId: `{{ env('FIREBASE_MESSAGERSENDERID') }}`,
+                    appId: `{{ env('FIREBASE_APPID') }}`,
+                    measurementId: `{{ env('FIREBASE_MEASUREMENTID') }}`,
+                },
+                {
+                    apiKey: "AIzaSyD75zyuEEQy6EjQfyExhZUzFYuDddXZVok",
+                    authDomain: "kanel-mall-phone-verify2.firebaseapp.com",
+                    projectId: "kanel-mall-phone-verify2",
+                    storageBucket: "kanel-mall-phone-verify2.appspot.com",
+                    messagingSenderId: "625899591140",
+                    appId: "1:625899591140:web:e52fbbde7928ad0eb8a3f1",
+                    measurementId: "G-NXZQEVCNZ4"
+                },
+                {
+                    apiKey: "AIzaSyDaCXxL8CtQl6e47vYOLEajq5BIypLiRXQ",
+                    authDomain: "kanel-mall-phone-verify3.firebaseapp.com",
+                    projectId: "kanel-mall-phone-verify3",
+                    storageBucket: "kanel-mall-phone-verify3.appspot.com",
+                    messagingSenderId: "984736837187",
+                    appId: "1:984736837187:web:c7d64a961f1d0f10e86ef6",
+                    measurementId: "G-NGF604QVZS"
+                }
+            ];
 
-        firebase.initializeApp(firebaseConfig[Math.floor(Math.random() * 3)]);
+            firebase.initializeApp(firebaseConfig[Math.floor(Math.random() * 3)]);
             //firebase.auth().languageCode = `{{ app()->getLocale() }}`;
             firebase.auth().useDeviceLanguage();
             window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
@@ -305,7 +305,7 @@
                                 .then(confirmationResult => {
                                     confirmation = confirmationResult;
                                     otp(form);
-                                }).catch((error)=>{
+                                }).catch((error) => {
                                     console.log(error)
                                     var message = error.message;
                                     if (window.languages[error.code]) {
@@ -318,40 +318,44 @@
                                     );
                                 });
                         }
-
-                    } else {
                         password();
-                        if($(`[name="password"]`).length >= 8){
+                        if ($(`[name="password"]`).length >= 8) {
                             $(`[name="password"]`).parent().find(`.invalid-feedback`).text('');
-                            if($(`[name="password"]`).val() == $(`[name="password"]`).val()){
+                            if ($(`[name="password"]`).val() == $(`[name="password"]`).val()) {
                                 var $form = $(form).clone();
                                 $form.addClass('d-none');
                                 $form.appendTo('body');
                                 $form.submit();
                             }
                         }
+                    } else {
+                        var $form = $(form).clone();
+                        $form.addClass('d-none');
+                        $form.appendTo('body');
+                        $form.submit();
                     }
                 }
             });
 
-            function password(){
-                if( $(`[name="password"]`).val().length >= 8){
+            function password() {
+                if ($(`[name="password"]`).val().length >= 8) {
                     $(`[name="password"]`).parent().find(`.invalid-feedback`).text('');
-                }else{
-                    $(`[name="password"]`).parent().find(`.invalid-feedback`).addClass('d-block').text(`{{ __('validation.min.string', ['attribute' => __('Password'),'min'=> 8]) }}`);
+                } else {
+                    $(`[name="password"]`).parent().find(`.invalid-feedback`).addClass('d-block').text(
+                        `{{ __('validation.min.string', ['attribute' => __('Password'), 'min' => 8]) }}`);
                 }
 
-                if($(`[name="password_confirmation"]`).val() == $(`[name="password"]`).val()){
+                if ($(`[name="password_confirmation"]`).val() == $(`[name="password"]`).val()) {
                     $(`[name="password_confirmation"]`).parent().find(`.invalid-feedback`).text('');
-                }else{
-                    $(`[name="password_confirmation"]`).parent().find(`.invalid-feedback`).addClass('d-block').text(`{{ __('validation.confirmed', ['attribute' => __('Confirm Password')]) }}`);
+                } else {
+                    $(`[name="password_confirmation"]`).parent().find(`.invalid-feedback`).addClass('d-block').text(
+                        `{{ __('validation.confirmed', ['attribute' => __('Confirm Password')]) }}`);
                 }
             }
 
-            $(`[name="password"],[name="password_confirmation"]`).on('input',function(){
+            $(`[name="password"],[name="password_confirmation"]`).on('input', function() {
                 password();
             });
         </script>
-
     @endpush
 @endif

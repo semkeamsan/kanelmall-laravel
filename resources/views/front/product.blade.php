@@ -184,7 +184,7 @@
             <div class="aui-me-content-item-text p-2 bg text-center">
                 @foreach ($product->prices as $value)
                     @if ($value->qty <= $product->instock)
-                        <a href="#">
+                        <a href="#" class="{{ $loop->last ? null : 'border-right' }}">
                             <span class="text-white">
                                 {{ currency($value->price, 'USD', session('currency')) }}</span>
                             <span class="text-white">{{ $value->name }}</span>
@@ -361,6 +361,13 @@
 @endsection
 @push('styles')
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/magnific-popup/magnific-popup.css') }}">
+    <style>
+        .mfp-bg,.mfp-wrap {
+            left: auto;
+            width: var(--app-width,100%);
+            margin: auto;
+        }
+    </style>
 @endpush
 @push('scripts')
     <script src="{{ asset('vendor/owl.carousel/owl.carousel.min.js') }}"></script>
@@ -391,6 +398,7 @@
 
             $(document).ready(() => {
                 $('.owl-carousel').magnificPopup({
+                    prependTo : '#app',
                     delegate: 'a',
                     //type: 'image',
                     //index: parseInt($(this).attr('data-index'), 10),

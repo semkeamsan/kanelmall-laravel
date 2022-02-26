@@ -11,7 +11,7 @@
         </div>
     </header>
     <section class="aui-myOrder-content">
-        <div class="aui-product-set h-100vh">
+        <div class="aui-product-set">
 
             <a href="{{ route('front.account.personal') }}" class="aui-address-cell aui-fl-arrow aui-fl-arrow-clear">
                 <div class="aui-address-cell-bd">{{ __('Personal information') }}</div>

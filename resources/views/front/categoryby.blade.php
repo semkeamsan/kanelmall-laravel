@@ -145,7 +145,7 @@
             </div>
         </div>
     @endif
-    <div class="aui-content-box h-100vh">
+    <div class="aui-content-box">
         @include('front.categoryby.product')
     </div>
     @include('front.navbar.footer')

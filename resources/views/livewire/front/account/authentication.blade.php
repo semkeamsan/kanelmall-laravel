@@ -11,7 +11,7 @@
     </header>
 
 
-    <section class="container py-6 h-100vh">
+    <section class="container py-6   ">
         @if ($response)
             <div class="alert alert-{{ $response['type'] }} alert-dismissible fade show" role="alert">
                 <strong>

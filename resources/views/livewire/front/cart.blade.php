@@ -1,4 +1,4 @@
-<div id="livewire" class="h-100vh">
+<div id="livewire">
     <header class="aui-header-default aui-header-fixed">
         <div class="aui-header-center aui-header-center-clear">
             <div class="">{{ __('Shopping Cart') }} <span id="cart-count">{{ Cart::count() }}</span>

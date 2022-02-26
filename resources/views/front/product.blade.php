@@ -179,7 +179,7 @@
         </div>
     </div>
 
-    <div class="aui-product-content h-100vh">
+    <div class="aui-product-content">
         @if (count($product->prices) > 1)
             <div class="aui-me-content-item-text p-2 bg text-center">
                 @foreach ($product->prices as $value)

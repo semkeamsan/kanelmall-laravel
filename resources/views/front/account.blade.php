@@ -14,7 +14,7 @@
         </a>
 
     </header>
-    <section class="aui-me-content py-0 h-100vh">
+    <section class="aui-me-content py-0">
         <div class="aui-me-content-box">
             <div class="aui-me-content-list">
                 <div class="aui-me-content-item">

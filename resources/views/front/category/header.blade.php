@@ -2,10 +2,10 @@
     <a href="#" class="p-0 aui-header-item">
         <img width="60px" height="60px" src="{{ asset('images/bg/log.png') }}" alt="">
     </a>
-    <form action="{{ route('front.search') }}" class="aui-header-center aui-header-center-clear">
+    <form action="{{ route('front.category') }}" class="aui-header-center aui-header-center-clear">
         <div class="aui-header-search-box" style="background-color:#fff">
             <i class="aui-icon aui-icon-small-search"></i>
-            <input name="q" type="text" placeholder="{{ __('Search') }}, {{ __('Products') }}..." class="aui-header-search"
+            <input name="q" type="text" placeholder="{{ __('Search') }}, {{ __('Category') }}..." class="aui-header-search"
                 value="{{ request('q') }}">
         </div>
     </form>

@@ -46,7 +46,17 @@ class FrontController extends Controller
     }
     public function category()
     {
-        $categories = session('categories', collect());
+        $categories = collect();
+        if (request('q')) {
+            foreach (session('categories', collect()) as $key => $category) {
+                if (str_contains(Str::lower($category->name), Str::lower(request('q')))) {
+                    $categories->add($category);
+                }
+            }
+        } else {
+            $categories = session('categories', collect());
+        }
+
         return view('front.category', compact('categories'));
     }
     public function categoryby($slug)

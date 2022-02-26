@@ -35,7 +35,7 @@
                                             @enderror
                                         </div>
                                         <div class="mb-3 col-sm-12">
-                                            <label>{{ __('Phone Number') }}:</label>
+                                            <label>{{ __('Email Address') }} / {{ __('Phone Number') }}:</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend d-none" id="icon-mail">
                                                     <span class="input-group-text">

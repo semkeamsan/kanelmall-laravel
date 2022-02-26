@@ -43,8 +43,9 @@
     <meta name="twitter:image" content="{{ asset('images/logo.jpg') }}" />
 @endsection
 @section('content')
+    @include('front.category.header')
     <section class="aui-scroll-contents">
-        <div class="aui-scroll-box pt-0">
+        <div class="aui-scroll-box">
             <div class="aui-scroll-content">
                 <div class="aui-grid-row aui-grid-row-clear">
                     @foreach ($categories as $category)

@@ -221,9 +221,7 @@
             window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
                 size: 'invisible'
             });
-
-            function otp(form) {
-                var $modal = $(`<div id="filemanager-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            var $modal = $(`<div id="filemanager-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header pb-0 border-bottom">
@@ -245,6 +243,7 @@
                                         </div>
                                     </div>
                             </div>`);
+            function otp(form) {
                 $modal.find(`button`).click((e) => {
                     e.preventDefault();
                     var code = '';
@@ -254,8 +253,10 @@
                     confirmation.confirm(code)
                         .then(function(result) {
                             $modal.modal('hide');
+                            $modal.modal('hide');
 
                             var $form = $(form);
+                            $form.find(`[name="phone"]`).attr('readonly',true);
                             $form.attr('action', `{{ route('password.reset.phone') }}`);
                             $form.removeClass('was-validated');
                             $form.find(`[name="email"]`).attr('name', 'phone');
@@ -292,10 +293,17 @@
                     if (filter.test(username)) {
                         if (confirmation) {
                             if ($(form).find(`[name="code"]`).val()) {
-                                var $form = $(form).clone();
-                                $form.addClass('d-none');
-                                $form.appendTo('body');
-                                $form.submit();
+                                password();
+                                if ($(`[name="password"]`).val().length >= 8) {
+                                    $(`[name="password"]`).parent().find(`.invalid-feedback`).text('');
+                                    if ($(`[name="password"]`).val() == $(`[name="password"]`).val()) {
+                                        var $form = $(form).clone();
+                                        $form.addClass('d-none');
+                                        $form.appendTo('body');
+                                        $form.submit();
+                                    }
+                                }
+
                             } else {
                                 otp(form);
                             }
@@ -318,16 +326,7 @@
                                     );
                                 });
                         }
-                        password();
-                        if ($(`[name="password"]`).length >= 8) {
-                            $(`[name="password"]`).parent().find(`.invalid-feedback`).text('');
-                            if ($(`[name="password"]`).val() == $(`[name="password"]`).val()) {
-                                var $form = $(form).clone();
-                                $form.addClass('d-none');
-                                $form.appendTo('body');
-                                $form.submit();
-                            }
-                        }
+
                     } else {
                         var $form = $(form).clone();
                         $form.addClass('d-none');

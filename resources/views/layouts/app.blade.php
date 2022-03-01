@@ -40,7 +40,7 @@
     <div id="app">
         <nav class="navbar navbar-top navbar-expand navbar-dark bg-primary border-bottom">
             <div class="container p-0">
-                <a class="navbar-brand d-block" href="{{ route('front.index') }}">
+                <a class="navbar-brand d-block" href="{{ route('front.home') }}">
                     {{ config('app.name', 'Kanel Mall') }}
                 </a>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">

@@ -225,11 +225,9 @@
                 {{ $product->name }}
             </h2>
             @if ($product->description)
-                <p style="height: 40px;overflow:hidden" id="text-limit">
-                    {!! $product->description !!}
-                </p>
+                <p style="height: 40px;overflow:hidden;white-space: pre-line;" id="text-limit">{!! $product->description !!}</p>
                 @if (strlen($product->description) > 130)
-                    <button class="btn btn-sm" id="read-more">{{ __('Read more') }}</button>
+                    <button class="btn btn-sm mt-2" id="read-more">{{ __('Read more') }}</button>
                 @endif
             @endif
         </div>

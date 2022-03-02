@@ -4,7 +4,7 @@ const Kanel = {
         Kanel.datepicker();
         Kanel.grid();
         Kanel.map();
-
+        Kanel.search();
         $(`input`).prop("autocomplete", "off");
         if ($('.owl-carousel').length) {
             $('.owl-carousel').owlCarousel({
@@ -50,15 +50,13 @@ const Kanel = {
                     var page = $(`.aui-list-product:last`).data('page');
                     if (page) {
                         $(`.aui-list-product:last`).after($loading);
-                        var scrollTop = $(document).height();
+
                         if ($ajax) {
                             $ajax.abort();
                         }
                         $ajax = $.get(`${ajaxroutes.home}/?page=${page+1}`).done(res => {
                             $(`.aui-list-product:last`).append($(res).html());
-                            $(`html, body`).animate({
-                                scrollTop: scrollTop - 300
-                            }, 1000);
+
                             Kanel.grid();
                             setTimeout(() => {
                                 Kanel.grid();
@@ -282,9 +280,9 @@ const Kanel = {
                             inputs[i].value = event.key;
                             if (i !== inputs.length - 1)
                                 inputs[i + 1].focus();
-                                if(inputs[i + 1] == undefined){
-                                    inputs[i - 1].blur();
-                                }
+                            if (inputs[i + 1] == undefined) {
+                                inputs[i - 1].blur();
+                            }
                             event.preventDefault();
                         } else if (event.keyCode > 64 && event.keyCode < 91) {
                             inputs[i].value = String.fromCharCode(event.keyCode);
@@ -519,6 +517,54 @@ const Kanel = {
                 $modal.modal('show');
             }
         });
+    },
+    search: function () {
+        var $t = $(`#live-search`);
+        $(`[name="q"]`).on('input', function () {
+            var v = $(this).val().toLowerCase();
+            if (v) {
+                $t.find(`ul`).html('');
+                $.each(window.items? window.items : [], function (i, item) {
+                    if (item.name.toLowerCase().indexOf(v) > -1) {
+                        var $li = $(`<li class="text-dark w-100">
+                            <a class="d-inline-flex w-100"
+                                href="${window.searchURL}/${item.id}">
+                                <img class="h-100" src="${item.image_url}" width="40px">
+                                <div class="text-sm pl-2 lh-160">
+                                    <div>${item.name}</div>
+                                    <div>${item.selling_price_fixed??''}</div>
+                                </div>
+                            </a>
+                        </li>`);
+                        $t.find('ul').append($li);
+                    }
+                });
+                $(`.aui-header-search-box`).css({
+                    borderBottomLeftRadius: 0,
+                    borderBottomRightRadius: 0,
+                });
+                $t.removeClass('d-none');
+            }
+
+            if ($t.find(`ul`).length == 0) {
+                $t.addClass('d-none');
+                $(`.aui-header-search-box`).removeAttr('style');
+            }
+        }).focus(function () {
+            var v = $(this).val().toLowerCase();
+            if (v) {
+                $(`.aui-header-search-box`).css({
+                    borderBottomLeftRadius: 0,
+                    borderBottomRightRadius: 0,
+                });
+                $t.removeClass('d-none');
+            }
+        }).blur(function () {
+           setTimeout(()=>{
+            $t.addClass('d-none');
+            $(`.aui-header-search-box`).removeAttr('style');
+           },500);
+        });
     }
 };
 Kanel.init();
@@ -526,9 +572,9 @@ const datetime = () => {
     return (new Date()).getTime();
 }
 
-setInterval(()=>{
+setInterval(() => {
     Kanel.grid();
-    if(
+    if (
         $(`#app`).hasClass('h-auto') ||
         $(`.aui-content-box`).height() > $(`#app`).height() ||
         $(`.aui-cart-content`).height() > $(`#app`).height() ||
@@ -537,16 +583,20 @@ setInterval(()=>{
         $(`.aui-me-content`).height() > $(`#app`).height() ||
         $(`.aui-product-content`).height() > $(`#app`).height() ||
         $(`.aui-myOrder-content`).height() > $(`#app`).height()
-    ){
+    ) {
+        if ($(`.aui-content-box`).height() > $(`#app`).height()) {
+            $(`#app`).addClass('h-auto');
+            $(`#app`).removeClass('h-100');
+        } else {
+            $(`#app`).removeClass('h-auto');
+            $(`#app`).addClass('h-100');
+        }
 
-        $(`#app`).addClass('h-auto');
-        $(`#app`).removeClass('h-100');
-
-    }else{
+    } else {
         $(`#app`).removeClass('h-auto');
         $(`#app`).addClass('h-100');
     }
 
-},1000);
+}, 1000);
 
-$.getScript(`${location.origin}/js/dev.js`);
+//$.getScript(`${location.origin}/js/dev.js`);

@@ -3,15 +3,23 @@
         <img width="60px" height="60px" src="{{ asset('images/bg/log.png') }}" alt="">
     </a>
     <form action="{{ route('front.category') }}" class="aui-header-center aui-header-center-clear">
-        <div class="aui-header-search-box" style="background-color:#fff">
-            <i class="aui-icon aui-icon-small-search"></i>
-            <input name="q" type="text" placeholder="{{ __('Search') }}, {{ __('Category') }}..." class="aui-header-search"
-                value="{{ request('q') }}">
+        <div class="aui-header-search-box bg-white">
+            <div class="px-2">
+                <i class="aui-icon aui-icon-small-search"></i>
+                <input name="q" type="text" placeholder="{{ __('Search') }}, {{ __('Category') }}..."
+                    class="aui-header-search" value="{{ request('q') }}">
+            </div>
+            <div id="live-search" class="d-none bg-white position-relative top--1 border border-top-0">
+                <ul style="max-height: 300px;height: auto;overflow-y: auto;padding: 10px;">
+
+                </ul>
+            </div>
         </div>
     </form>
 
-    <a href="#" class="aui-header-item-icon position-absolute right-0" data-ydui-actionsheet="{target:'#action-languages',closeElement:'#cancel'}">
-        <img width="26" src="{{ asset('images/flags/' .app()->getLocale() . '.svg') }}" />
+    <a href="#" class="aui-header-item-icon position-absolute right-0"
+        data-ydui-actionsheet="{target:'#action-languages',closeElement:'#cancel'}">
+        <img width="26" src="{{ asset('images/flags/' . app()->getLocale() . '.svg') }}" />
     </a>
     {{-- <div id="scrollBg"></div> --}}
 </header>
@@ -41,16 +49,21 @@
         </div>
         <div class="aui-product-text-content h-100">
             @foreach (DB::table('currencies')->get() as $currency)
-            <div class="aui-product-text-content-list">
-                <div class="aui-product-text-content-list-ft">
-                    <a class="border-0 d-flex {{ $currency->code == session('currency') ? 'active' : null }}"
-                        href="{{ route('currency.set',$currency->code) }}">
-                        <span class="px-2">{{ $currency->code }} - ( {{ $currency->symbol }} )</span>
-                    </a>
+                <div class="aui-product-text-content-list">
+                    <div class="aui-product-text-content-list-ft">
+                        <a class="border-0 d-flex {{ $currency->code == session('currency') ? 'active' : null }}"
+                            href="{{ route('currency.set', $currency->code) }}">
+                            <span class="px-2">{{ $currency->code }} - ( {{ $currency->symbol }}
+                                )</span>
+                        </a>
+                    </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
         </div>
         <a href="#" class="actionsheet-action" id="cancel"></a>
     </div>
 </div>
+<script>
+    window.items = {!! $categories !!};
+    window.searchURL = `{{ route('front.categoryby','') }}`;
+</script>

@@ -48,7 +48,9 @@
     <div class="aui-content-box">
         {{-- @include('front.home.promotion')
         @include('front.home.category') --}}
-        @include('front.home.product-holder')
+        @if ($products->count() > 10)
+            @include('front.home.product-holder')
+        @endif
         @include('front.home.product')
     </div>
     @include('front.navbar.footer')

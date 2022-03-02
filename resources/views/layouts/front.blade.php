@@ -4,6 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -11,13 +13,39 @@
     @yield('meta')
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="shortcut icon" href="{{ asset('favicon.jpg') }}">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('favicon/apple-icon-57x57.png') }}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('favicon/apple-icon-60x60.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('favicon/apple-icon-72x72.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('favicon/apple-icon-76x76.png') }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('favicon/apple-icon-114x114.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('favicon/apple-icon-120x120.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('favicon/apple-icon-144x144.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('favicon/apple-icon-152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-icon-180x180.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('favicon/android-icon-192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('favicon/favicon-96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{{ asset('favicon/ms-icon-144x144.png') }}">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="search" type="application/opensearchdescription+xml" title="Kanel Mall"
+        href="{{ asset('browserconfig.xml') }}">
+
+
+
+
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('vendor/@fontawesome/fontawesome-free/css/all.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('vendor/@fontawesome/fontawesome-free/css/all.min.css') }}"
+        type="text/css">
     <link rel="stylesheet" href="{{ asset('vendor/sweetalert2/dist/sweetalert2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/select2/dist/css/select2.min.css') }}">
     <link rel='stylesheet' href="{{ asset('vendor/owl.carousel/owl.carousel.min.css') }}">
@@ -28,13 +56,15 @@
     @livewireStyles
     <style id="root">
         :root {
-            --app-width: {{ config('page.device') == 'web'? '500px' : '100%' }};
+            --app-width: {{ config('page.device') == 'web' ? '500px' : '100%' }};
         }
+
     </style>
     <style>
-        .app-width{
+        .app-width {
             width: calc(var(--app-width));
         }
+
         .owl-theme,
         .owl-stage-outer,
         .owl-stage,
@@ -46,16 +76,19 @@
         .swal2-popup.swal2-toast {
             width: 260px;
         }
-        #app{
+
+        #app {
             margin: auto;
             position: relative;
             width: calc(var(--app-width));
             top: 0;
             bottom: 0;
         }
-        .text-ssm{
+
+        .text-ssm {
             font-size: 12px;
         }
+
     </style>
     @stack('styles')
     <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
@@ -66,6 +99,7 @@
         html {
             touch-action: manipulation;
         }
+
         .svg-loader {
             display: flex;
             width: 100%;
@@ -112,6 +146,7 @@
                 stroke-dashoffset: 0;
             }
         }
+
     </style>
 
 </head>
@@ -165,8 +200,22 @@
                 history.pushState(null, null, param);
             });
         });
+        // Initialize deferredPrompt for use later to show browser install prompt.
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            deferredPrompt = e;
+            // Update UI notify the user they can install the PWA
+            showInstallPromotion();
+            // Optionally, send analytics event that PWA install promo was shown.
+            console.log(`'beforeinstallprompt' event was fired.`);
+        });
     </script>
     @stack('scripts')
+
 </body>
 
 </html>

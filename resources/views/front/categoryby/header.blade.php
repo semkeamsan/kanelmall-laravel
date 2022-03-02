@@ -4,9 +4,16 @@
     </a>
     <div class="aui-header-center aui-header-center-clear">
         <form action="{{ route('front.categoryby', $category->id) }}" class="aui-header-search-box">
-            <i class="aui-icon aui-icon-small-search"></i>
-            <input name="q" type="text" placeholder="{{ __('Search') }}, {{ __('Products') }}..." class="aui-header-search"
-                value="{{ request('q') }}">
+            <div class="px-2">
+                <i class="aui-icon aui-icon-small-search"></i>
+                <input name="q" type="text" placeholder="{{ __('Search') }}, {{ __('Products') }}..." class="aui-header-search"
+                    value="{{ request('q') }}">
+            </div>
+                <div id="live-search" class="d-none bg-white position-relative top--1 border border-top-0">
+                    <ul style="max-height: 300px;height: auto;overflow-y: auto;padding: 10px;">
+
+                    </ul>
+                </div>
         </form>
     </div>
     <a href="#" class="aui-header-item-icon position-absolute right-0"
@@ -53,3 +60,7 @@
         <a href="#" class="actionsheet-action" id="cancel"></a>
     </div>
 </div>
+<script>
+    window.items = {!! $products !!};
+    window.searchURL = `{{ route('front.product','') }}`;
+</script>

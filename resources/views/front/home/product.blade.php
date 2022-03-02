@@ -31,7 +31,7 @@
                                 </div>
                             </div>
                         @else
-                            <img data-src={{ $product->image_url }} src="{{ asset('images/bg/log.jpg') }}">
+                            <img data-src="{{ $product->image_url }}" src="{{ asset('images/bg/log.jpg') }}">
                         @endif
 
                     </div>

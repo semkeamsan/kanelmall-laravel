@@ -85,7 +85,7 @@ class ApiController
                 $value['price'] =  $value['variations'][0]['default_sell_price'];
                 $value['selling_price'] =  $value['variations'][0]['default_sell_price'];
             }
-
+            $value['selling_price_fixed'] = currency($value['selling_price'], 'USD', session('currency'));
             $value['promotion']     =  false;
 
             foreach (session('promotions') as $promotion) {

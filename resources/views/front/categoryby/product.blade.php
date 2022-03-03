@@ -44,7 +44,7 @@
 
 
                             @if ($product->enable_stock && $product->instock)
-                                <div class="aui-comment"><i class="fa fa-check"></i> {{ __('Instock') }}</div>
+                                <div class="aui-comment font-weight-bold text-green"><i class="fa fa-check"></i> {{ __('Instock') }}</div>
                             @endif
                         </div>
                     </div>

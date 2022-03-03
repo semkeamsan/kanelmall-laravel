@@ -16,7 +16,7 @@
                                 {{ currency(0.00, 'USD', session('currency')) }}
                             </span>
                         </div>
-                        <div class="aui-comment"><i class="fa fa-check"></i> {{ __('Instock') }}</div>
+                        <div class="aui-comment font-weight-bold text-green"><i class="fa fa-check"></i> {{ __('Instock') }}</div>
                     </div>
                 </div>
             </a>

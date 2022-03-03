@@ -584,13 +584,9 @@ setInterval(() => {
         $(`.aui-product-content`).height() > $(`#app`).height() ||
         $(`.aui-myOrder-content`).height() > $(`#app`).height()
     ) {
-        if ($(`.aui-content-box`).height() > $(`#app`).height()) {
+       
             $(`#app`).addClass('h-auto');
             $(`#app`).removeClass('h-100');
-        } else {
-            $(`#app`).removeClass('h-auto');
-            $(`#app`).addClass('h-100');
-        }
 
     } else {
         $(`#app`).removeClass('h-auto');

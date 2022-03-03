@@ -43,6 +43,12 @@
     <meta name="twitter:image" content="{{ asset('images/logo.jpg') }}" />
 @endsection
 @section('content')
+<style>
+    .aui-grid-row-item{
+        height: 200px;
+        margin-bottom: 30px;
+    }
+</style>
     @include('front.category.header')
     <section class="aui-scroll-contents">
         <div class="aui-scroll-box">

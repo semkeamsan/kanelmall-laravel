@@ -189,3 +189,9 @@ Route::group(['prefix' => 'command', 'command.'], function () {
         })->name('all');
     });
 });
+Route::get('sw.js', function () {
+    return response(file_get_contents(asset('js/sw.js')), 200, [
+    'Content-Type' => 'text/javascript',
+    'Cache-Control' => 'public, max-age=3600',
+    ]);
+});

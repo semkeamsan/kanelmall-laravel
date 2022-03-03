@@ -22,6 +22,7 @@ class ApiController
         $this->sliders($response['sliders']);
         $this->promotions($response['promotions']);
         $this->products($response['products']);
+        return $response['categories'];
         $this->categories($response['categories']);
         if (!request()->ajax()) {
             return redirect()->route('front.home');
@@ -136,7 +137,10 @@ class ApiController
             if (!$value['image_url']) {
                 $value['image_url'] = asset('images/bg/log.jpg');
             }
-            $categories->add(array_to_jsdecode($value));
+            if($value['deleted_at'] == null){
+                $categories->add(array_to_jsdecode($value));
+            }
+
         }
         session()->put('categories', $categories);
         return $categories;

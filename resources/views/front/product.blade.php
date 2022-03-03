@@ -239,9 +239,9 @@
                 <div class="aui-address-cell-ft">
                     {{ __('In Stock') }} :
                     @if ($product->enable_stock && $product->instock)
-                        <i class="fa fa-check text-green" aria-hidden="true"></i>
+                        <i class="fa fa-check font-weight-bold text-green" aria-hidden="true"></i>
                     @else
-                        <i class="fa fa-times text-danger" aria-hidden="true"></i>
+                        <i class="fa fa-times font-weight-bold text-danger" aria-hidden="true"></i>
                     @endif
 
                 </div>

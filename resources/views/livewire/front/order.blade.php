@@ -286,12 +286,7 @@
                                             {{ __('Payment Via') }} :
                                             <span>{{ Str::upper($order->payment_via) }}</span>
                                         </div>
-                                        @if ($order->comment)
-                                            <div class="pb-1">
-                                                {{ __('Comment') }} :
-                                                <span>{{ $order->comment }}</span>
-                                            </div>
-                                        @endif
+
                                         <div class="pb-1">
                                             {{ __('Total') }} :
                                             <span>
@@ -317,6 +312,12 @@
                                                 <span>
                                                     {{ currency($order->final_total_price, 'USD', session('currency')) }}
                                                 </span>
+                                            </div>
+                                        @endif
+                                        @if ($order->comment)
+                                            <div class="pb-1">
+                                                {{ __('Comment') }} :
+                                                <span>{{ $order->comment }}</span>
                                             </div>
                                         @endif
                                         @if ($order->payment_image)

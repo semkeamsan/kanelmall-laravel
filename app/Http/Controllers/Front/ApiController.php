@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Front;
 
 use App\Models\Order;
-use Exception;
 use Illuminate\Support\Facades\Http;
 
 class ApiController
@@ -22,7 +21,6 @@ class ApiController
         $this->sliders($response['sliders']);
         $this->promotions($response['promotions']);
         $this->products($response['products']);
-        return $response['categories'];
         $this->categories($response['categories']);
         if (!request()->ajax()) {
             return redirect()->route('front.home');
@@ -207,7 +205,7 @@ class ApiController
                 'order_status' => 'paid',
                 'payment_status' => 'paid',
                 'is_quotation' => '0',
-                'transaction_date' => $order->created_at->timestamp,
+                'transaction_date' => $order->created_at->format('Y-m-d H:i:s'),
                 'total_before_tax' => $order->total_price,
                 'tax_amount' => '0',
                 'rp_redeemed' => '0',
@@ -224,8 +222,8 @@ class ApiController
                 'essentials_amount_per_unit_duration' => '0',
                 'rp_earned' => '0',
                 'is_recurring' => '0',
-                'created_at' => $order->created_at->timestamp,
-                'updated_at' => $order->updated_at->timestamp,
+                'created_at' => $order->created_at->format('Y-m-d H:i:s'),
+                'updated_at' => $order->updated_at->format('Y-m-d H:i:s'),
                 'type' => 'sell',
                 'customer_group_id' => '',
                 'invoice_no' => slug(env('APP_NAME')) . '-' . $order->id,
@@ -317,7 +315,8 @@ class ApiController
                     $order = $orders->where('transaction_id', $t['id'])->first();
                     if ($order && $t['order_status']) {
                         $order->update([
-                            'status' => $t['order_status']
+                            'status' => $t['order_status'],
+                            'comment' => $t['additional_notes'],
                         ]);
                     }
                 }

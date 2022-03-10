@@ -55,6 +55,9 @@ class ApiController
     {
 
         $products = collect();
+        $populars = collect();
+        $new = collect();
+        $recommends = collect();
         foreach ($data as $key => $value) {
 
             if ($value['image']) {
@@ -105,9 +108,25 @@ class ApiController
                     }
                 }
             }
-            $products->add(array_to_jsdecode($value));
+            if ($value['hide_from_app'] == 0) {
+                $product = array_to_jsdecode($value);
+                $products->add($product);
+                if($product->is_popular){
+                    $populars->add($product);
+                }
+                if($product->is_new){
+                    $new->add($product);
+                }
+                if($product->is_recommend){
+                    $recommends->add($product);
+                }
+            }
         }
+        $products = sort_products($products);
         session()->put('products', $products);
+        session()->put('populars', $products);
+        session()->put('new', $products);
+        session()->put('recommends', $products);
         return $products;
     }
     public  function categories(array $data)

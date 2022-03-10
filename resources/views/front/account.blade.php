@@ -1,7 +1,7 @@
 @extends('layouts.front')
 @section('content')
     <header class="aui-header-default aui-header-fixed aui-header-clear-bg " style="border-bottom:0">
-        <a href="#back"  onclick="history.back()" class="aui-header-item d-none">
+        <a href="#back" class="aui-header-item d-none">
             <i class="aui-icon aui-icon-back-white" id="scrollSearchI" style="display:block"></i>
         </a>
         <div class="aui-header-center aui-header-center-clear">

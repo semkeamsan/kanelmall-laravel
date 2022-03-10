@@ -18,7 +18,11 @@ class FrontController extends Controller
     {
         $sliders = session('sliders', collect());
         $products = session('products', collect());
+        $populars = session('populars', collect());
+        $recommends = session('recommends', collect());
+        $new        = session('new', collect());
         $promotions = session('promotions', collect());
+
         foreach ($promotions as $promotion) {
             $promotion->products = collect();
             $products->map(function ($product) use ($promotion) {
@@ -28,7 +32,8 @@ class FrontController extends Controller
             });
         }
         $categories = session('categories', collect());
-        return view('front.home', compact('sliders', 'products', 'promotions', 'categories'));
+
+        return view('front.home', compact('sliders', 'products','populars','recommends','new', 'promotions', 'categories'));
     }
     public function search()
     {
@@ -86,7 +91,7 @@ class FrontController extends Controller
     }
     public function cartadd($slug)
     {
-        $add = CartHelper::add($slug, request('qty',1));
+        $add = CartHelper::add($slug, request('qty', 1));
         if (request()->ajax()) {
             return $add;
         }
@@ -111,9 +116,10 @@ class FrontController extends Controller
     }
     public function product($slug)
     {
-         $product  = product($slug);
-         $product->category = category($product->category_id);
-         return view('front.product', compact('product'));
+        if ($product  = product($slug)) {
+            $product->category = category($product->category_id);
+            return view('front.product', compact('product'));
+        }
         abort(404);
     }
 }

@@ -1063,6 +1063,7 @@ table {
     border-radius: 10px;
 }
 #live-search{
+    z-index: 1000;
     border-radius: 0  0 10px  10px;
 }
 
@@ -1157,7 +1158,6 @@ table {
 }
 
 .aui-slide-box .aui-slide-list {
-    margin: 10px 10px 0 10px;
     overflow: hidden;
     height: 12rem;
 }
@@ -1167,6 +1167,7 @@ table {
     white-space: nowrap;
     overflow: auto;
     height: 100%;
+    padding: 0 2px;
     /* font-size: 0; */
     -webkit-overflow-scrolling: touch;
 }
@@ -1183,8 +1184,6 @@ table {
  } */
 .aui-slide-box .aui-slide-item-list .aui-slide-item-item {
     display: inline-block;
-    width: 8rem;
-    height: 100%;
     margin-right: 2px;
     vertical-align: top;
     position: relative;
@@ -1201,11 +1200,11 @@ li {
 
 .aui-slide-box .aui-slide-item-list .aui-slide-item-item .v-img {
     display: block;
-    width: 100%;
-    height: 100%;
+    width: 8rem;
+    height: 7.7rem;
+    object-fit: cover;
     background: url(../images/bg/log.jpg) no-repeat center center;
     background-size: 100%;
-    border-radius: 10px;
 }
 
 .aui-slide-box-clear .aui-slide-item-list .aui-slide-item-item .v-img {
@@ -1229,21 +1228,14 @@ li {
     text-align: left;
     line-height: 1rem;
     word-break: break-word;
-    /* height: 2rem; */
+    width: 8rem;
     white-space: normal;
-    margin: 6px 0 4px;
-    font-size: 12px;
-    color: #fff;
-}
-
-.aui-slide-box .aui-slide-item-list .aui-slide-item-item .aui-slide-item-info {
-    text-align: center;
-    height: 0.373333rem;
-    line-height: 0.373333rem;
-    margin-top: 6px;
+    margin: 6px 2px 4px;
     font-size: 12px;
 }
-
+.aui-slide-box .aui-slide-item-list .aui-slide-item-item .aui-slide-item-info{
+    padding: 0 2px;
+}
 .aui-slide-box .aui-slide-item-list .aui-slide-item-item .aui-slide-item-info .aui-slide-item-price {
     font-size: 14px;
     color: var(--color-primary);
@@ -1417,8 +1409,8 @@ li {
 }
 
 .aui-list-product-item-text h3 {
-    color: #505050;
-    font-size: 12px;
+    color: #1a1a1a;
+    font-size: 14px;
     font-weight: normal;
     word-wrap: normal;
     text-overflow: ellipsis;
@@ -1447,7 +1439,7 @@ li {
 
 .aui-list-product-item-price {
     font-size: 16px;
-    color: #EB5211;
+    color: #000;
 }
 
 .aui-list-product-item-price em {

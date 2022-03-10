@@ -5,6 +5,8 @@ const Kanel = {
         Kanel.grid();
         Kanel.map();
         Kanel.search();
+        Kanel.back();
+        Kanel.sw();
         $(`input`).prop("autocomplete", "off");
         if ($('.owl-carousel').length) {
             $('.owl-carousel').owlCarousel({
@@ -21,7 +23,6 @@ const Kanel = {
         Array.prototype.filter.call(forms, (form) => {
             Kanel.validation(form);
         });
-
 
         $(document).scroll(function () {
             Kanel.grid();
@@ -255,7 +256,7 @@ const Kanel = {
             setTimeout(function () {
                 $(`.product-holder`).remove();
                 $(`.aui-list-product`).removeClass('invisible');
-            }, 2000);
+            }, 1000);
         }
     },
     otp: function (inputs) {
@@ -520,11 +521,18 @@ const Kanel = {
     },
     search: function () {
         var $t = $(`#live-search`);
+        var $mask = $(`<div class="mask-black"></div>`);
+        $mask.click(function () {
+            clear();
+        });
+
+
+
         $(`[name="q"]`).on('input', function () {
             var v = $(this).val().toLowerCase();
             if (v) {
                 $t.find(`ul`).html('');
-                $.each(window.items? window.items : [], function (i, item) {
+                $.each(window.items ? window.items : [], function (i, item) {
                     if (item.name.toLowerCase().indexOf(v) > -1) {
                         var $li = $(`<li class="text-dark w-100">
                             <a class="d-inline-flex w-100"
@@ -559,12 +567,82 @@ const Kanel = {
                 });
                 $t.removeClass('d-none');
             }
+            $(`body`).css({
+                    //overflow: 'hidden',
+                }).addClass(`modal-open`)
+                .append($mask);
+            $(`.aui-header-fixed`).css({
+                zIndex: 1000,
+            });
         }).blur(function () {
-           setTimeout(()=>{
-            $t.addClass('d-none');
-            $(`.aui-header-search-box`).removeAttr('style');
-           },500);
+
+            clear();
+
         });
+
+        var clear = function () {
+            setTimeout(() => {
+                $mask.remove();
+                $t.addClass('d-none');
+                $(`body`).css({
+                    overflow: 'inherit',
+                });
+                $(`.aui-header-fixed`).css({
+                    zIndex: 999,
+                });
+                $(`.aui-header-search-box`).removeAttr('style');
+            }, 500);
+        }
+    },
+    back: function () {
+        $(`[href="#back"]`).each(function () {
+            var lang = $(`html`).attr('lang');
+            if (history.length == 1) {
+                $(this).attr(`href`, `/${lang}/home`);
+            } else {
+                $(this).click(function (e) {
+                    e.preventDefault();
+                    history.back();
+                });
+            }
+
+        });
+    },
+    sw: function () {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register(`/sw.js?v=${(new Date()).getTime()}`, {
+                scope: '.'
+            }).then(function (registration) {
+                // Registration was successful
+                //console.log('PWA: ServiceWorker registration successful with scope: ', registration.scope);
+
+            }, function (err) {
+                // registration failed :(
+                //console.log('PWA: ServiceWorker registration failed: ', err);
+            });
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            deferredPrompt = e;
+
+            // Show the prompt
+            //deferredPrompt.prompt();
+            // Wait for the user to respond to the prompt
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    //console.log('User accepted the A2HS prompt');
+                } else {
+                    //console.log('User dismissed the A2HS prompt');
+                }
+                deferredPrompt = null;
+            });
+
+        });
+
+
     }
 };
 Kanel.init();
@@ -584,9 +662,9 @@ setInterval(() => {
         $(`.aui-product-content`).height() > $(`#app`).height() ||
         $(`.aui-myOrder-content`).height() > $(`#app`).height()
     ) {
-       
-            $(`#app`).addClass('h-auto');
-            $(`#app`).removeClass('h-100');
+
+        $(`#app`).addClass('h-auto');
+        $(`#app`).removeClass('h-100');
 
     } else {
         $(`#app`).removeClass('h-auto');

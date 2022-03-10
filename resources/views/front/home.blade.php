@@ -46,8 +46,10 @@
     @include('front.navbar.header')
     @include('front.home.slider')
     <div class="aui-content-box">
-        {{-- @include('front.home.promotion')
-        @include('front.home.category') --}}
+        {{-- @include('front.home.new') --}}
+        {{-- @include('front.home.recommend') --}}
+        {{-- @include('front.home.popular') --}}
+        {{-- @include('front.home.category') --}}
         @if ($products->count() > 10)
             @include('front.home.product-holder')
         @endif

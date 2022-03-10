@@ -59,6 +59,20 @@ function product( $id)
         }
     }
 }
+
+function sort_products($collection){
+    $products = collect();
+    $b = collect();
+    foreach ($collection as $row) {
+        if ($row->is_new && $row->is_popular) {
+            $products->add($row);
+        }else{
+            $b->add($row);
+        }
+    }
+   return $products->merge($b);
+}
+
 function category( $id)
 {
     if ($id) {

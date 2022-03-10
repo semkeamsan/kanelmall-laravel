@@ -85,8 +85,7 @@
 @section('content')
 
     <header class="aui-header-default aui-header-fixed ">
-        <a href="#"
-            onclick="if(document.referrer) {window.open(document.referrer,'_self');} else {history.go(-1);} return false;"
+        <a href="#back"
             class="aui-header-item">
             <i class="aui-icon aui-icon-back"></i>
         </a>

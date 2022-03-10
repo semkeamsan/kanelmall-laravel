@@ -38,23 +38,25 @@
                     <div class="aui-list-product-item-text">
                         <h3> {{ $product->name }} </h3>
                         <div class="aui-list-product-mes-box">
-
-
-
                             <div>
-                                <span class="aui-list-product-item-price">
+                                @if ($product->is_new && $product->is_popular)
+                                    <h5 class="text-danger">{{ __('New Arrival') }}</h5>
+                                @elseif($product->is_new)
+                                    <h5 class="text-danger">{{ __('New Arrival') }}</h5>
+                                @elseif ($product->is_popular)
+                                    <h5 class="text-danger">{{ __('Popular') }}</h5>
+                                @endif
+                                <h4 class="aui-list-product-item-price">
                                     {{ currency($product->selling_price, 'USD', session('currency')) }}
-                                </span>
+                                </h4>
                                 @if (count($product->prices) == 0)
                                     @if ($product->promotion)
-                                        <span class="aui-list-product-item-del-price">
+                                        <h4 class="aui-list-product-item-del-price">
                                             {{ currency($product->price, 'USD', session('currency')) }}
-                                        </span>
+                                        </h4>
                                     @endif
                                 @endif
                             </div>
-
-
                             @if ($product->enable_stock && $product->instock)
                                 <div class="aui-comment font-weight-bold text-green"><i class="fa fa-check"></i> {{ __('Instock') }}</div>
                             @endif

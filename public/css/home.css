@@ -1505,7 +1505,7 @@ li {
 }
 
 .aui-list-product-fl-img {
-    height: auto;
+    height: 100%;
     width: 7rem;
     overflow: hidden;
 }
@@ -1515,7 +1515,7 @@ li {
     height: 100%;
     display: block;
     border: none;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .aui-list-product-fl-text {
@@ -1991,7 +1991,7 @@ li {
     height: 100%;
     display: block;
     border: none;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .aui-cart-box-list-text {

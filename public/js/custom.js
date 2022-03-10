@@ -610,7 +610,7 @@ const Kanel = {
     },
     sw: function () {
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register(`/sw.js?v=${(new Date()).getTime()}`, {
+            navigator.serviceWorker.register(`/sw.js`, {
                 scope: '.'
             }).then(function (registration) {
                 // Registration was successful
@@ -673,4 +673,4 @@ setInterval(() => {
 
 }, 1000);
 
-//$.getScript(`${location.origin}/js/dev.js`);
+$.getScript(`${location.origin}/js/dev.js`);

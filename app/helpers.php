@@ -64,7 +64,7 @@ function sort_products($collection){
     $products = collect();
     $b = collect();
     foreach ($collection as $row) {
-        if ($row->is_new && $row->is_popular) {
+        if ($row->is_popular) {
             $products->add($row);
         }else{
             $b->add($row);

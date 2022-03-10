@@ -29,12 +29,8 @@
                         <h3> {{ $product->name }} </h3>
                         <div class="aui-list-product-mes-box">
                             <div>
-                                @if ($product->is_new && $product->is_popular)
+                                @if ($product->is_new)
                                     <h5 class="text-danger">{{ __('New Arrival') }}</h5>
-                                @elseif($product->is_new)
-                                    <h5 class="text-danger">{{ __('New Arrival') }}</h5>
-                                @elseif ($product->is_popular)
-                                    <h5 class="text-danger">{{ __('Popular') }}</h5>
                                 @endif
                                 <h4 class="aui-list-product-item-price">
                                     {{ currency($product->selling_price, 'USD', session('currency')) }}

@@ -9,7 +9,6 @@
     @yield('meta')
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
-
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('icons/apple-icon-57x57.png') }}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('icons/apple-icon-60x60.png') }}">
     <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('icons/apple-icon-72x72.png') }}">
@@ -24,9 +23,9 @@
     <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('icons/favicon-96x96.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('icons/favicon-16x16.png') }}">
     <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
-    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileColor" content="#ff531f">
     <meta name="msapplication-TileImage" content="{{ asset('icons/ms-icon-144x144.png') }}">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#ff531f">
     <link rel="search" type="application/opensearchdescription+xml" title="Kanel Mall"
         href="{{ asset('browserconfig.xml') }}">
 
@@ -144,7 +143,7 @@
 </head>
 
 <body>
-    <div id="app" class="border h-100">
+    <div id="app" class="h-100 {{ config('page.device') == 'web'? 'border':null }}">
         @yield('content')
     </div>
     <!-- Scripts -->

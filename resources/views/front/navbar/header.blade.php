@@ -1,5 +1,5 @@
 <header class="aui-header-default aui-header-fixed aui-header-clear-bg">
-    <a href="#" class="p-0 aui-header-item">
+    <a href="{{ route('front.home') }}" class="p-0 aui-header-item">
         <img width="60px" height="60px" src="{{ asset('images/bg/log.png') }}" alt="">
     </a>
     <form action="{{ route('front.search') }}" class="aui-header-center aui-header-center-clear">

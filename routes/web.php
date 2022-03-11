@@ -60,6 +60,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         Route::get('/myorder', 'Front\\AccountController@myorder')->name('myorder');
         Route::get('/orderremove/{slug}', 'Front\\AccountController@orderremove')->name('orderremove');
         Route::match(['get', 'post'], '/orderpayment/{slug}', 'Front\\AccountController@orderpayment')->name('orderpayment');
+
     });
     Route::get('privacy', function () {
         return view('front.privacy');
@@ -108,6 +109,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::prefix('ajax')->as('ajax.')->group(function () {
         Route::get('/home', 'Front\\AjaxController@home')->name('front.home');
         Route::get('/categoryby/{slug}', 'Front\\AjaxController@categoryby')->name('front.categoryby');
+    });
+    Route::get('internet', function () {
+        return view('front.internet');
     });
 });
 
@@ -195,3 +199,4 @@ Route::get('sw.js', function () {
     'Cache-Control' => 'public, max-age=3600',
     ]);
 });
+

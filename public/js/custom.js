@@ -47,7 +47,7 @@ const Kanel = {
         var $ajax = null;
         $(window).on('scroll', function () {
             if ($('.aui-content-box').length) {
-                if ($(window).scrollTop() >= $('.aui-content-box').offset().top + $('.aui-content-box').outerHeight() - window.innerHeight) {
+                if ($(window).scrollTop() >= $('.aui-content-box').offset().top + $('.aui-content-box').outerHeight() - window.innerHeight - 100) {
                     var page = $(`.aui-list-product:last`).data('page');
                     if (page) {
                         $(`.aui-list-product:last`).after($loading);

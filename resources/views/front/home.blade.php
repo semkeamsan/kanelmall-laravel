@@ -50,9 +50,9 @@
         {{-- @include('front.home.recommend') --}}
         {{-- @include('front.home.popular') --}}
         {{-- @include('front.home.category') --}}
-        @if ($products->count() > 10)
+        {{-- @if ($products->count() > 10)
             @include('front.home.product-holder')
-        @endif
+        @endif --}}
         @include('front.home.product')
     </div>
     @include('front.navbar.footer')

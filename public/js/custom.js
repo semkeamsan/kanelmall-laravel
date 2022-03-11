@@ -673,4 +673,4 @@ setInterval(() => {
 
 }, 1000);
 
-$.getScript(`${location.origin}/js/dev.js`);
+//$.getScript(`${location.origin}/js/dev.js`);

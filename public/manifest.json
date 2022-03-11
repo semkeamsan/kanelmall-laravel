@@ -1,9 +1,9 @@
 {
     "name": "Kanel Mall",
     "short_name": "Kanel Mall",
-    "description":"",
+    "description":"Kanel Mall - Buy and sell",
     "start_url": "/",
-    "display": "fullscreen",
+    "display": "standalone",
     "background_color": "#ff531f",
     "theme_color": "#ff531f",
 

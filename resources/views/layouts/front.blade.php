@@ -23,14 +23,16 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('icons/favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('icons/favicon-96x96.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('icons/favicon-16x16.png') }}">
-    <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="{{ asset('icons/ms-icon-144x144.png') }}">
     <meta name="theme-color" content="#ffffff">
     <link rel="search" type="application/opensearchdescription+xml" title="Kanel Mall"
         href="{{ asset('browserconfig.xml') }}">
 
-
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <meta http-equiv="cache-control" content="no-cache" />
 
 
 
@@ -196,8 +198,6 @@
                 history.pushState(null, null, param);
             });
         });
-
-
     </script>
     @stack('scripts')
 </body>

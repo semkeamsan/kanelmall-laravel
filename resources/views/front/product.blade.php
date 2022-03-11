@@ -89,6 +89,11 @@
             class="aui-header-item">
             <i class="aui-icon aui-icon-back"></i>
         </a>
+        <div class="aui-header-center aui-header-center-clear d-none">
+			<div class="aui-header-center-logo">
+				<div class="">{{ $product->name }}</div>
+			</div>
+		</div>
         <a href="#" class="aui-header-item-icon position-absolute right-0"
             data-ydui-actionsheet="{target:'#action-languages',closeElement:'#cancel'}">
             <img width="26" src="{{ asset('images/flags/' . app()->getLocale() . '.svg') }}" />
@@ -224,7 +229,7 @@
                 {{ $product->name }}
             </h2>
             @if ($product->description)
-                <p style="height: 40px;overflow:hidden;white-space: pre-line;" id="text-limit">{!! $product->description !!}</p>
+                <p style="height: 48px;overflow:hidden;white-space: pre-line;" id="text-limit">{!! $product->description !!}</p>
                 @if (strlen($product->description) > 130)
                     <button class="btn btn-sm mt-2" id="read-more">{{ __('Read more') }}</button>
                 @endif

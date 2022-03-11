@@ -1,4 +1,5 @@
 <?php
+
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,8 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('storagelink',function(){
+
+Route::get('storagelink', function () {
     echo Artisan::call('storage:link');
 });
 //SocialAuth
@@ -60,7 +62,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         Route::get('/myorder', 'Front\\AccountController@myorder')->name('myorder');
         Route::get('/orderremove/{slug}', 'Front\\AccountController@orderremove')->name('orderremove');
         Route::match(['get', 'post'], '/orderpayment/{slug}', 'Front\\AccountController@orderpayment')->name('orderpayment');
-
     });
     Route::get('privacy', function () {
         return view('front.privacy');
@@ -150,53 +151,87 @@ Route::group(['prefix' => 'command', 'command.'], function () {
     Route::group(['prefix' => 'list', 'list.'], function () {
         Route::get('/route', function () {
             Artisan::call('route:list');
-           return '<pre>'.Artisan::output().'</pre>';
-       })->name('route');
+            return '<pre>' . Artisan::output() . '</pre>';
+        })->name('route');
     });
     Route::group(['prefix' => 'clear', 'clear.'], function () {
         Route::get('/cache', function () {
-             Artisan::call('cache:clear');
-            return '<pre>'.Artisan::output().'</pre>';
+            Artisan::call('cache:clear');
+            return '<pre>' . Artisan::output() . '</pre>';
         })->name('cache');
         Route::get('/config', function () {
-             Artisan::call('config:clear');
-            return '<pre>'.Artisan::output().'</pre>';
+            Artisan::call('config:clear');
+            return '<pre>' . Artisan::output() . '</pre>';
         })->name('config');
         Route::get('/route', function () {
-             Artisan::call('route:clear');
-            return '<pre>'.Artisan::output().'</pre>';
+            Artisan::call('route:clear');
+            return '<pre>' . Artisan::output() . '</pre>';
         })->name('route');
         Route::get('/view', function () {
-             Artisan::call('view:clear');
-            return '<pre>'.Artisan::output().'</pre>';
+            Artisan::call('view:clear');
+            return '<pre>' . Artisan::output() . '</pre>';
         })->name('view');
         Route::get('/compiled', function () {
-             Artisan::call('clear-compiled');
-            return '<pre>'.Artisan::output().'</pre>';
+            Artisan::call('clear-compiled');
+            return '<pre>' . Artisan::output() . '</pre>';
         })->name('compiled');
 
         Route::get('/all', function () {
             $output = '';
             Artisan::call('cache:clear');
-            $output.= Artisan::output();
+            $output .= Artisan::output();
             Artisan::call('config:clear');
-            $output.= Artisan::output();
+            $output .= Artisan::output();
             Artisan::call('route:clear');
-            $output.= Artisan::output();
+            $output .= Artisan::output();
             Artisan::call('view:clear');
-            $output.= Artisan::output();
+            $output .= Artisan::output();
             Artisan::call('clear-compiled');
-            $output.= Artisan::output();
+            $output .= Artisan::output();
 
-            return '<pre>'.$output.'</pre>';
-
+            return '<pre>' . $output . '</pre>';
         })->name('all');
     });
 });
 Route::get('sw.js', function () {
     return response(file_get_contents(asset('js/sw.js')), 200, [
-    'Content-Type' => 'text/javascript',
-    'Cache-Control' => 'public, max-age=3600',
+        'Content-Type' => 'text/javascript',
+        'Cache-Control' => 'public, max-age=3600',
+    ]);
+    $a = collect([
+        '/',
+        route('front.home'),
+        route('front.category'),
+        route('front.chat'),
+        route('front.cart'),
+        route('login'),
+        route('register'),
+        route('front.account.index'),
+        route('front.account.settings'),
+        route('front.account.settings'),
+        route('front.account.personal'),
+        route('front.account.authentication'),
+        route('front.account.address'),
+        route('front.account.myorder'),
+        route('front.account.myorder', 'status=all'),
+        route('front.account.myorder', 'status=pending'),
+        route('front.account.myorder', 'status=paid'),
+        route('front.account.myorder', 'status=received'),
+        route('front.account.myorder', 'status=cancel'),
+    ]);
+    foreach (session('products', []) as $row) {
+        $a->add(route('front.product', $row->id));
+    }
+    foreach (session('categories', []) as $row) {
+        $a->add(route('front.categoryby', $row->id));
+    }
+    $b = collect();
+    foreach ($a as $value) {
+        $b->add(str_replace(asset(''), '/', $value));
+    }
+    $caches = $b;
+    return response(view('sw', compact('caches')), 200, [
+        'Content-Type' => 'text/javascript',
+        'Cache-Control' => 'public, max-age=3600',
     ]);
 });
-

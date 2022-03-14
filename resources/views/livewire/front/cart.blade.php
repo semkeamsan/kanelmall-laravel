@@ -64,6 +64,9 @@
                         @endif
                     </strong>
                     {{ $response['message'] }}
+                    @if (@$response['link'])
+                        <a class="btn btn-sm text-white" href="{{ $response['link'] }}">{{ __('Link') }}</a>
+                    @endif
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"
                         style="top: 50%">
                         <span aria-hidden="true">&times;</span>

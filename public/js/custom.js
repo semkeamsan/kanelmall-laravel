@@ -147,7 +147,7 @@ const Kanel = {
 
         });
 
-        $(`[data-toggle="count-down"]`).each(function () {
+        $(`[data-toggle="count-down1"]`).each(function () {
             var t = $(this).data('date');
             var x = setInterval(() => {
                 var countDownDate = new Date(t).getTime();
@@ -605,7 +605,6 @@ const Kanel = {
                     history.back();
                 });
             }
-
         });
     },
     sw: function () {

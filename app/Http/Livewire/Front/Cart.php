@@ -50,7 +50,7 @@ class Cart extends Component
     public $payment_via;
     public $response;
     public function mount()
-    {  
+    {
         $this->shipping_fee =  session('shippings',collect())->first()->id ??0;
         if (request()->user()) {
             $this->province = auth()->user()->province_id;
@@ -307,9 +307,18 @@ class Cart extends Component
                 ]);
             }
             CartHelper::clear();
-            return redirect()->to(LaravelLocalization::getLocalizedURL(app()->getLocale(),route('front.account.myorder','status='.$order->status)));
+            $this->response = [
+                'type'  => 'success',
+                'link'  => LaravelLocalization::getLocalizedURL(app()->getLocale(),route('front.account.myorder','status='.$order->status)),
+                'message'  => __('Your order is success. Thank you'),
+            ];
+            $this->togglecheckout();
+            $this->products = collect();
+           // return redirect()->to(LaravelLocalization::getLocalizedURL(app()->getLocale(),route('front.account.myorder','status='.$order->status)));
+        }else{
+            return redirect()->route('login');
         }
-        return redirect()->route('login');
+
     }
     public function hydrate()
     {

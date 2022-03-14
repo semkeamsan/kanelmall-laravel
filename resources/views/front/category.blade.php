@@ -60,7 +60,7 @@
                                 <i class="aui-icon-large1">
                                     <img data-src="{{ $category->image_url }}" src="{{ asset('images/bg/log.jpg') }}">
                                 </i>
-                                <p class="aui-grid-row-label text-truncate">{{ $category->name }}</p>
+                                <h3 class="aui-grid-row-label text-truncate">{{ $category->name }}</h3>
                             </a>
                         @endif
                     @endforeach

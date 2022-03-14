@@ -94,6 +94,24 @@
                                         -
                                         {{ $order->updated_at->translatedFormat('d-M-Y') }}
                                     @endif
+                                    <div>
+                                        @switch($order->status)
+
+                                        @case('paid')
+                                            : {{ __('Please wait for seller confirm your order') }}
+                                            @break
+                                        @case('confirmed')
+                                            :  {{ __('Your order is confirmed') }}
+                                            @break
+                                        @case('delivered')
+                                            : {{ __('Your order will receive soon in 3 - 4 hours in City, Other province will be 2 - 3 days') }}
+                                            @break
+                                        @default
+
+                                    @endswitch
+                                    </div>
+
+
                                 </div>
                                 <div class="aui-well-ft text-primary">{{ __(Str::title($order->status)) }}</div>
                             </div>

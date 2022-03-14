@@ -94,30 +94,28 @@
                                         -
                                         {{ $order->updated_at->translatedFormat('d-M-Y') }}
                                     @endif
-                                    <div>
+                                    <div class="aui-well-bd">
                                         @switch($order->status)
 
-                                        @case('paid')
-                                            : {{ __('Please wait for seller confirm your order') }}
-                                            @break
-                                        @case('confirmed')
-                                            :  {{ __('Your order is confirmed') }}
-                                            @break
-                                        @case('delivered')
-                                            : {{ __('Your order will receive soon in 3 - 4 hours in City, Other province will be 2 - 3 days') }}
-                                            @break
-                                        @default
+                                            @case('paid')
+                                                : {{ __('Please wait for seller confirm your order') }}
+                                                @break
+                                            @case('confirmed')
+                                                :  {{ __('Your order is confirmed') }}
+                                                @break
+                                            @case('delivered')
+                                                : {{ __('Your order will receive soon in 3 - 4 hours in City, Other province will be 2 - 3 days') }}
+                                                @break
+                                            @default
 
-                                    @endswitch
+                                        @endswitch
                                     </div>
-
-
                                 </div>
                                 <div class="aui-well-ft text-primary">{{ __(Str::title($order->status)) }}</div>
                             </div>
-                            <div class="text-right px-1 d-none" data-toggle="count-down"
+                            {{-- <div class="text-right px-1 d-none" data-toggle="count-down"
                                 data-date="{{ $order->created_at->addDays(2) }}"
-                                title="{{ __('Your oder will remove on date.') }}"></div>
+                                title="{{ __('Your oder will remove on date.') }}"></div> --}}
                             <ul>
                                 @foreach ($order->products as $j => $o)
                                     <li data-orderid="{{ $o->id }}">

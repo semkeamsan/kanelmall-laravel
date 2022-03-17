@@ -318,6 +318,7 @@
                     <div> {{ __('Category') }} : <span class="text-primary">{{ $product->category->name }}</span>
                     </div>
                 </div>
+                <div class="fb-comments" data-href="{{ route('front.product',$product->id ) }}" data-width="" data-numposts="5"></div>
             </div>
             <div class="aui-product-text-content h-100">
                 <div class="aui-product-text-content-list">

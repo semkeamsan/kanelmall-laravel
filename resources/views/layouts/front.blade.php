@@ -28,7 +28,7 @@
     <meta name="theme-color" content="#ff531f">
     <link rel="search" type="application/opensearchdescription+xml" title="Kanel Mall"
         href="{{ asset('browserconfig.xml') }}">
-
+    <meta property="fb:app_id" content="{{ env('FACEBOOK_APP_ID') }}" />
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 

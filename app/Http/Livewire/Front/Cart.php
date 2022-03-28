@@ -306,7 +306,7 @@ class Cart extends Component
             CartHelper::clear();
             $this->response = [
                 'type'  => 'success',
-                'link'  => LaravelLocalization::getLocalizedURL(app()->getLocale(),route('front.account.myorder','status='.$order->status)),
+                'link'  => LaravelLocalization::getLocalizedURL(app()->getLocale(),route('front.account.myorder','status=pending')),
                 'message'  => __('Your order is success. Thank you'),
             ];
             $this->togglecheckout();

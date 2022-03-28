@@ -229,8 +229,9 @@
                 {{ $product->name }}
             </h2>
             @if ($product->description)
-                <p style="height: 48px;overflow:hidden;white-space: pre-line;" id="text-limit">{!! $product->description !!}</p>
-                @if (strlen($product->description) > 130)
+            @php($line = preg_match_all ('/\n/',$product->description))
+                <p style="height: {{ $line > 10 ? '49px': 'auto' }};overflow:hidden;white-space: pre-line;" id="text-limit">{!! $product->description !!}</p>
+                @if ($line > 10)
                     <button class="btn btn-sm mt-2" id="read-more">{{ __('Read more') }}</button>
                 @endif
             @endif
@@ -238,7 +239,7 @@
 
 
         <div class="aui-product">
-            <a href="#" class="aui-address-cell  aui-fl-arrow-clear"
+            <a href="#" class="aui-address-cell py-1  aui-fl-arrow-clear"
                 data-ydui-actionsheet="{target:'#actionSheet',closeElement:'#cancel'}">
                 <div class="aui-address-cell-ft">
                     {{ __('In Stock') }} :
@@ -252,25 +253,25 @@
 
             </a>
 
-            <a href="#" class="aui-address-cell aui-fl-arrow-clear">
+            <a href="#" class="aui-address-cell py-1 aui-fl-arrow-clear">
                 <div class="aui-address-cell-ft">
                     {{ __('SKU') }} :
                     {{ $product->sku }}</div>
             </a>
 
-            <a href="#" class="aui-address-cell aui-fl-arrow-clear d-none">
+            <a href="#" class="aui-address-cell py-1 aui-fl-arrow-clear d-none">
                 <div class="aui-address-cell-ft">
                     {{ __('Type') }} :
                     {{ $product->type }}</div>
             </a>
-            <a href="#" class="aui-address-cell aui-fl-arrow-clear d-none">
+            <a href="#" class="aui-address-cell py-1 aui-fl-arrow-clear d-none">
                 <div class="aui-address-cell-ft">
                     {{ __('Tax Type') }} :
                     {{ $product->tax_type }}
                 </div>
             </a>
             <a href="{{ route('front.categoryby', $product->category->id) }}"
-                class="aui-address-cell aui-fl-arrow-clear">
+                class="aui-address-cell py-1 aui-fl-arrow-clear">
                 <div class="aui-address-cell-ft">
                     {{ __('Category') }} :
                     <span class="text-primary">{{ $product->category->name }}</span>
@@ -455,7 +456,7 @@
             if ($(`#text-limit`).hasClass('read')) {
                 $(this).text(`{{ __('Read more') }}`);
                 $(`#text-limit`).removeClass('read').css({
-                    height: 40,
+                    height: 49,
                 });
             } else {
                 $(this).text(`{{ __('Hide description') }}`);

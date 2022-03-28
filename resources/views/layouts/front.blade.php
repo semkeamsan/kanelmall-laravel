@@ -188,6 +188,7 @@
                 Kanel.datepicker();
             });
             window.livewire.on('urlChange', param => {
+                Kanel.image();
                 history.pushState(null, null, param);
             });
         });

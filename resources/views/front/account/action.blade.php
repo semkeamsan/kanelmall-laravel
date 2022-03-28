@@ -19,7 +19,7 @@
             wire:click.prevent="status('confirmed')"
         @endif>
             <i class="aui-icon-large aui-icon-large-sm aui-icon-goods"></i>
-            <p class="aui-grid-row-label">{{ __('Paid') }}</p>
+            <p class="aui-grid-row-label">{{ __('Delivered') }}</p>
         </a>
         <a href="{{ route('front.account.myorder', 'status=received') }}" class="aui-grid-row-item {{ request('status',@$status) == 'received'? 'aui-grid-active': null  }}"
         @if (Str::contains(url()->current(),'order'))

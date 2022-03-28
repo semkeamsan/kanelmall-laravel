@@ -1,6 +1,6 @@
 <div id="livewire">
     <header class="aui-header-default aui-header-fixed">
-        <a href="{{ route('front.account.index') }}"
+        <a href="{{ LaravelLocalization::getLocalizedURL(app()->getLocale(),route('front.account.index')) }}"
             class="aui-header-item">
             <i class="aui-icon aui-icon-back"></i>
         </a>
@@ -287,7 +287,7 @@
                                 @if ($order->total_price)
                                     <div class="aui-payment-bar border-bottom">
                                         <button type="submit" class="settlement w-100"
-                                            wire:click.prevent="togglecheckout({{ $order->id }})">{{ __('Make Payment') }}</button>
+                                            wire:click.prevent="togglecheckout({{ $order->id }})">{{ __('Checkout') }}</button>
                                     </div>
                                 @endif
                             @endif
@@ -380,7 +380,7 @@
     <div class="m-actionsheet {{ $checkout ? 'actionsheet-toggle' : null }}" id="action-checkout">
         <div style="position:relative">
             <div class="p-3 border-bottom text-left">
-                <h4>{{ __('Payment') }}</h4>
+                <h4>{{ __('Checkout') }}</h4>
             </div>
             <div class="aui-product-text-content">
                 <label for="location" class="form-control-label">{{ __('Location') }}</label>
@@ -570,7 +570,9 @@
                                 </div>
                                 <div class="col col-xl-6">
                                     <label class="btn m-0 p-2 form-control"
-                                        for="payment_image">{{ __('Upload Payment') }} (1MB)</label>
+                                        for="payment_image">
+                                        {{ __('Upload Payment')}}
+                                        </label>
                                     <input type="file" class="form-control d-none" wire:model="payment_image"
                                         accept="image/*" id="payment_image">
 
@@ -583,8 +585,8 @@
                                 @enderror
 
                                 @if ($payment_image)
-                                    <div class="col p-3 border">
-                                        <div class="avatar rounded bg-transparent w-100 h-100">
+                                    <div class="col p-2 border">
+                                        <div class="bg-transparent w-100 h-100">
                                             @if (gettype($payment_image) == 'string')
                                                 <img class="w-100" src="{{ $payment_image }}">
                                             @else
@@ -622,7 +624,7 @@
             @if ($payment_image)
                 <div class="aui-product-function">
                     <button class="red-color w-100"
-                        wire:click="payment({{ $checkoutid }})">{{ __('Payment') }}</button>
+                        wire:click="payment({{ $checkoutid }})">{{ __('Make Payment') }}</button>
                 </div>
             @endif
 

@@ -100,3 +100,5 @@ function settings($name, $default = null)
 {
     return Settings::where('name', $name)->pluck('value')->first() ?? $default;
 }
+
+

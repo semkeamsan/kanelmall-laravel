@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Front\Account;
 
 use Livewire\Component;
+use App\Helpers\FileHelper;
 use Livewire\WithFileUploads;
 
 class Personal extends Component
@@ -47,17 +48,13 @@ class Personal extends Component
             'gender' => __('Gender'),
             'dob' => __('Date of Birth'),
         ]);
-        if (gettype($this->avatar) == 'object') {
-            $name = slug(auth()->user()->name) . '-avatar-' . now()->timestamp . '.png';
-            $this->avatar->storeAs('/public/users', $name);
-            $this->avatar = '/storage/users/' . $name;
-        }
+        $filename = auth()->user()->id.'-'.slug(auth()->user()->name) . '-avatar';
         request()->user()->update([
             'name' => $this->name,
             'gender' => $this->gender,
             'dob' => $this->dob,
             'about' => $this->about,
-            'avatar' => $this->avatar,
+            'avatar' => FileHelper::move($this->avatar,'users',$filename) ?? $this->avatar,
         ]);
         $this->response = [
             'type' => 'success',

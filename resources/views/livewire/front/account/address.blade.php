@@ -1,6 +1,6 @@
 <div id="livewire">
     <header class="aui-header-default aui-header-fixed">
-        <a href="{{ route('front.account.settings') }}" class="aui-header-item">
+        <a href="{{  LaravelLocalization::getLocalizedURL(app()->getLocale(),route('front.account.settings')) }}" class="aui-header-item">
             <i class="aui-icon aui-icon-back"></i>
         </a>
         <div class="aui-header-center aui-header-center-clear">

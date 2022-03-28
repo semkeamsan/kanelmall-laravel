@@ -93,8 +93,10 @@ class Order extends Component
         }
         if ($this->status == 'all') {
             $this->orders = request()->user()->orders;
-        } elseif ($this->status == 'paid') {
-            $this->orders = request()->user()->orders->whereIn('status', ['paid', 'delivered','confirmed']);
+        } elseif ($this->status == 'pending') {
+            $this->orders = request()->user()->orders->whereIn('status', ['pending', 'paid']);
+        } elseif ($this->status == 'confirmed') {
+            $this->orders = request()->user()->orders->whereIn('status', ['delivered','confirmed']);
         } else {
             $this->orders = request()->user()->orders->where('status', $this->status);
         }

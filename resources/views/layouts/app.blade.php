@@ -103,13 +103,13 @@
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
-                                <li class="nav-item {{ request()->is('login') ? 'd-none' : null }}">
+                                <li class="nav-item {{ request()->is('*login') ? 'd-none' : null }}">
                                     <a class="nav-link px-1" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
-                                <li class="nav-item {{ request()->is('register') ? 'd-none' : null }}">
+                                <li class="nav-item {{ request()->is('*register') ? 'd-none' : null }}">
                                     <a class="nav-link px-1" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif

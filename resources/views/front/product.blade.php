@@ -354,7 +354,7 @@
                 <a href="{{ route('front.cartadd', $product->id) }}" data-action="action()"
                     class="yellow-color {{ !Cart::exists($product->id) ?: 'd-none' }}" data-toggle="add-cart">
                     {{ __('Add Cart') }}</a>
-                <a href="{{ route('front.account.orderadd', $product->id) }}"
+                <a href="{{ route('front.cartadd', $product->id) }}"
                     class="red-color {{ !Cart::exists($product->id) ?: 'w-100' }}">{{ __('Buy Now') }}</a>
             </div>
 
@@ -507,9 +507,8 @@
 
             $(`.total h2`).text(`${currency.symbol}${t.replace('$','').replace('KHR','').replace('US','')}`);
             var cart_url = `{{ route('front.cartadd', $product->id) }}`;
-            var order_url = `{{ route('front.account.orderadd', $product->id) }}`;
             $(this).parents(`.m-actionsheet`).find(`.yellow-color`).attr('href', `${cart_url}?qty=${a}`);
-            $(this).parents(`.m-actionsheet`).find(`.red-color`).attr('href', `${order_url}?qty=${a}`);
+            $(this).parents(`.m-actionsheet`).find(`.red-color`).attr('href', `${cart_url}?qty=${a}`);
         });
         function action(){
             $(`.yellow-color`).remove();

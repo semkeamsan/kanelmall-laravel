@@ -1,22 +1,39 @@
 @extends('layouts.app')
+@push('styles')
+<style>
+    section {
+        position: absolute;
+        width: 100%;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+@endpush
 @section('content')
     <div id="fb-root"></div>
     <!--register -->
     <section class="py-xl-7 register">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="py-3 {{ request()->is('register') ? 'col-xl-8 ' : 'col-xl-12' }}">
+                <div class="py-3 {{ request()->is('*register') ? 'col-xl-8 ' : 'col-xl-12' }}">
                     <div class="card">
                         <div class="card-body">
-                            @if (request()->is('register'))
-                                <div class="section-title">
-                                    <h2 class="text-center">{{ __('Register') }}</h2>
-                                </div>
-                            @endif
 
                             <div class="form-row">
                                 <div class="col-xl-6">
-                                    <form class="form-row align-items-center needs-validation" method="POST" novalidate
+
+                                        <div class="section-title text-center">
+                                            <h2>{{ __('Register with') }}</h2>
+                                            @error('status')
+                                                <span class="text-danger">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+
+
+                                    <form class="form-row align-items-center needs-validation d-none" method="POST" novalidate
                                         action="{{ route('register') }}">
                                         @csrf
                                         <div class="mb-3 col-sm-12">
@@ -119,7 +136,7 @@
                                         </div>
                                     </form>
                                     <div class="mt-4">
-                                        <div class="text-muted text-center m-2">
+                                        <div class="text-muted text-center m-2 d-none">
                                             <span>{{ __('Register with') }}</span>
                                         </div>
                                         <div class="btn-wrapper text-center">

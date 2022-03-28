@@ -438,7 +438,7 @@ const Kanel = {
                 todayHighlight: true,
                 format: `${$(this).attr(`data-format`) ?? `yyyy-mm-dd`}`,
                 disableTouchKeyboard: !0,
-                autoclose: !1,
+                autoclose: 1,
                 language: `${$('html').attr('lang') ?? 'en'}`,
             });
             $(".datepicker").on('changeDate', function (e) {

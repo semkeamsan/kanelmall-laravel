@@ -14,9 +14,9 @@
             <i class="aui-icon-large aui-icon-large-sm aui-icon-pending"></i>
             <p class="aui-grid-row-label">{{ __('Pending') }}</p>
         </a>
-        <a href="{{ route('front.account.myorder', 'status=paid') }}" class="aui-grid-row-item {{ request('status',@$status) == 'paid'? 'aui-grid-active': null  }}"
+        <a href="{{ route('front.account.myorder', 'status=confirmed') }}" class="aui-grid-row-item {{ request('status',@$status) == 'confirmed'? 'aui-grid-active': null  }}"
         @if (Str::contains(url()->current(),'order'))
-            wire:click.prevent="status('paid')"
+            wire:click.prevent="status('confirmed')"
         @endif>
             <i class="aui-icon-large aui-icon-large-sm aui-icon-goods"></i>
             <p class="aui-grid-row-label">{{ __('Paid') }}</p>

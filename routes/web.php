@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\FileHelper;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,6 +63,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         Route::get('/myorder', 'Front\\AccountController@myorder')->name('myorder');
         Route::get('/orderremove/{slug}', 'Front\\AccountController@orderremove')->name('orderremove');
         Route::match(['get', 'post'], '/orderpayment/{slug}', 'Front\\AccountController@orderpayment')->name('orderpayment');
+
+        Route::post('image',function(Request $request){
+           return FileHelper::upload($request->file('image'));
+        })->name('image');
+
     });
     Route::get('privacy', function () {
         return view('front.privacy');
@@ -72,7 +78,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::group(['prefix' => '', 'middleware' => ['auth']], function () {
         Filemanager::routes();
     });
-    Auth::routes(['verify' => true]);
+    Auth::routes(['verify' => true,'register'=>false]);
     Route::get('/ck/user/username/{username}', function ($username) {
         $username =  str_replace(' ', '', $username);
         $phone =  (str_split($username)[0] === '0') ? $username : '0' . $username;

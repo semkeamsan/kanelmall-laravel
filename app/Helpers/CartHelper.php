@@ -26,7 +26,8 @@ class CartHelper
             if (Session::has(self::$session)) {
                 $exists = self::exists($slug);
                 if ($exists) {
-                    return $exists;
+                    self::delete($slug);
+                    Session::push(self::$session, $data);
                 } else {
                     Session::push(self::$session, $data);
                 }

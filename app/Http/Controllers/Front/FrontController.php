@@ -95,7 +95,7 @@ class FrontController extends Controller
         if (request()->ajax()) {
             return $add;
         }
-        return  redirect()->back();
+        return $this->cart();
     }
     public function cartremove($slug)
     {
@@ -103,7 +103,7 @@ class FrontController extends Controller
         if (request()->ajax()) {
             return $delete;
         }
-        return  redirect()->back();
+        return redirect()->back();
     }
     public function cart()
     {

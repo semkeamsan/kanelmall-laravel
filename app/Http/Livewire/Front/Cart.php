@@ -5,14 +5,13 @@ namespace App\Http\Livewire\Front;
 use Livewire\Component;
 use App\Models\Province;
 use App\Helpers\CartHelper;
+use App\Helpers\FileHelper;
 use Illuminate\Support\Str;
-use Livewire\WithFileUploads;
 use App\Http\Controllers\Front\ApiController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class Cart extends Component
 {
-    use WithFileUploads;
     public $rules = [
         'province' => 'required',
         'district' => 'required',
@@ -23,7 +22,7 @@ class Cart extends Component
         'phone' => 'required',
         'address' => 'required',
         'payment_via' => 'required',
-        'payment_image' => 'required|image|max:1048',
+        'payment_image' => 'required',
     ];
     public $attributes = [];
     public $products = [];
@@ -100,10 +99,10 @@ class Cart extends Component
 
     public function render()
     {
-
         $this->total();
         return view('livewire.front.cart');
     }
+
     public function updatedProvince()
     {
         $this->districts = Province::find($this->province)->districts;
@@ -241,7 +240,6 @@ class Cart extends Component
     {
 
         if (request()->user()) {
-
             $this->checkout = true;
 
             $rules =  $this->rules;
@@ -251,8 +249,7 @@ class Cart extends Component
             $this->attributes['payment_image'] = __('Upload Payment');
             $this->validate($rules, [], $this->attributes);
             $order = request()->user()->orders()->where('status', 'pending')->whereDate('created_at', now())->first() ?? request()->user()->orders()->create([]);
-            $name = auth()->id() . '-' . slug(auth()->user()->name) . '-order-' . $order->id .'-'. now()->format('d-M-Y').'.png';
-            $this->payment_image->storeAs('/public/payments', $name);
+            $filename = auth()->id() . '-' . slug(auth()->user()->name) . '-order-' . $order->id .'-'. now()->format('d-M-Y');
 
             foreach ($this->products as $product) {
                 if ($product['qty']) {
@@ -284,7 +281,7 @@ class Cart extends Component
                 'latitude' => $this->latitude,
                 'longitude' => $this->longitude,
                 'payment_via' => $this->payment_via,
-                'payment_image' => asset('storage/payments/' . $name),
+                'payment_image' => FileHelper::move($this->payment_image,'payments',$filename),
                 'shipping_fee_id' => $this->shipping_fee,
             ]);
 
@@ -320,6 +317,7 @@ class Cart extends Component
         }
 
     }
+
     public function hydrate()
     {
         $this->response = null;

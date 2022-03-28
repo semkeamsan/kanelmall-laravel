@@ -1,6 +1,6 @@
 <div id="livewire">
     <header class="aui-header-default aui-header-fixed">
-        <a href="{{ route('front.account.settings') }}" class="aui-header-item">
+        <a href="{{ LaravelLocalization::getLocalizedURL(app()->getLocale(),route('front.account.settings')) }}" class="aui-header-item">
             <i class="aui-icon aui-icon-back"></i>
         </a>
         <div class="aui-header-center aui-header-center-clear">
@@ -126,7 +126,7 @@
             </div>
 
             <div class="col-xl-12">
-                <input type="file" id="avatar" class="custom-file-input d-none" wire:model="avatar">
+                <input type="file" id="avatar" class="custom-file-input d-none">
                 <label class="btn btn-secondary mb-3" for="avatar">
                     <i class="fal fa-folder-open"></i>
                     {{ __('Browse') }}
@@ -134,11 +134,7 @@
                 @if ($avatar)
                     <div class="col p-3 border">
                         <div class="avatar rounded bg-transparent w-100 h-100">
-                            @if (gettype($avatar) == 'string')
-                                <img class="w-100" src="{{ $avatar }}">
-                            @else
-                                <img class="w-100" src="{{ $avatar->temporaryUrl() }}">
-                            @endif
+                            <img class="w-100" src="{{ $avatar }}">
                         </div>
                     </div>
                 @endif
@@ -169,7 +165,7 @@
             </div>
         </div>
     </div>
-    <div wire:loading wire:target="avatar">
+    <div wire:loading wire:target="avatar" id="loading-avatar">
         <div class="swal2-container swal2-center swal2-fade swal2-shown"
             class="swal2-popup swal2-toast swal2-show swal2-loading" style="display: flex;">
             <div class="swal2-header">
@@ -186,3 +182,40 @@
     </div>
 </div>
 
+
+@push('scripts')
+<script src="{{ asset('js/compress.js') }}"></script>
+<script>
+    const compressor = new window.Compress();
+
+    $(document).on('change', `#avatar`, function(e) {
+        $(`#loading-avatar`).addClass('d-flex');
+        compressor.compress([...e.target.files], {
+            size: 4
+            , quality: 0.75
+        , }).then((output) => {
+            var id = $(`#livewire`).attr(`wire:id`);
+            var n = 'avatar';
+            var v = Compress.convertBase64ToFile(output[0].data, output[0].ext);
+            var formData = new FormData();
+            formData.append('_token', `{{ csrf_token() }}`)
+            formData.append('image', v);
+            $.ajax({
+                url: `{{ route('front.account.image') }}`
+                , method: 'POST'
+                , contentType: false
+                , processData: false
+                , data: formData
+                , success: (res) => {
+                    if (id && res) {
+                        window.livewire.find(id).set(n, res);
+                    }
+                    $(`#loading-avatar`).removeClass('d-flex');
+                }
+            });
+            $(e.target).val('');
+        });
+    });
+
+</script>
+@endpush

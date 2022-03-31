@@ -95,20 +95,32 @@
                                         {{ $order->updated_at->translatedFormat('d-M-Y') }}
                                     @endif
                                     <div class="aui-well-bd">
+                                        @php
+                                            $status_message = null;
+                                        @endphp
                                         @switch($order->status)
-
                                             @case('paid')
-                                                : {{ __('Please wait for seller confirm your order') }}
+                                                    @php
+                                                        $status_message = __('Please wait for seller confirm your order');
+                                                    @endphp
                                                 @break
                                             @case('confirmed')
-                                                :  {{ __('Your order is confirmed') }}
+                                                @php
+                                                    $status_message = __('Your order is confirmed');
+                                                @endphp
                                                 @break
                                             @case('delivered')
-                                                : {{ __('Your order will receive soon in 3 - 4 hours in City, Other province will be 2 - 3 days') }}
+                                                @php
+                                                    $status_message = __('Your order will receive soon in 3 - 4 hours in City, Other province will be 2 - 3 days');
+                                                @endphp
                                                 @break
                                             @default
-
                                         @endswitch
+                                        @if ($status_message)
+                                            <i class="fal fa-info-circle" aria-hidden="true"></i> : {{ $status_message }}
+                                            <br>
+                                        @endif
+                                        {{ __('Invoice') }} : {{ slug(env('APP_NAME')) . '-' . $order->id }}
                                     </div>
                                 </div>
                                 <div class="aui-well-ft text-primary">{{ __(Str::title($order->status)) }}</div>

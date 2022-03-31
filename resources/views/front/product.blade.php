@@ -229,8 +229,9 @@
                 {{ $product->name }}
             </h2>
             @if ($product->description)
-            @php($line = preg_match_all ('/\n/',$product->description))
-                <p style="height: {{ $line > 10 ? '49px': 'auto' }};overflow:hidden;white-space: pre-line;" id="text-limit">{!! $product->description !!}</p>
+
+            @php($line = preg_match_all ('/\n/',$product->description ))
+                <p style="height: {{ $line > 10 ? '157px': 'auto' }};overflow:hidden;white-space: pre-line;" id="text-limit">{!! $product->description !!}</p>
                 @if ($line > 10)
                     <button class="btn btn-sm mt-2" id="read-more">{{ __('Read more') }}</button>
                 @endif
@@ -456,7 +457,7 @@
             if ($(`#text-limit`).hasClass('read')) {
                 $(this).text(`{{ __('Read more') }}`);
                 $(`#text-limit`).removeClass('read').css({
-                    height: 49,
+                    height: 157,
                 });
             } else {
                 $(this).text(`{{ __('Hide description') }}`);

@@ -202,14 +202,14 @@
                                                             @endif
 
                                                         </div>
-                                                        <span>{{ __('Quantity') }} : {{ $o->qty }}</span>
+                                                        <span>{{ __('Quantity') }} : <span style="font-size: initial" class="text-dark"> {{ $o->qty }}</span> </span>
                                                     </div>
                                                     <div class="aui-list-product-fl-mes">
                                                         <span class="aui-list-product-item-total-price">
                                                             {{ __('Total') }} :
-                                                            <span class="aui-list-product-item-price" id="total-price">
+                                                            <strong class="aui-list-product-item-price text-primary" id="total-price">
                                                                 {{ currency($o->price * $o->qty, 'USD', session('currency')) }}
-                                                            </span>
+                                                            </strong>
                                                         </span>
                                                     </div>
                                                     @if ($order->status == 'pending')
@@ -336,9 +336,9 @@
                                         @if ($order->final_total_price)
                                             <div class="pb-1">
                                                 {{ __('Total Price') }} :
-                                                <span>
+                                                <strong class="text-primary" style="font-size: initial">
                                                     {{ currency($order->final_total_price, 'USD', session('currency')) }}
-                                                </span>
+                                                </strong>
                                             </div>
                                         @endif
                                         @if ($order->comment)

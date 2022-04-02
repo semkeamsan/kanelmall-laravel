@@ -65,7 +65,7 @@ self.addEventListener('fetch', function (event) {
                                 !event.request.url.startsWith('chrome-extension') ||
                                 !event.request.url.includes('extension')
                             ) {
-                                cache.put(event.request, responseToCache);
+                                //cache.put(event.request, responseToCache);
                             }
 
                         });

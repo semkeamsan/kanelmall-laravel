@@ -68,7 +68,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
            return FileHelper::upload($request->file('image'));
         })->name('image');
 
+
     });
+    Route::get('image',function(Request $request){
+        return FileHelper::move('1-សែម-គឹមសាន-order-54-28-Mar-2022.jpg','css');
+     })->name('image');
     Route::get('privacy', function () {
         return view('front.privacy');
     });
